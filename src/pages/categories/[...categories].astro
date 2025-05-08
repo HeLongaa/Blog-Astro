@@ -3,7 +3,10 @@ import { getCategoriesList } from "@/utils/getArchive";
 import { getCollection } from "astro:content";
 export async function getStaticPaths(): Promise<any> {
 	const posts = await getCollection("blog");
-	return posts.map((post: any) => ({ params: { categories: post.data.categories }, props: post }));
+	return posts.map((post: any) => ({
+		params: { categories: post.data.categories },
+		props: post,
+	}));
 }
 // 获取分类列表
 const { categories } = Astro.params;
@@ -17,6 +20,10 @@ import Layout from "@/layouts/Layout/Layout.astro";
 import Archive from "@/components/Archive/Archive.astro";
 ---
 
-<Layout title={`分类 ${categories} 下的文章`} description={Description} activeNav="categories">
+<Layout
+	title={`Articles in category ${categories}`}
+	description={Description}
+	activeNav="categories"
+>
 	<Archive articleList={articleList} />
 </Layout>

@@ -1,11 +1,11 @@
 ---
-title: "动态"
-h1: "动态 🥫"
-desc: "记录美好生活."
+title: "Dynamic"
+h1: "Dynamic"
+desc: "Record a beautiful life."
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "talking"
 ---
 
 :::note{type="import"}
-这里记录着我想记录的生活～
+这里记录着我的生活～
 :::

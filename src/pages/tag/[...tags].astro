@@ -4,8 +4,10 @@ import { getCollection } from "astro:content";
 export async function getStaticPaths(): Promise<any> {
 	const posts = await getCollection("blog");
 	let tagList: any = [];
-	posts.forEach(post => (tagList = [...tagList, ...(post.data.tags || [])]));
-	return [...new Set(tagList)].map(tags => ({ params: { tags } }));
+	posts.forEach(
+		(post) => (tagList = [...tagList, ...(post.data.tags || [])]),
+	);
+	return [...new Set(tagList)].map((tags) => ({ params: { tags } }));
 }
 // 获取分类列表
 const { tags } = Astro.params;
@@ -21,6 +23,6 @@ import Aside from "@/components/Aside/Aside.astro";
 import Archive from "@/components/Archive/Archive.astro";
 ---
 
-<Layout title={`标签 ${tags} 下的文章`} description={Description}>
+<Layout title={`Articles under label ${tags} `} description={Description}>
 	<Archive articleList={articleList} />
 </Layout>
