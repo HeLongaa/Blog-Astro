@@ -4,7 +4,7 @@ categories: 开发运维
 tags: ['Server','Docker']
 id: "ac77cbdb1ec1768e"
 date: 2025-05-09 03:55:25
-cover: "封面图URL (为空默认随机内置封面 /public/assets/images/banner)"
+cover: "https://img.helong.online/2025/05/608d982896bfb0f5123b7c8de4eda95f.png"
 ---
 
 :::note
@@ -14,13 +14,13 @@ docker技术日益普遍，我的项目大多数都使用docker运行，这极�
 ### 挂载数据盘
 
 1. `df -h`查看磁盘情况
-![Image](https://github.com/user-attachments/assets/768e6e08-8137-4508-b543-e620664fe664)
+![1](https://img.helong.online/2025/05/9e732c48dba3fc406ca3a7aa5ecadc04.png)
 
 若只有一个磁盘/dev/vda1，说明数据盘没有挂载。
 
 2. `fdisk -l`
 
-![Image](https://github.com/user-attachments/assets/69173492-dcb8-47d4-b1fe-2379e26a8599)
+![2](https://img.helong.online/2025/05/2200c80a7f54d3c8548daf1656ba39d2.png)
 
 如果发现上面输出结果中没有类似 Disk /dev/vdb:的部分，说明没有数据盘，下面的挂载操作没有意义，可以直接跳到下一部分。
 
@@ -38,11 +38,11 @@ docker技术日益普遍，我的项目大多数都使用docker运行，这极�
 
 `blkid`查询磁盘UUID
 
-![Image](https://github.com/user-attachments/assets/186a92b1-2483-4493-a9d0-3be307c81bac)
+![3](https://img.helong.online/2025/05/a35f1df554cbe95088210fe467a50087.png)
 
 修改/etc/fstab文件 `vim /etc/fstab`
 
-![Image](https://github.com/user-attachments/assets/324b4fec-8bfe-4ee1-944e-96feea1d471c)
+![4](https://img.helong.online/2025/05/09cb0cff0f4094a4504c4dd77dc2198c.png)
 
 添加`UUID=2b2f2aea-4153-4f32-a0ba-8258c849929f /mnt/data ext4 defaults 0 2`
 
@@ -84,7 +84,7 @@ docker技术日益普遍，我的项目大多数都使用docker运行，这极�
 
 通过`docker info`查看Docker信息
 
-![Image](https://github.com/user-attachments/assets/0d961e2e-c122-4351-b679-29d7556f2a29)
+![5](https://img.helong.online/2025/05/fa3f91956759b480f68940e358625161.png)
 
 ` Docker Root Dir: /mnt/data/docker`
 

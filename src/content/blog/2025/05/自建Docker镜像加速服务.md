@@ -4,7 +4,7 @@ categories: 项目
 tags: ['Docker','Oracle']
 id: "7989b7ac17b44892"
 date: 2025-05-09 04:57:35
-cover: ""
+cover: "https://img.helong.online/2025/05/45952b593832ee51438cb87664446908.png"
 ---
 
 :::note
@@ -35,12 +35,12 @@ apt -y install curl
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/dqzboy/Docker-Proxy/main/install/DockerProxy_Install.sh)"
 ```
     
-![Image](https://github.com/user-attachments/assets/9cad509f-0791-43b0-91a8-b680736fe281)
+![1](https://img.helong.online/2025/05/382ab17c30fcfdf4a737c02fdadd5f35.png)
 
 ### 💊 使用
 
 域名替换配置如下：
 
-![Image](https://github.com/user-attachments/assets/0e4854a6-2fab-4880-8f5f-9ea5b96c6fc3)
+![2](https://img.helong.online/2025/05/1baf1abc8033f16718bd5d367bced120.png)
 
 *.040720.xyz 为我自己部署的加速服务，使用Oracle🇺🇸服务器

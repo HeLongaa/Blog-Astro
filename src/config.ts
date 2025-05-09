@@ -10,13 +10,13 @@ export default {
   // 网站作者
   Author: 'HeLong',
   // 作者头像
-  Avatar: 'https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88',
+  Avatar: 'https://img.helong.online/2025/05/1f5c8d504bba5794b4d3d6ce6129fc66.png',
   // 网站座右铭
   Motto: 'Face life with hope.',
   // Cover 网站缩略图
   Cover: '/assets/images/banner/072c12ec85d2d3b5.webp',
   // 网站侧边栏公告 (不填写即不开启)
-  Tips: '<p>欢迎光临我的博客 🎉</p><p>这里会分享我的日常和学习中的收集、整理及总结，希望能对你有所帮助:) 💖</p>',
+  Tips: '<p>I wish every visitor inspired if confused, and enlightened if frustrated.</p><p>If you have any questions, please feel free to contact me. I am happy to be your friend.</p>',
   // 首页打字机文案列表
   TypeWriteList: [
   ],
@@ -93,8 +93,8 @@ export default {
     },
     // Waline 评论
     Waline: {
-      enable: false,
-      serverURL: ''
+      enable: true,
+      serverURL: 'https://waline.helong.online'
     }
   },
   // Han Analytics 统计（https://github.com/uxiaohan/HanAnalytics）

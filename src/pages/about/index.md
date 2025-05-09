@@ -43,7 +43,6 @@ My Domain:
 - [ZeroTier](https://zerotier.helong.online/)-Zerotier异地组网中继服务
 - Docker加速-部署在Oracle服务器的Docker加速镜像
     域名为：*.040720.xyz
-    ![docker](https://github.com/user-attachments/assets/aa1a31d8-a733-49db-8f84-d3581b740be7)
 - [GeminiAPI](https://gemini.040720.xyz/)-使用开源项目[Gemini-Balance
 ](https://github.com/snailyp/gemini-balance)
 - ~~[GPT-API](https://gpt.040720.xyz/)-部署于[Vercel
