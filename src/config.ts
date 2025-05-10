@@ -98,7 +98,7 @@ export default {
       serverURL: 'https://waline.helong.online',
       //Waline 评论配置参数，参考https://waline.js.org/reference/client/props.html
       login_Model: 'force',
-      turnstileKey: '0x4AAAAAABceQREHurDjC26L'
+      // turnstileKey: '0x4AAAAAABceQREHurDjC26L'
 
     }
   },
