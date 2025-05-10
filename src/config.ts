@@ -51,6 +51,7 @@ export default {
     // 仅支持 SVG 且 SVG 需放在 public/assets/images/svg/ 目录下，填入文件名即可 <不需要文件后缀名>（封装了 SVG 组件 为了极致压缩 SVG）
     // 建议使用 https://tabler.io/icons 直接下载 SVG
     { text: 'HomePage', link: 'https://helong.online', icon: 'Nav_user' },
+    { text: 'Archive', link: '/archives', icon: 'Nav_archives' },
     { text: 'Talk', link: '/talking', icon: 'Nav_talking' },
     { text: 'Links', link: '/links', icon: 'Nav_friends' },
     { text: 'Message', link: '/message', icon: 'Nav_message' },
