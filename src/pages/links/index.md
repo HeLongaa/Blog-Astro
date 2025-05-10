@@ -5,6 +5,9 @@ layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "links"
 ---
 
+<script src='/assets/js/fas.js' crossorigin='anonymous'></script>
+
+<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/c/font_4566601_yf8od0bdxfo.css">
 
 1. ### Service Providers
 
@@ -19,6 +22,10 @@ type: "links"
     <i class="fa-solid fa-square-caret-up"></i> [Vercel](https://vercel.com/) - Provide a cloud service platform for the project, supporting application deployment, preview and launch of static and dynamic websites.
     
     <i class="fa-brands fa-github"></i> [Github](https://github.com/) - An online software source code hosting service platform for publicizing the code of programs or software, and using Github Pages to host blog programs.
+
+    <i class="fa-solid fa-database"></i> [Supabase](https://supabase.com/) - Supabase is an open source Firebase alternative. Start a project with a Postgres database, authentication, instant API, edge functions, realtime subscriptions, and storage.
+
+    <i class="iconfont icon-tengxunyun"></i> [TencentCloud](cloud.tencent.com) - Tencent Cloud (tencent cloud) main site development provides secure and stable cloud computing services, covering cloud servers, cloud databases, cloud storage, video and CDN, domain name registration and other comprehensive cloud services.
 
 2. ### My Services
 
@@ -55,3 +62,6 @@ avatar: https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88
 desc: Face life with hope.
 ```
 Remember to add this site before applying
+
+
+4. ### Links
