@@ -7,7 +7,7 @@ type: "links"
 
 <script src='/assets/js/fas.js' crossorigin='anonymous'></script>
 
-<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/c/font_4566601_yf8od0bdxfo.css">
+<link rel="stylesheet" type="text/css" href="https:////at.alicdn.com/t/c/font_4902778_qnbxgtmm4i9.css">
 
 1. ### Service Providers
 
@@ -15,7 +15,7 @@ type: "links"
     
     <i class="fa-solid fa-cloud"></i> [IDC-You](https://idcyou.cn/) - Provide high availability cloud server for the project (Kunming, Yunnan, China).
     
-    <i class="fa-solid fa-server"></i> [Claw.cloud](https://claw.cloud/) - Providing cloud infrastructure for projects.
+    <i class="iconfont icon-paw-claws"></i> [Claw.cloud](https://claw.cloud/) - Providing cloud infrastructure for projects.
     
     <i class="fa-solid fa-server"></i> [Oracle](https://www.oracle.com/) - Provides comprehensive integrated cloud platform and cloud services, focusing on innovative software as a service (SaaS), platform as a service (PaaS), infrastructure as a service (IaaS) and data as a service (DaaS) technologies.
     
@@ -26,6 +26,12 @@ type: "links"
     <i class="fa-solid fa-database"></i> [Supabase](https://supabase.com/) - Supabase is an open source Firebase alternative. Start a project with a Postgres database, authentication, instant API, edge functions, realtime subscriptions, and storage.
 
     <i class="iconfont icon-tengxunyun"></i> [TencentCloud](cloud.tencent.com) - Tencent Cloud (tencent cloud) main site development provides secure and stable cloud computing services, covering cloud servers, cloud databases, cloud storage, video and CDN, domain name registration and other comprehensive cloud services.
+
+    <i class="iconfont icon-huawei"></i> [Huawei Cloud](huaweicloud.com) - Docker image hosting.
+
+    
+
+    
 
 2. ### My Services
 

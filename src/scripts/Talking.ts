@@ -13,11 +13,11 @@ const TalkingInit = async (data: any) => {
     if (typeof data === 'string') {
       res = await $GET(data);
     }
-    talkingDOM.innerHTML = res.map((i: any) => `<article><header><img data-vh-lz-src="https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88" /><p class="info"><span>HeLong</span><time>${fmtDate(i.date)}前</time></p></header><section class="main">${i.content}</section><footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer></article>`).join('');
+    talkingDOM.innerHTML = res.map((i: any) => `<article><header><img data-vh-lz-src="https://img.helong.online/2025/05/1f5c8d504bba5794b4d3d6ce6129fc66.png" /><p class="info"><span>HeLong</span><time>${fmtDate(i.date)}前</time></p></header><section class="main">${i.content}</section><footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer></article>`).join('');
     // 图片懒加载
     vhLzImgInit();
   } catch {
-    vh.Toast('获取数据失败')
+    vh.Toast('Failed to obtain data.')
   }
 }
 
