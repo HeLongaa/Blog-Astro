@@ -4,6 +4,7 @@ h1: "About this Blog and me."
 desc: ""
 layout: "@/layouts/PageLayout/PageLayout.astro"
 type: "about"
+comment: false # 关闭页面评论（默认开启）
 ---
 
 ## About the blog
