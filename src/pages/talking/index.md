@@ -7,5 +7,5 @@ type: "talking"
 ---
 
 :::note{type="import"}
-这里记录着我的生活～
+Here is where I record my life.
 :::
