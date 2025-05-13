@@ -25,10 +25,15 @@ article.vh-article-main {
     }
 
     &>.article-meta {
+      box-sizing: border-box;
       display: flex;
       align-items: center;
       gap: 0.88rem;
       font-size: 0.85rem;
+      width: 100%;
+      height: 0.98rem;
+      overflow: hidden;
+
 
       &>.article-meta-item {
         display: flex;
@@ -40,6 +45,7 @@ article.vh-article-main {
           flex-shrink: 0;
           height: 0.888rem;
           width: auto;
+          object-fit: contain;
         }
 
         &>time {

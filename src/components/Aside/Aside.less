@@ -138,11 +138,11 @@ aside.vh-aside {
 
         &>.count {
           box-sizing: border-box;
-          padding: 1rem 0 0;
+          padding: 0.88rem 0 0.66rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          gap: 0.66rem;
+          gap: 0.28rem;
           text-align: center;
           background: var(--vh-white-color);
           border-radius: var(--vh-main-radius);
@@ -269,7 +269,9 @@ aside.vh-aside {
         gap: 0.68rem 1rem;
         width: 100%;
         height: max-content;
-        overflow: hidden;
+        max-height: 18.88rem;
+        overflow-x: hidden;
+        overflow-y: auto;
 
         &>a {
           display: flex;

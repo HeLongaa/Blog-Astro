@@ -5,13 +5,37 @@ const canonicalData = new URL(Astro.url.pathname, Astro.site);
 const canonicalURL = canonicalData.href.replace(/\/+$/, "");
 // 页面内容的元数据
 const { Title, Keywords, Description, PageCover } = Astro.props;
-const { Site, Title: SiteName, Subtitle, Author, Cover, DNSOptimization } = SITE_CONFIG;
+const {
+	Site,
+	Title: SiteName,
+	Subtitle,
+	Author,
+	Cover,
+	DNSOptimization,
+} = SITE_CONFIG;
 const WebTitle = Title || SiteName;
 const SiteCover = Site + Cover;
 const WebCover = PageCover || SiteCover;
 // Schema.org 结构化数据（JSON-LD）
-const WebSiteData = { "@context": "https://schema.org", "@type": "WebSite", name: WebTitle, url: canonicalURL, image: { "@type": "ImageObject", url: SiteCover } };
-const ArticleData = { "@context": "https://schema.org", "@type": "BlogPosting", mainEntityOfPage: { "@type": "WebPage", "@id": canonicalURL }, headline: WebTitle, image: [WebCover], author: { "@type": "Person", name: Author, url: Site }, publisher: { "@type": "Organization", name: SiteName, logo: { "@type": "ImageObject", url: SiteCover } } };
+const WebSiteData = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: WebTitle,
+	url: canonicalURL,
+	image: { "@type": "ImageObject", url: SiteCover },
+};
+const ArticleData = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: WebTitle,
+	image: [WebCover],
+	author: { "@type": "Person", name: Author, url: Site },
+	publisher: {
+		"@type": "Organization",
+		name: SiteName,
+		logo: { "@type": "ImageObject", url: SiteCover },
+	},
+};
 // 基础 样式
 import "@/styles/Base.less";
 ---
@@ -20,11 +44,22 @@ import "@/styles/Base.less";
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-	<title>{Title ? `${Title} | ${SiteName}` : `${SiteName} - ${Subtitle}`}</title>
-	<meta name="keywords" content={(Keywords || ["Astro", "分享", "博客"]).join(", ")} />
+	<meta
+		name="viewport"
+		content="width=device-width,initial-scale=1,user-scalable=no"
+	/>
+	<title>
+		{Title ? `${Title} | ${SiteName}` : `${SiteName} - ${Subtitle}`}
+	</title>
+	<meta
+		name="keywords"
+		content={(Keywords || ["Astro", "分享", "博客"]).join(", ")}
+	/>
 	<meta name="description" content={Description} />
-	<meta name="format-detection" content="telephone=no, email=no, date=no, address=no" />
+	<meta
+		name="format-detection"
+		content="telephone=no, email=no, date=no, address=no"
+	/>
 	<!-- 元数据 -->
 	<meta name="title" content={WebTitle} />
 	<meta name="site" content={Site} />
@@ -50,11 +85,19 @@ import "@/styles/Base.less";
 	<meta name="twitter:url" content={canonicalURL} />
 	<meta name="twitter:image" content={WebCover} />
 	<!-- 输出结构化数据 -->
-	<script type="application/ld+json" set:html={JSON.stringify(PageCover ? ArticleData : WebSiteData)} is:inline />
+	<script
+		type="application/ld+json"
+		set:html={JSON.stringify(PageCover ? ArticleData : WebSiteData)}
+		is:inline
+	/>
 	<!-- Sitemap -->
 	<link rel="sitemap" href="/sitemap-index.xml" />
 	<!-- DNS预解析 -->
-	{DNSOptimization.map((url: string) => <link rel="dns-prefetch" href={url} />)}
+	{
+		DNSOptimization.map((url: string) => (
+			<link rel="dns-prefetch" href={url} />
+		))
+	}
 	{DNSOptimization.map((url: string) => <link rel="preconnect" href={url} />)}
 	<!-- LINK 标签 -->
 	<link rel="canonical" href={canonicalURL} />

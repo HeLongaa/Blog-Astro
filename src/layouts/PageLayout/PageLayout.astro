@@ -3,8 +3,6 @@ const { frontmatter } = Astro.props;
 // 页面 Info
 import SITE_CONFIG from "@/config";
 const { Description, Title } = SITE_CONFIG;
-// Aside组件
-import Aside from "@/components/Aside/Aside.astro";
 // 公共 Layout
 import Layout from "@/layouts/Layout/Layout.astro";
 // 评论组件
@@ -18,7 +16,11 @@ import "@/styles/ArticleBase.less";
 import "./PageLayout.less";
 ---
 
-<Layout title={frontmatter.title || Title} description={Description} activeNav={frontmatter.type || "-"}>
+<Layout
+	title={frontmatter.title || Title}
+	description={Description}
+	activeNav={frontmatter.type || "-"}
+>
 	<section class="vh-page vh-about vh-animation vh-animation-init">
 		<header class="vh-page-header">
 			<h1>{frontmatter.h1}</h1>
