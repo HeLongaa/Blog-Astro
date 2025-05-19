@@ -13,7 +13,7 @@ const TalkingInit = async (data: any) => {
     if (typeof data === 'string') {
       res = await $GET(data);
     }
-    talkingDOM.innerHTML = res.map((i: any) => `<article><header><img data-vh-lz-src="https://img.helong.online/2025/05/1f5c8d504bba5794b4d3d6ce6129fc66.png" /><p class="info"><span>HeLong</span><time>${fmtDate(i.date)}前</time></p></header><section class="main">${i.content}</section><footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer></article>`).join('');
+    talkingDOM.innerHTML = res.map((i: any) => `<article><header><img data-vh-lz-src="https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png" /><p class="info"><span>HeLong</span><time>${fmtDate(i.date)}前</time></p></header><section class="main">${i.content}</section><footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer></article>`).join('');
     // 图片懒加载
     vhLzImgInit();
   } catch {

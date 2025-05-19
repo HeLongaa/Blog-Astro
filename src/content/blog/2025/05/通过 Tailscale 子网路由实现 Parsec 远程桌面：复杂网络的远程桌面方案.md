@@ -4,7 +4,7 @@ categories: 工具
 tags: ['网络','效率','Tailscale','Parsec','远程桌面']
 id: "17d947ae2f52bd8b"
 date: 2025-05-19 09:48:25
-cover: "https://img.helong.online/2025/05/cover4-blog.png"
+cover: "https://img.helong.online/pictures/2025/05/20/682b7e5a4077f.png"
 ---
 
 :::note
@@ -13,7 +13,7 @@ cover: "https://img.helong.online/2025/05/cover4-blog.png"
 
 ## 背景知识：为什么需要子网路由？
 
-![Tail](https://img.helong.online/2025/05/cover4.png)
+![Tail](https://img.helong.online/pictures/2025/05/20/682b7e5de5f80.png)
 ### Parsec 的网络困境
 Parsec 作为低延迟串流工具，其通信机制依赖直接 IP 连接。但在以下场景会失效：
 - **双 NAT 环境**（如：校园网 → 路由器 → 主机）
@@ -65,7 +65,7 @@ sudo tailscale up --advertise-routes=10.115.0.0/16 --advertise-exit-node --reset
 2. 找到设备点击 **... → Edit route settings**
 3. 勾选 `10.115.0.0/16` 并 Approve
 
-![Tailscale](https://img.helong.online/2025/05/tailseale.png)
+![Tailscale](https://img.helong.online/pictures/2025/05/20/682b7e624c348.png)
 
 ---
 
@@ -95,7 +95,7 @@ ip route | grep "10.115"
 ### 第三步：Parsec 连接验证
 
 #### 1. 双端登录同一账户
-![Parsec](https://img.helong.online/2025/05/parsec.png)
+![Parsec](https://img.helong.online/pictures/2025/05/20/682b7e5acdb33.png)
 
 #### 2. 发起内网直连
 - 在控制端的 Parsec 主机列表中选择设备

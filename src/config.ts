@@ -10,7 +10,7 @@ export default {
   // 网站作者
   Author: 'HeLong',
   // 作者头像
-  Avatar: 'https://img.helong.online/2025/05/1f5c8d504bba5794b4d3d6ce6129fc66.png',
+  Avatar: 'https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png',
   // 网站座右铭
   Motto: 'Face life with hope.',
   // Cover 网站缩略图
@@ -103,7 +103,7 @@ export default {
     }
   },
   // Han Analytics 统计（https://github.com/uxiaohan/HanAnalytics）
-  HanAnalytics: { enable: true, server: 'https://analytics.vvhan.com', siteId: 'Hello-HanHexoBlog' },
+  HanAnalytics: { enable: false, server: 'https://analytics.vvhan.com', siteId: 'Hello-HanHexoBlog' },
   // Google 广告
   GoogleAds: {
     ad_Client: '', //ca-pub-xxxxxx
