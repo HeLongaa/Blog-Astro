@@ -25,9 +25,9 @@ type: "links"
 
     <i class="fa-solid fa-database"></i> [Supabase](https://supabase.com/) - Supabase is an open source Firebase alternative. Start a project with a Postgres database, authentication, instant API, edge functions, realtime subscriptions, and storage.
 
-    <i class="iconfont icon-tengxunyun"></i> [TencentCloud](cloud.tencent.com) - Tencent Cloud (tencent cloud) main site development provides secure and stable cloud computing services, covering cloud servers, cloud databases, cloud storage, video and CDN, domain name registration and other comprehensive cloud services.
+    <i class="iconfont icon-tengxunyun"></i> [TencentCloud](https://cloud.tencent.com/) - Tencent Cloud (tencent cloud) main site development provides secure and stable cloud computing services, covering cloud servers, cloud databases, cloud storage, video and CDN, domain name registration and other comprehensive cloud services.
 
-    <i class="iconfont icon-huawei"></i> [Huawei Cloud](huaweicloud.com) - Docker image hosting.
+    <i class="iconfont icon-huawei"></i> [Huawei Cloud](https://huaweicloud.com/) - Docker image hosting.
 
     
 
