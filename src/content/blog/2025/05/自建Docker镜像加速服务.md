@@ -39,6 +39,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/dqzboy/Docker-Proxy/main
 
 ### 💊 使用
 
+参考网站[Docker 代理](https://docker.helong.online/)
+
 域名替换配置如下：
 
 ![2](https://img.helong.online/2025/05/1baf1abc8033f16718bd5d367bced120.png)
