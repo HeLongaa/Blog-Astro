@@ -33,6 +33,7 @@ import { checkComment, commentInit } from "@/scripts/Comment";
 import initMobileSidebar from "@/scripts/MobileSidebar";
 // Google 广告
 import GoogleAdInit from "@/scripts/GoogleAd";
+import Umami from "@/scripts/Umami";
 // Han Analytics 统计
 import HanAnalyticsInit from "@/scripts/HanAnalytics";
 //  谷歌 SEO 推送
@@ -46,6 +47,11 @@ import SmoothScroll from "@/scripts/Smoothscroll";
 const videoList: any[] = [];
 const MusicList: any[] = [];
 let commentLIst: any = { walineInit: null };
+const UmamiInit =  ()=> {
+  // Umami 统计 
+  Umami();
+};
+
 const indexInit = async (only: boolean = true) => {
   // 初始化网站运行时间
   only && initWebSiteTime();
@@ -91,11 +97,14 @@ const indexInit = async (only: boolean = true) => {
   initMobileSidebar();
 };
 
+
 export default () => {
   // 首次初始化
   indexInit();
+  UmamiInit();
   // 进入页面时触发
   inRouter(() => indexInit(false));
+  // inRouter(() => UmamiInit());
   // 离开当前页面时触发
   outRouter(() => {
     // 销毁评论

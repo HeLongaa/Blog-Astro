@@ -102,6 +102,10 @@ export default {
 
     }
   },
+  // Umami统计
+  // Umami: { enable: true, server: 'https://umami.helong.online', siteId: 'b9e08990-db20-4d25-b7c9-94ff0473c500' },
+  Umami: { enable: true, server: 'https://umami.helong.online', siteId: '50e99b76-4bfd-4f44-9378-4ca270e1ca9c' },
+
   // Han Analytics 统计（https://github.com/uxiaohan/HanAnalytics）
   HanAnalytics: { enable: false, server: 'https://analytics.vvhan.com', siteId: 'Hello-HanHexoBlog' },
   // Google 广告
