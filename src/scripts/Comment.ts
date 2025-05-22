@@ -1,7 +1,25 @@
 import SITE_INFO from "@/config";
 import { LoadScript } from "@/utils/index";
 declare const twikoo: any;
+import 'artalk/Artalk.css'
+import Artalk from 'artalk'
 
+// Artalk 评论
+const ArtalkFn = async (commentDOM: string) => {
+  document.querySelector(commentDOM)!.innerHTML = '<section class="vh-space-loading"><span></span><span></span><span></span></section>';
+  const Artalk_css = SITE_INFO.Comment.Artalk.serverURL + "dist/Artalk.js";
+  await Promise.all([
+    LoadScript(Artalk_css),
+  ]);
+  new Artalk({
+    el: commentDOM,
+    pageKey: window.location.pathname.replace(/\/$/, ''),
+    pageTitle: document.title,
+    server: SITE_INFO.Comment.Artalk.serverURL,
+    site: SITE_INFO.Comment.Artalk.siteName
+  });
+}
+  
 // Twikoo 评论
 const TwikooFn = async (commentDOM: string) => {
   document.querySelector(commentDOM)!.innerHTML = '<section class="vh-space-loading"><span></span><span></span><span></span></section>'
@@ -52,7 +70,7 @@ const commentInit = async (key: string, walineInit: any) => {
   const commentDOM = '.vh-comment>section'
   if (!document.querySelector(commentDOM)) return;
   // 评论列表
-  const CommentList: any = { TwikooFn, WalineFn };
+  const CommentList: any = { TwikooFn, WalineFn, ArtalkFn }; // ✅ 添加 ArtalkFn
   // 初始化评论
   CommentList[`${key}Fn`](commentDOM, walineInit);
 }

@@ -94,12 +94,18 @@ export default {
     },
     // Waline 评论
     Waline: {
-      enable: true,
+      enable: false,
       serverURL: 'https://waline.helong.online',
       //Waline 评论配置参数，参考https://waline.js.org/reference/client/props.html
       login_Model: 'enable',
       // turnstileKey: '0x4AAAAAABceQREHurDjC26L'
 
+    },
+    Artalk:{
+      enable: true,
+      serverURL: 'https://artalk.helong.online/',
+      // Artalk 评论配置参数，参考https://artalk.js.org/zh/guide/deploy.html
+      siteName: 'Blog',
     }
   },
   // Umami统计
