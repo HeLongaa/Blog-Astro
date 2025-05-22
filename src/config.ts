@@ -52,7 +52,7 @@ export default {
     // 建议使用 https://tabler.io/icons 直接下载 SVG
     { text: 'HomePage', link: 'https://helong.online', icon: 'Nav_user' },
     { text: 'Archive', link: '/archives', icon: 'Nav_archives' },
-    { text: 'Talk', link: '/talking', icon: 'Nav_talking' },
+    { text: 'Dynamic', link: '/talking', icon: 'Nav_talking' },
     { text: 'Links', link: '/links', icon: 'Nav_friends' },
     { text: 'Message', link: '/message', icon: 'Nav_message' },
     { text: 'About', link: '/about', icon: 'Nav_about' },
