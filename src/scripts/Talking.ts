@@ -91,7 +91,7 @@ const TalkingInit = async (config: typeof TALKING_DATA) => {
         finalData = await DATA_SOURCE.api(config.api)
         break
       case 'rss':
-        finalData = await DATA_SOURCE.rss(config.cors_url + config.rss_url)
+        finalData = await DATA_SOURCE.rss(config.cors_url +"?remoteUrl="+ config.rss_url)
         break
       case 'static':
         finalData = DATA_SOURCE.static(config.data)

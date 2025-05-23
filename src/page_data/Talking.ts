@@ -8,7 +8,7 @@ export default {
 
   // 当api_source=rss时生效，使用Memos的RSS订阅
   rss_url: "https://s.helong.online/u/HeLong/rss.xml",
-  cors_url: "https://corsproxy.io/",
+  cors_url: "https://cors.helong.online",
   // 当api_source=static时生效
   data: [
     {
