@@ -90,8 +90,8 @@ const TalkingInit = async (config: typeof TALKING_DATA) => {
       case 'api':
         finalData = await DATA_SOURCE.api(config.api)
         break
-      case 'rss':
-        finalData = await DATA_SOURCE.rss(config.cors_url +"?remoteUrl="+ config.rss_url)
+      case 'memos_rss':
+        finalData = await DATA_SOURCE.rss(config.cors_url +"?remoteUrl="+ config.memos_rss_url)
         break
       case 'static':
         finalData = DATA_SOURCE.static(config.data)
@@ -106,19 +106,22 @@ const TalkingInit = async (config: typeof TALKING_DATA) => {
     }
 
     // 渲染内容
-    talkingDOM.innerHTML = finalData.map((i: any) => `
-      <article>
-        <header>
-          <img data-vh-lz-src="https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png" />
-          <p class="info">
-            <span>HeLong</span>
-            <time>${fmtDate(i.date)}前</time>
-          </p>
-        </header>
-        <section class="main">${i.content}</section>
-        <footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer>
-      </article>
-    `).join('')
+talkingDOM.innerHTML = finalData
+  // 过滤 Link 
+  .filter((i: any) => !i.tags?.includes('Link')) 
+  .map((i: any) => `
+    <article>
+      <header>
+        <img data-vh-lz-src="https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png" />
+        <p class="info">
+          <span>HeLong</span>
+          <time>${fmtDate(i.date)}前</time>
+        </p>
+      </header>
+      <section class="main">${i.content}</section>
+      <footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer>
+    </article>
+  `).join('')
 
     vhLzImgInit()
   } catch (error) {

@@ -1,8 +1,18 @@
 export default {
-  // API 接口请求优先，数据格式保持和 data 一致
+  // 数据源类型：api | memos_rss | static
+  api_source: "memos_rss",
+  // api_source: "api",
   api: 'https://mdoctrajseqh.ap-northeast-1.clawcloudrun.com/api/friends/adapted',
-  // api 为空则使用 data 静态数据
-  data: [
-
+  //api_source: "memos_rss",
+  memos_rss_url: 'https://s.helong.online/u/HeLong/rss.xml',
+  cors_url: 'https://cors.helong.online',
+  // api_source: "static",
+  data:[
+  {
+    "name": "HeLong's Blog",
+    "link": "https://blog.helong.online/",
+    "avatar": "https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88",
+    "descr": "Face life with hope."
+  }
   ]
 }

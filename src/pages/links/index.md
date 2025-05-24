@@ -65,9 +65,9 @@ type: "links"
 name: HeLong's Blog
 url: https://blog.helong.online/
 avatar: https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88
-desc: Face life with hope.
+descr: Face life with hope.
 ```
 Remember to add this site before applying
 
 
-4. ### Links
+4. ### Links List（Randomly refresh ⚡️）
