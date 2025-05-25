@@ -15,18 +15,15 @@ const DATA_SOURCE = {
       return null
     }
   },
-
   // RSS 数据处理
   async rss(url: string) {
     try {
       const response = await fetch(url)
       const xml = await response.text()
       const doc = new DOMParser().parseFromString(xml, 'text/xml')
-
       return Array.from(doc.querySelectorAll('item')).map(item => {
         const pubDate = item.querySelector('pubDate')?.textContent || ''
         const description = item.querySelector('description')?.textContent || ''
-
         // 提取标签
         const div = document.createElement('div')
         div.innerHTML = description
@@ -38,41 +35,36 @@ const DATA_SOURCE = {
             return tag
           })
           .filter(Boolean)
-
         // 优化后的图片提取逻辑
         const imageUrls = new Set<string>([
-          // 处理enclosure图片
           ...Array.from(item.querySelectorAll('enclosure'))
             .filter(enc => enc.getAttribute('type')?.startsWith('image/'))
             .map(enc => enc.getAttribute('url') || ''),
-
-          // 处理description中的图片
           ...Array.from(div.querySelectorAll('img'))
             .map(img => img.src || '')
         ].filter(Boolean))
-
-        // 移除描述中已处理的图片
         div.querySelectorAll('img').forEach(img => img.remove())
-
         return {
           date: new Date(pubDate).toISOString(),
           tags,
-          content: `${div.innerHTML.replace(/<\/?span[^>]*>/g, '')}
-            ${imageUrls.size > 0 ? `<p class="vh-img-flex">${Array.from(imageUrls).map(img => `
-                <img 
-                  data-vh-lz-src="${img}" 
-                  alt="动态图片" 
-                  loading="lazy"
-                >`
-          ).join('')
-              }</p>` : ''}`
+          content: `${div.innerHTML.replace(/<\/?span[^>]*>/g, '')}${
+            imageUrls.size > 0 
+              ? `<p class="vh-img-flex">${
+                Array.from(imageUrls).map(img => `
+                  <img 
+                    data-vh-lz-src="${img}" 
+                    alt="动态图片" 
+                    loading="lazy"
+                  >`).join('')
+                }</p>` 
+              : ''
+          }`
         }
       })
     } catch {
       return null
     }
   },
-
   // 静态数据
   static(data: any) {
     return data
@@ -82,7 +74,7 @@ const DATA_SOURCE = {
 const TalkingInit = async (config: typeof TALKING_DATA) => {
   const talkingDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.talking-main')
   if (!talkingDOM) return
-
+  
   try {
     // 获取数据源
     let finalData = null
@@ -100,28 +92,33 @@ const TalkingInit = async (config: typeof TALKING_DATA) => {
         throw new Error('未知数据源类型')
     }
 
-    // 直接验证数据有效性
     if (!finalData || !finalData.length) {
       throw new Error('数据加载失败')
     }
 
     // 渲染内容
-talkingDOM.innerHTML = finalData
-  // 过滤 Link 
-  .filter((i: any) => !i.tags?.includes('Link')) 
-  .map((i: any) => `
-    <article>
-      <header>
-        <img data-vh-lz-src="https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png" />
-        <p class="info">
-          <span>HeLong</span>
-          <time>${fmtDate(i.date)}前</time>
-        </p>
-      </header>
-      <section class="main">${i.content}</section>
-      <footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer>
-    </article>
-  `).join('')
+    talkingDOM.innerHTML = finalData
+      // 过滤 Link 
+      .filter((i: any) => !i.tags?.includes('Link'))
+      // 新增置顶排序逻辑
+      .sort((a: any, b: any) => {
+        const aPinned = a.tags?.includes('置顶') ? 1 : 0
+        const bPinned = b.tags?.includes('置顶') ? 1 : 0
+        return bPinned - aPinned // 置顶内容排前
+      })
+      .map((i: any) => `
+        <article>
+          <header>
+            <img data-vh-lz-src="https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png" />
+            <p class="info">
+              <span>HeLong</span>
+              <time>${fmtDate(i.date)}前</time>
+            </p>
+          </header>
+          <section class="main">${i.content}</section>
+          <footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer>
+        </article>
+      `).join('')
 
     vhLzImgInit()
   } catch (error) {
