@@ -62,6 +62,8 @@ export default {
     // 仅支持 SVG 且 SVG 需放在 public/assets/images/svg/ 目录下，填入文件名即可 <不需要文件后缀名>（封装了 SVG 组件 为了极致压缩 SVG）
     // 建议使用 https://tabler.io/icons 直接下载 SVG
     { text: 'Github', link: 'https://github.com/HeLongaa', icon: 'WebSite_github' },
+    { text: 'BiliBili', link: 'https://space.bilibili.com/491035693', icon: 'WebSite_bili' },
+    { text: 'ZhiHu', link: 'https://www.zhihu.com/people/yu-luo-wu-sheng-73-99', icon: 'WebSite_zhi' },
   ],
   // 侧边栏展示
   AsideShow: {
