@@ -1,9 +1,9 @@
 // 页面组件
 import vh from 'vh-plugin'
-import { fmtDate } from '@/utils/index'
-import { $GET } from '@/utils/index'
+import { fmtDate } from '@/utils'
+import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
-import TALKING_DATA from "@/page_data/Talking"
+import SITE_INFO from "@/config"
 
 const DATA_SOURCE = {
   // API 数据处理
@@ -71,7 +71,7 @@ const DATA_SOURCE = {
   }
 }
 
-const TalkingInit = async (config: typeof TALKING_DATA) => {
+const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
   const talkingDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.talking-main')
   if (!talkingDOM) return
   
@@ -139,4 +139,4 @@ const TalkingInit = async (config: typeof TALKING_DATA) => {
 }
 
 // 配置注入
-export default () => TalkingInit(TALKING_DATA)
+export default () => TalkingInit(SITE_INFO.Talking_conf)

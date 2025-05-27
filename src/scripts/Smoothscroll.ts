@@ -1,6 +1,6 @@
 import SITE_INFO from '@/config'
 // SmoothScroll 滚动优化
-import { LoadScript } from "@/utils/index";
+import { LoadScript } from "@/utils";
 declare const SmoothScroll: any;
 export default async () => {
   await LoadScript("/assets/js/smoothscroll.min.js");

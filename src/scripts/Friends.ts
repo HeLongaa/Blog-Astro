@@ -1,7 +1,7 @@
 
 import vh from 'vh-plugin';
-import { fmtDate } from '@/utils/index'
-import { $GET } from '@/utils/index'
+import { fmtDate } from '@/utils'
+import { $GET } from '@/utils'
 // 图片懒加载
 import vhLzImgInit from "@/scripts/vhLazyImg";
 
@@ -22,6 +22,6 @@ const FriendsInit = async (data: any) => {
 }
 
 // 朋友圈 RSS 初始化
-import FRIENDS_DATA from "@/page_data/Friends";
-const { api, data } = FRIENDS_DATA;
+import SITE_INFO from "@/config";
+const { api, data } = SITE_INFO.Friends_conf;
 export default () => FriendsInit(api || data);

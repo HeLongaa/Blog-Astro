@@ -1,5 +1,5 @@
 // 格式化时间
-import { fmtDate } from "@/utils/index";
+import { fmtDate } from "@/utils";
 // 页面内容的元数据
 import SITE_CONFIG from "@/config";
 const { CreateTime } = SITE_CONFIG;

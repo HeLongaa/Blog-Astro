@@ -1,6 +1,6 @@
 import SITE_CONFIG from "@/config";
 const { vhMusicApi } = SITE_CONFIG;
-import { $GET } from '@/utils/index'
+import { $GET } from '@/utils'
 import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
 

@@ -1,5 +1,5 @@
 import SITE_INFO from "@/config";
-import { LoadScript } from "@/utils/index";
+import { LoadScript } from "@/utils";
 declare const twikoo: any;
 import 'artalk/Artalk.css'
 import Artalk from 'artalk'

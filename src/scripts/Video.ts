@@ -1,4 +1,4 @@
-import { LoadScript } from "@/utils/index";
+import { LoadScript } from "@/utils";
 // 初始化视频播放器
 declare const DPlayer: any;
 declare const Hls: any;

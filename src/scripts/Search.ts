@@ -1,4 +1,4 @@
-import { $GET } from '@/utils/index'
+import { $GET } from '@/utils'
 
 // 更新数据
 let searchJson: any[] = [];

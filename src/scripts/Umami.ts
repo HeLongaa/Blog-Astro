@@ -3,14 +3,14 @@
 import SITE_INFO from "@/config";
 
 export default async () => {
-  const { Umami } = SITE_INFO;
-  if (Umami.enable) {
+  const { statistics } = SITE_INFO;
+  if (statistics.Umami.enable) {
     await LoadUmami(
-      `${Umami.server}/script.js`,
+      `${statistics.Umami.server}/script.js`,
       [
         // 🔥 关键点：将 defer 放在 attrs 数组的首位
         { k: "defer", v: true },
-        { k: "data-website-id", v: Umami.siteId }
+        { k: "data-website-id", v: statistics.Umami.siteId }
       ]
     );
   }

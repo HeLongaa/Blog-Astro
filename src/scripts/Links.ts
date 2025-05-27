@@ -1,5 +1,5 @@
 import vh from 'vh-plugin'
-import { $GET } from '@/utils/index'
+import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
 
 const strictKeys = ['name', 'link', 'avatar', 'descr'] as const
@@ -103,9 +103,9 @@ const renderLinks = (data: any[]) => {
   }
 }
 
-import LINKS_DATA from "@/page_data/Link";
+import SITE_INFO from "@/config";
 export default async () => {
-  const { api_source, api, memos_rss_url, cors_url, data } = LINKS_DATA
+  const { api_source, api, memos_rss_url, cors_url, data } = SITE_INFO.Link_conf
 
   try {
     let result: any[] = []

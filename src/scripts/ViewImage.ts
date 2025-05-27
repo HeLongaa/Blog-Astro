@@ -1,5 +1,5 @@
 
-import { LoadScript } from "@/utils/index";
+import { LoadScript } from "@/utils";
 // 图片灯箱
 declare const ViewImage: any;
 const ViewImgList: string[] = [

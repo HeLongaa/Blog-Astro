@@ -110,13 +110,78 @@ export default {
       siteName: 'Blog',
     }
   },
-  // Umami统计
-  // Umami: { enable: true, server: 'https://umami.helong.online', siteId: 'b9e08990-db20-4d25-b7c9-94ff0473c500' },
-  Umami: { enable: true, server: 'https://umami.helong.online', siteId: '50e99b76-4bfd-4f44-9378-4ca270e1ca9c' },
 
-  // Han Analytics 统计（https://github.com/uxiaohan/HanAnalytics）
-  HanAnalytics: { enable: false, server: 'https://analytics.vvhan.com', siteId: 'Hello-HanHexoBlog' },
-  // Google 广告
+  statistics: {
+    Umami: {
+      enable: true,
+      server: 'https://umami.helong.online',
+      siteId: '50e99b76-4bfd-4f44-9378-4ca270e1ca9c'
+    },
+    // Han Analytics 统计（https://github.com/uxiaohan/HanAnalytics）
+    HanAnalytics: {
+      enable: false,
+      server: 'https://analytics.vvhan.com',
+      siteId: 'Hello-HanHexoBlog'
+    },
+  },
+  // 友链配置
+  Link_conf: {
+    // 数据源类型：api | memos_rss | static
+    api_source: "memos_rss",
+    // api_source: "api",
+    api: 'https://mdoctrajseqh.ap-northeast-1.clawcloudrun.com/api/friends/adapted',
+    //api_source: "memos_rss",
+    memos_rss_url: 'https://s.helong.online/u/HeLong/rss.xml',
+    cors_url: 'https://cors.helong.online',
+    // api_source: "static",
+    data:[
+      {
+        "name": "HeLong's Blog",
+        "link": "https://blog.helong.online/",
+        "avatar": "https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88",
+        "descr": "Face life with hope."
+      }
+    ]
+  },
+  // 说说配置
+  Talking_conf: {
+    // 数据源类型：api | memos_rss | static
+    api_source: "memos_rss",
+
+    // 当api_source=api时生效
+    // api: "https://ygjpjcpycxqy.ap-northeast-1.clawcloudrun.com/api/talks",
+    api: "",
+
+    // 当api_source=rss时生效，使用Memos的RSS订阅
+    memos_rss_url: "https://s.helong.online/u/HeLong/rss.xml",
+    cors_url: "https://cors.helong.online",
+    // 当api_source=static时生效
+    data: [
+      {
+        "date": "2025-05-08 19:36:16",
+        "tags": [
+          "Todo"
+        ],
+        "content": "."
+      }
+    ]
+  },
+  // Friends 页面配置
+  Friends_conf: {
+    // API 接口请求优先，数据格式保持和 data 一致
+    api: '',
+    // api 为空则使用 data 静态数据
+    data: [
+      {
+        "title": "Astro 中使用 Lenis 增加鼠标滚动阻尼感",
+        "auther": "韩小韩博客",
+        "date": "2025-03-06",
+        "link": "https://www.vvhan.com/article/Lenis-in-Astro",
+        "content": "在移动端触控交互中，惯性滚动带来的丝滑体验已成为标配，但鼠标滚轮受限于机械结构，滚动时难免产生生硬的段落感。如何让传统滚轮操作也能获得如触控板般的阻尼反馈？Lenis库通过JavaScript模拟惯性算法，成功将”物理惯性”引入网页滚动，本文将解析其实现原理与实战应用。核心技术原理​滚轮事件拦截与目"
+      }
+    ]
+  },
+ // Google 广告
   GoogleAds: {
     ad_Client: '', //ca-pub-xxxxxx
     // 侧边栏广告(不填不开启)

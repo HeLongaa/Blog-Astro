@@ -1,5 +1,5 @@
 // SmoothScroll 滚动优化
-import { LoadScript } from "@/utils/index";
+import { LoadScript } from "@/utils";
 declare const LivePhotosKit: any;
 export default async () => {
   const livePhotoList = document.querySelectorAll('.vh-node.vh-vhLivePhoto');
