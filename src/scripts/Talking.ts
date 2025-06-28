@@ -47,18 +47,16 @@ const DATA_SOURCE = {
         return {
           date: new Date(pubDate).toISOString(),
           tags,
-          content: `${div.innerHTML.replace(/<\/?span[^>]*>/g, '')}${
-            imageUrls.size > 0 
-              ? `<p class="vh-img-flex">${
-                Array.from(imageUrls).map(img => `
+          content: `${div.innerHTML.replace(/<\/?span[^>]*>/g, '')}${imageUrls.size > 0
+              ? `<p class="vh-img-flex">${Array.from(imageUrls).map(img => `
                   <img 
                     data-vh-lz-src="${img}" 
                     alt="动态图片" 
                     loading="lazy"
                   >`).join('')
-                }</p>` 
+              }</p>`
               : ''
-          }`
+            }`
         }
       })
     } catch {
@@ -74,7 +72,7 @@ const DATA_SOURCE = {
 const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
   const talkingDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.talking-main')
   if (!talkingDOM) return
-  
+
   try {
     // 获取数据源
     let finalData = null
@@ -83,7 +81,7 @@ const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
         finalData = await DATA_SOURCE.api(config.api)
         break
       case 'memos_rss':
-        finalData = await DATA_SOURCE.rss(config.cors_url +"?remoteUrl="+ config.memos_rss_url)
+        finalData = await DATA_SOURCE.rss(config.cors_url + "?remoteUrl=" + config.memos_rss_url)
         break
       case 'static':
         finalData = DATA_SOURCE.static(config.data)
@@ -100,6 +98,7 @@ const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
     talkingDOM.innerHTML = finalData
       // 过滤 Link 
       .filter((i: any) => !i.tags?.includes('Link'))
+      .filter((i: any) => !i.tags?.includes('link'))
       // 新增置顶排序逻辑
       .sort((a: any, b: any) => {
         const aPinned = a.tags?.includes('置顶') ? 1 : 0
