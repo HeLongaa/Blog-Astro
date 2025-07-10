@@ -62,6 +62,7 @@
     transform: scale(1.8);
     pointer-events: none;
     z-index: -1;
+    fill: currentColor;
   }
 }
 
@@ -70,5 +71,23 @@
     &>svg {
       display: none;
     }
+  }
+}
+
+// 亮色模式下的颜色
+:root {
+  .vh-copyright>svg {
+    color: var(--vh-font-1);
+  }
+}
+
+// 暗色模式下的颜色
+html[data-theme="dark"] {
+  .vh-copyright {
+    background-color: rgba(255, 255, 255, 0.09);
+  }
+
+  .vh-copyright>svg {
+    color: var(--vh-default);
   }
 }

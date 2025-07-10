@@ -552,7 +552,7 @@
         border-radius: 0.618rem;
         height: max-content;
         max-height: 888px;
-        background-color: #F3F4F7 !important;
+        // background-color: #F3F4F7;
 
         code {
           box-sizing: border-box;
@@ -614,38 +614,6 @@
               height: 0.56rem;
             }
           }
-        }
-      }
-    }
-  }
-}
-
-// 暗色模式下的代码块样式
-:global(html[data-theme="dark"]) {
-
-  .main-inner>section,
-  .main-inner>article {
-    section.vh-code-box {
-      &>pre.astro-code {
-        background-color: #1a1b26 !important;
-
-        code {
-          &>span {
-            &::before {
-              color: #565f89;
-            }
-
-            color: #c0caf5;
-          }
-        }
-      }
-
-      &>span.vh-code-copy {
-        border-color: rgba(255, 255, 255, 0.2);
-
-        &::before,
-        &::after {
-          filter: invert(1);
         }
       }
     }

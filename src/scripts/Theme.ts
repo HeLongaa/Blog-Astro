@@ -58,13 +58,14 @@ const initTheme = () => {
         // 实际应用的主题（light 或 dark）
         const effectiveTheme = mode === 'auto' ? (prefersDark.matches ? 'dark' : 'light') : mode;
         document.documentElement.setAttribute('data-theme', effectiveTheme);
-
         // 保存用户选择的模式（auto、light 或 dark）
         localStorage.setItem('vh-theme', mode);
 
         // 更新按钮和下拉菜单状态
         updateActiveState(mode);
     };
+
+
 
     // 更新激活状态
     const updateActiveState = (mode: string) => {
