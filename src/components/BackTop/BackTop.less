@@ -28,10 +28,26 @@ section.vh-back-top {
     transform: translate(-50%, -50%);
     width: calc(100% + 1px);
     height: calc(100% + 1px);
+    fill: currentColor;
 
     &.icon {
       width: 66%;
       height: 66%;
     }
+  }
+}
+
+// 亮色模式下的颜色
+:root {
+  .vh-back-top>svg {
+    color: var(--vh-font-1);
+  }
+}
+
+// 暗色模式下的颜色
+html[data-theme="dark"] {
+
+  .vh-back-top>svg {
+    color: var(--vh-default);
   }
 }
