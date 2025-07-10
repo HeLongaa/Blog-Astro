@@ -22,21 +22,22 @@ section.vh-archive-main {
         height: 2.5rem;
         border-radius: 1rem;
         font-size: 1rem;
-        transition: background .18s;
-
+        transition: all .18s ease;
 
         &:not(.title) {
           &:hover {
-            background-color: #EEEFF3;
+            background-color: var(--vh-font-6);
 
             &>i {
               &::before {
                 height: 50.66%;
+                background-color: var(--vh-main-color);
               }
             }
 
             &>span {
               padding-left: 0.28rem;
+              color: var(--vh-main-color);
             }
           }
 
@@ -52,7 +53,7 @@ section.vh-archive-main {
               height: 0.25rem;
               border: none;
               border-radius: 0.25rem;
-              background-color: #4E667F;
+              background-color: var(--vh-font-color);
             }
 
             &::after {
@@ -62,7 +63,7 @@ section.vh-archive-main {
               height: 1rem;
               left: calc(50% - 0.0625rem);
               transform: translateY(-50%);
-              border-left: 2px dashed rgba(0, 0, 0, .1);
+              border-left: 2px dashed var(--vh-font-16);
               pointer-events: none;
             }
           }
@@ -72,6 +73,7 @@ section.vh-archive-main {
             font-size: 1rem;
             color: var(--vh-font-color);
             font-weight: 600;
+            transition: color .18s ease;
           }
         }
 
@@ -101,10 +103,10 @@ section.vh-archive-main {
             display: block;
             width: 0.36rem;
             height: 0.36rem;
-            border: solid 0.28rem #0000006D;
+            border: solid 0.28rem var(--vh-font-16);
             border-radius: 50%;
             background-color: var(--vh-white-color);
-            transition: all .3s;
+            transition: all .3s ease;
           }
         }
 
@@ -112,7 +114,7 @@ section.vh-archive-main {
           flex: 1;
           color: var(--vh-font-66);
           font-weight: 500;
-          transition: all .18s;
+          transition: all .18s ease;
         }
 
         &>cite {

@@ -7,9 +7,12 @@
 	--vh-box-shadow: 0 3px 8px 6px #07111b0d;
 	// Body 背景颜色
 	--vh-body-bg: #F8F8F8;
+	// 半透明背景色
+	--vh-bg-translucent: rgba(255, 255, 255, 0.36);
 	// Back Top 按钮位置
 	--vh-back-top: calc((calc(100vw - 2rem) - min((100vw - 2rem), var(--vh-main-max-width))) / 2 + 1rem);
 	// 字体颜色
+	--vh-font-color: #333;
 	--vh-font-88: rgb(from var(--vh-font-color) r g b / 88%);
 	--vh-font-66: rgb(from var(--vh-font-color) r g b / 66%);
 	--vh-font-56: rgb(from var(--vh-font-color) r g b / 56%);
@@ -17,6 +20,7 @@
 	--vh-font-16: rgb(from var(--vh-font-color) r g b / 16%);
 	--vh-font-6: rgb(from var(--vh-font-color) r g b / 6%);
 	// 主题色
+	--vh-main-color: #49B1F5;
 	--vh-main-color-88: rgb(from var(--vh-main-color) r g b / 88%);
 	--vh-main-color-66: rgb(from var(--vh-main-color) r g b / 66%);
 	--vh-main-color-56: rgb(from var(--vh-main-color) r g b / 56%);
@@ -44,14 +48,51 @@
 	--vh-import-hover: #B984DF18;
 }
 
+// 暗色模式变量
+html[data-theme="dark"] {
+	--vh-white-color: #1a1a1a;
+	--vh-box-shadow: 0 3px 8px 6px rgba(0, 0, 0, 0.2);
+	--vh-body-bg: #0a0a0a;
+	--vh-font-color: #ffffff;
+	--vh-bg-translucent: rgba(10, 10, 10, 0.36);
+	--vh-font-88: rgba(255, 255, 255, 0.88);
+	--vh-font-66: rgba(255, 255, 255, 0.66);
+	--vh-font-56: rgba(255, 255, 255, 0.56);
+	--vh-font-28: rgba(255, 255, 255, 0.28);
+	--vh-font-16: rgba(255, 255, 255, 0.16);
+	--vh-font-6: rgba(255, 255, 255, 0.06);
+
+	// Info 
+	--vh-info: #5c7cd6;
+	--vh-info-hover: #5c7cd618;
+	// Success
+	--vh-success: #30d6ca;
+	--vh-success-hover: #30d6ca18;
+	// Warning
+	--vh-warning: #e6a05c;
+	--vh-warning-hover: #e6a05c18;
+	// Error
+	--vh-error: #e55f60;
+	--vh-error-hover: #e55f6018;
+	// Import
+	--vh-import: #caa3e8;
+	--vh-import-hover: #caa3e818;
+
+	// 背景半透明适配
+	header.vh-header {
+		background-color: rgba(26, 26, 26, 0.36);
+	}
+
+	.vh-footer {
+		background-color: rgba(26, 26, 26, 0.1);
+	}
+}
+
 * {
 	// IOS 点击阴影
-	-webkit-tap-highlight-color: transparent;
-	// 隐藏滚动条
+	-webkit-tap-highlight-color: transparent; // 隐藏滚动条
 	scrollbar-width: none;
 	-ms-overflow-style: none;
-	// 平滑滚动
-	scroll-behavior: smooth;
 	// 去除下划线
 	text-decoration: none;
 	// 消除边框
@@ -88,6 +129,7 @@ html {
 		font-weight: 400;
 		cursor: url('/assets/images/default.cur'), default;
 		overflow-x: hidden;
+		background-color: var(--vh-body-bg);
 
 		&::before {
 			content: "";
@@ -96,7 +138,7 @@ html {
 			top: 0;
 			width: 100vw;
 			height: 100vh;
-			background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgb(0 0 0 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+			background: var(--vh-body-bg) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgb(255 255 255 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
 			z-index: -1;
 		}
 

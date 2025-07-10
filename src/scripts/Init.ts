@@ -39,7 +39,9 @@ import HanAnalyticsInit from "@/scripts/HanAnalytics";
 //  谷歌 SEO 推送
 import SeoPushInit from "@/scripts/SeoPush";
 // SmoothScroll 滚动优化
-import SmoothScroll from "@/scripts/Smoothscroll";
+import SmoothScroll, { cleanupSmoothScroll } from "@/scripts/Smoothscroll";
+// 主题切换
+import initTheme from "@/scripts/Theme";
 
 // ============================================================
 
@@ -47,7 +49,8 @@ import SmoothScroll from "@/scripts/Smoothscroll";
 const videoList: any[] = [];
 const MusicList: any[] = [];
 let commentLIst: any = { walineInit: null };
-const UmamiInit =  ()=> {
+
+const UmamiInit = () => {
   // Umami 统计 
   Umami();
 };
@@ -58,7 +61,7 @@ const indexInit = async (only: boolean = true) => {
   // 初始化BackTop组件
   only && BackTopInitFn();
   // SmoothScroll 滚动优化
-  only && SmoothScroll();
+  await SmoothScroll();
   // 图片灯箱
   only && ViewImage();
   // 初始化文章代码块
@@ -95,6 +98,8 @@ const indexInit = async (only: boolean = true) => {
   vhSearchInit();
   // 移动端侧边栏初始化
   initMobileSidebar();
+  // 初始化主题
+  only && initTheme();
 };
 
 
@@ -104,9 +109,10 @@ export default () => {
   UmamiInit();
   // 进入页面时触发
   inRouter(() => indexInit(false));
-  // inRouter(() => UmamiInit());
   // 离开当前页面时触发
   outRouter(() => {
+    // 清理 SmoothScroll
+    cleanupSmoothScroll();
     // 销毁评论
     commentLIst.walineInit && commentLIst.walineInit.destroy();
     commentLIst.walineInit = null;

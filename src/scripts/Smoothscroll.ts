@@ -1,8 +1,11 @@
-import SITE_INFO from '@/config'
-// SmoothScroll 滚动优化
-import { LoadScript } from "@/utils";
-declare const SmoothScroll: any;
-export default async () => {
-  await LoadScript("/assets/js/smoothscroll.min.js");
-  SmoothScroll({ stepSize: 118, animationTime: SITE_INFO.ScrollSpeed })
+/**
+ * 不再使用平滑滚动，改为原生滚动行为
+ */
+export const cleanupSmoothScroll = (): void => {
+  // 无需清理，因为不再使用平滑滚动
+};
+
+export default async (): Promise<void> => {
+  // 使用原生滚动
+  document.documentElement.style.scrollBehavior = 'auto';
 };

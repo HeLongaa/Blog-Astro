@@ -266,6 +266,8 @@
 
               p {
                 padding: 0.18rem 0;
+                color: var(--vh-font-88); // 更改为更高对比度的颜色
+                line-height: 1.75;
               }
 
               img {
@@ -454,6 +456,99 @@
 
     code {
       font-size: 0.68rem;
+    }
+  }
+}
+
+:global(html[data-theme="dark"]) {
+  .vh-comment {
+
+    // 评论框背景色和边框
+    .twikoo .tk-comments .tk-submit .tk-row .tk-col .tk-input.el-textarea {
+      background-color: var(--vh-white-color);
+      border-color: var(--vh-font-28);
+
+      textarea {
+        background-color: var(--vh-white-color);
+        color: var(--vh-font-88);
+      }
+    }
+
+    // 评论内容样式
+    .twikoo .tk-comments .tk-comment {
+
+      // 评论者信息
+      .tk-meta {
+        .tk-nick {
+          color: var(--vh-font-88);
+        }
+
+        .tk-time {
+          color: var(--vh-font-56);
+        }
+      }
+
+      // 评论内容
+      .tk-content {
+        p {
+          color: var(--vh-font-88);
+        }
+
+        a {
+          color: var(--vh-main-color);
+        }
+      }
+
+      // 评论引用
+      .tk-quote {
+        border-left-color: var(--vh-main-color-38);
+        background-color: var(--vh-font-6);
+      }
+
+      // 回复按钮和操作
+      .tk-action {
+        color: var(--vh-font-56);
+
+        &:hover {
+          color: var(--vh-main-color);
+        }
+      }
+
+      // 头像边框
+      .tk-avatar {
+        border: 1px solid var(--vh-font-16);
+      }
+
+      // UA信息
+      .tk-extras .tk-extra {
+        background-color: var(--vh-font-6);
+        color: var(--vh-font-66);
+      }
+    }
+
+    // 分割线
+    .twikoo .tk-comments .tk-comment .tk-main {
+      border-bottom-color: var(--vh-font-16);
+    }
+
+    // 表情选择器
+    .OwO .OwO-body {
+      background: var(--vh-white-color);
+      color: var(--vh-font-88);
+      border-color: var(--vh-font-16);
+    }
+
+    // 按钮样式
+    .el-button {
+      background-color: var(--vh-font-6);
+      border-color: var(--vh-font-28);
+      color: var(--vh-font-88);
+
+      &:hover {
+        background-color: var(--vh-main-color);
+        border-color: var(--vh-main-color);
+        color: #ffffff;
+      }
     }
   }
 }

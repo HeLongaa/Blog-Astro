@@ -21,8 +21,7 @@ export default defineConfig({
 	integrations: [swup({
 		theme: false,
 		animationClass: "vh-animation-",
-		containers: [".main-inner>.main-inner-content",'.vh-header>.main'],
-		smoothScrolling: true,
+		containers: [".main-inner>.main-inner-content", '.vh-header>.main'], smoothScrolling: false,
 		progress: true,
 		cache: true,
 		preload: true,

@@ -4,20 +4,40 @@ import vhLzImgInit from "@/scripts/vhLazyImg"
 
 const strictKeys = ['name', 'link', 'avatar', 'descr'] as const
 
+// 虚拟化列表的配置
+const BATCH_SIZE = 20;  // 每批渲染的数量
+let renderTimer: number | null = null;
+
+// 缓存已加载的头像
+const avatarCache = new Map<string, string>();
+
+// 优化的 shuffleArray 函数，只在必要时执行
 const shuffleArray = <T>(array: T[]): T[] => {
-  const shuffled = [...array]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  if (!array.length) return array;
+  const cached = sessionStorage.getItem('links-shuffle-order');
+  if (cached) {
+    const order = JSON.parse(cached);
+    if (order.length === array.length) {
+      return order.map((i: number) => array[i]);
+    }
   }
-  return shuffled
+  const indices = array.map((_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  sessionStorage.setItem('links-shuffle-order', JSON.stringify(indices));
+  return indices.map(i => array[i]);
 }
 
-const decodeHTML = (html: string) => {
-  const txt = document.createElement('textarea')
-  txt.innerHTML = html
-  return txt.value
-}
+// 优化的 HTML 解码
+const decodeHTML = (() => {
+  const decoder = document.createElement('textarea');
+  return (html: string) => {
+    decoder.innerHTML = html;
+    return decoder.value;
+  };
+})();
 
 const parseMemosRSSItem = (description: string) => {
   try {
@@ -25,7 +45,7 @@ const parseMemosRSSItem = (description: string) => {
     const doc = new DOMParser().parseFromString(decodedDesc, 'text/html')
     const tempDiv = doc.body
 
-    const linkTag = Array.from(tempDiv.querySelectorAll('*')).find(el => 
+    const linkTag = Array.from(tempDiv.querySelectorAll('*')).find(el =>
       el.textContent?.trim().toLowerCase() === '#link'
     )
     if (!linkTag) return null
@@ -47,12 +67,12 @@ const parseMemosRSSItem = (description: string) => {
       } else {
         rawValue = rawValue.replace(/^["'`]|["'`]$/g, '').replace(/,$/g, '')
       }
-      
+
       fieldMap[rawKey] = rawValue
     })
 
     if (!fieldMap.name || !fieldMap.link) return null
-    
+
     return {
       name: fieldMap.name,
       link: fieldMap.link,
@@ -69,10 +89,10 @@ const fetchMemosData = async (rssUrl: string) => {
   try {
     const response = await fetch(rssUrl)
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
-    
+
     const xmlText = await response.text()
     const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml")
-    
+
     return Array.from(xmlDoc.querySelectorAll('item'))
       .map(item => parseMemosRSSItem(item.querySelector('description')?.innerHTML || ''))
       .filter(Boolean) as Array<{ name: string; link: string; avatar: string; descr: string }>
@@ -83,25 +103,67 @@ const fetchMemosData = async (rssUrl: string) => {
 }
 
 const renderLinks = (data: any[]) => {
-  const linksDOM = document.querySelector('.main-inner-content > .vh-tools-main > main.links-main')
-  if (!linksDOM) return
+  const linksDOM = document.querySelector('.main-inner-content > .vh-tools-main > main.links-main');
+  if (!linksDOM) return;
 
-  const newHTML = data.map(i => `
-    <a href="${i.link}" target="_blank">
-      <img class="avatar" src="${i.avatar}" />
-      <section class="link-info">
-        <span>${i.name}</span>
-        <p class="vh-ellipsis line-2">${i.descr}</p>
-      </section>
-    </a>
-  `).join('')
+  // 如果数据没有变化，直接返回
+  const dataHash = JSON.stringify(data);
+  const cachedHash = linksDOM.getAttribute('data-hash');
+  if (dataHash === cachedHash) return;
 
-  // 只有内容变化时才更新DOM
-  if (linksDOM.innerHTML !== newHTML) {
-    linksDOM.innerHTML = newHTML
-    vhLzImgInit()
+  // 清理之前的定时器
+  if (renderTimer) {
+    cancelAnimationFrame(renderTimer);
+    renderTimer = null;
   }
-}
+
+  // 准备渲染数据
+  const shuffledData = shuffleArray(data);
+  const totalBatches = Math.ceil(shuffledData.length / BATCH_SIZE);
+  let currentBatch = 0;
+
+  // 创建文档片段，避免直接操作 DOM
+  const fragment = document.createDocumentFragment();
+  const templateContainer = document.createElement('div');
+
+  // 分批渲染函数
+  const renderBatch = () => {
+    if (currentBatch >= totalBatches) {
+      // 全部渲染完成
+      linksDOM.innerHTML = '';
+      linksDOM.appendChild(fragment);
+      linksDOM.setAttribute('data-hash', dataHash);
+      vhLzImgInit();
+      return;
+    }
+
+    const start = currentBatch * BATCH_SIZE;
+    const end = Math.min(start + BATCH_SIZE, shuffledData.length);
+
+    for (let i = start; i < end; i++) {
+      const item = shuffledData[i];
+
+      // 使用模板字符串构建 HTML
+      templateContainer.innerHTML = `
+                <a href="${item.link}" target="_blank" class="link-card" loading="lazy">
+                    <img class="avatar" src="/assets/images/lazy-loading.webp" data-vh-lz-src="${item.avatar}" alt="${item.name}" loading="lazy" />
+                    <section class="link-info">
+                        <span>${item.name}</span>
+                        <p class="vh-ellipsis line-2">${item.descr}</p>
+                    </section>
+                </a>
+            `;
+
+      fragment.appendChild(templateContainer.firstElementChild!);
+    }
+
+    currentBatch++;
+    renderTimer = requestAnimationFrame(renderBatch);
+  };
+
+  // 开始渲染
+  renderBatch();
+};
 
 import SITE_INFO from "@/config";
 export default async () => {
@@ -132,7 +194,7 @@ export default async () => {
 
     // 每次获取数据后重新随机排序
     result = shuffleArray([...result])
-    
+
     // 优化空数据提示逻辑
     if (result.length === 0) {
       const emptyMsg = {

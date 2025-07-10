@@ -8,6 +8,8 @@ const { Navs } = SITE_CONFIG;
 import Svg from "@/components/Svg/Svg.astro";
 // 搜索框组件
 import Search from "@/components/Search/Search.astro";
+// 主题切换按钮
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle.astro";
 // 顶部 Header 样式
 import "./Header.less";
 ---
@@ -36,7 +38,7 @@ import "./Header.less";
 					<a
 						class={`nav-link vh-hover${i.link.includes(activeNav) ? " active" : ""}`}
 						href={i.link}
-						target={i.target ? "_blank" : "_self"}
+						target={i.newWindow ? "_blank" : "_self"}
 					>
 						{i.text}
 						<Svg src={i.icon} />
@@ -57,6 +59,9 @@ import "./Header.less";
 					></path><path d="M21 21l-6 -6"></path></svg
 				> Search</span
 			>
+			<span class="nav-link vh-hover">
+				<ThemeToggle />
+			</span>
 			<span class="nav-link vh-hover menu-btn"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
