@@ -7,8 +7,8 @@
         <svg
             class="light-icon theme-icon"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -24,8 +24,8 @@
         <svg
             class="dark-icon theme-icon"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -38,8 +38,8 @@
         <svg
             class="auto-icon theme-icon"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -166,27 +166,23 @@
             }
         }
     }
-
     .theme-toggle {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0.5rem;
+        padding: 0.288rem 0.36rem;
         background: transparent;
         border: none;
         cursor: pointer;
-        color: var(--vh-font-color);
+        color: inherit;
         outline: none;
         transition: color 0.2s ease;
-
-        &:hover {
-            color: var(--vh-main-color);
-        }
+        height: 1.5rem; /* 保持与其他导航元素一致的高度 */
 
         .theme-icon {
             display: none;
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
 
             &.active {
                 display: block;
