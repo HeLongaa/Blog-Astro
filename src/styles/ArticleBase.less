@@ -214,14 +214,52 @@
           color: var(--vh-font-88);
         }
 
-        &.note-success,
-        &.note-info,
-        &.note-warning,
-        &.note-error,
+        &.note-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.688rem;
+          padding: 0.888rem;
+          border-left: 5px solid var(--vh-info);
+          border-radius: 3px;
+          background-color: var(--vh-info-hover);
+
+          p {
+            font-size: 0.875rem;
+            line-height: 1.58rem;
+            font-weight: 500;
+            color: var(--vh-font-88);
+          }
+        }
+
+        &.note-success {
+          border-color: var(--vh-success);
+          border-left: 5px solid var(--vh-success);
+          border-left-color: var(--vh-success);
+          background-color: var(--vh-success-hover);
+        }
+
+        &.note-warning {
+          border-color: var(--vh-warning);
+          border-left: 5px solid var(--vh-warning);
+          border-left-color: var(--vh-warning);
+          background-color: var(--vh-warning-hover);
+        }
+
+        &.note-error {
+          border-color: var(--vh-error);
+          border-left: 5px solid var(--vh-error);
+          border-left-color: var(--vh-error);
+          background-color: var(--vh-error-hover);
+        }
+
         &.note-import {
           p {
             color: var(--vh-font-88);
           }
+
+          border-left: 5px solid var(--vh-import);
+          border-left-color: var(--vh-import);
+          background-color: var(--vh-import-hover);
         }
       }
 

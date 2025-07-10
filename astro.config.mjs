@@ -40,7 +40,7 @@ export default defineConfig({
 		remarkPlugins: [remarkMath, remarkDirective, remarkNote,],
 		rehypePlugins: [rehypeKatex, rehypeSlug, addClassNames],
 		syntaxHighlight: 'shiki',
-		shikiConfig: { theme: 'github-' + codeTheme },
+		shikiConfig: { theme: 'github-dark' },
 	},
 	vite: { resolve: { alias: { "@": path.resolve(__dirname, "./src") } } },
 	server: { host: '0.0.0.0' }
