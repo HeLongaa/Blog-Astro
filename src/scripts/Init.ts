@@ -98,8 +98,8 @@ const indexInit = async (only: boolean = true) => {
   vhSearchInit();
   // 移动端侧边栏初始化
   initMobileSidebar();
-  // 初始化主题
-  only && initTheme();
+  // 初始化主题 - 始终执行主题初始化，确保主题一致性
+  initTheme();
 };
 
 
@@ -109,20 +109,32 @@ export default () => {
   UmamiInit();
   // 进入页面时触发
   inRouter(() => indexInit(false));
-  // 离开当前页面时触发
-  outRouter(() => {
-    // 清理 SmoothScroll
-    cleanupSmoothScroll();
-    // 销毁评论
-    commentLIst.walineInit && commentLIst.walineInit.destroy();
-    commentLIst.walineInit = null;
-    // 销毁播放器
-    videoList.forEach((i: any) => i.destroy());
-    videoList.length = 0;
-    // 销毁音乐
-    MusicList.forEach((i: any) => i.destroy());
-    MusicList.length = 0;
-  });
-  console.log("%c🌻 程序：Astro | 主题：vhAstro-Theme | 作者：Han | Github：https://github.com/uxiaohan/vhAstro-Theme 🌻", "color:#fff; background: linear-gradient(270deg, #18d7d3, #68b7dd, #8695e6, #986fee); padding: 8px 15px; border-radius: 8px");
-  console.log("%c\u521D\u59CB\u5316\u5B8C\u6BD5.", "color: #ffffff; background: #000; padding:5px");
+  // 离开当前页面时触发  outRouter(() => {
+  // 清理 SmoothScroll
+  cleanupSmoothScroll();
+  // 销毁评论
+  commentLIst.walineInit && commentLIst.walineInit.destroy();
+  commentLIst.walineInit = null;
+
+  // 清理 Artalk 实例
+  const vhArtalkInstances = (window as any).vhArtalkInstances;
+  if (vhArtalkInstances && Array.isArray(vhArtalkInstances)) {
+    vhArtalkInstances.forEach((instance: any) => {
+      if (instance && typeof instance.destroy === 'function') {
+        try {
+          instance.destroy();
+        } catch (e) {
+          console.error('Error destroying Artalk instance:', e);
+        }
+      }
+    });
+    vhArtalkInstances.length = 0;
+  }
+
+  // 销毁播放器
+  videoList.forEach((i: any) => i.destroy());
+  videoList.length = 0;
+  // 销毁音乐
+  MusicList.forEach((i: any) => i.destroy());
+  MusicList.length = 0;
 }

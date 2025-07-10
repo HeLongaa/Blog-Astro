@@ -11,15 +11,24 @@ const ArtalkFn = async (commentDOM: string) => {
   await Promise.all([
     LoadScript(Artalk_css),
   ]);
-  new Artalk({
+  const artalk = new Artalk({
     el: commentDOM,
     pageKey: window.location.pathname.replace(/\/$/, ''),
     pageTitle: document.title,
     server: SITE_INFO.Comment.Artalk.serverURL,
-    site: SITE_INFO.Comment.Artalk.siteName
+    site: SITE_INFO.Comment.Artalk.siteName,
   });
+  artalk.setDarkMode(document.documentElement.getAttribute('data-theme') === 'dark');
+
+  // 将 Artalk 实例存储到全局，便于主题切换时访问
+  if (!(window as any).vhArtalkInstances) {
+    (window as any).vhArtalkInstances = [];
+  }
+  (window as any).vhArtalkInstances.push(artalk);
+
+  return artalk; // 返回实例便于清理
 }
-  
+
 // Twikoo 评论
 const TwikooFn = async (commentDOM: string) => {
   document.querySelector(commentDOM)!.innerHTML = '<section class="vh-space-loading"><span></span><span></span><span></span></section>'
