@@ -7,14 +7,6 @@
             "destination": "/api/json"
         }
     ],
-    "env": {
-        "GITHUB_ID": "",
-        "GITHUB_SECRET": "",
-        "NEXTAUTH_SECRET": "",
-        "NEXTAUTH_URL": "",
-        "REPO_OWNER": "HeLongaa",
-        "REPO_NAME": "Blog-Astro"
-    },
     "headers": [
         {
             "source": "/(.*)",

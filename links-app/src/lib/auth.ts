@@ -40,5 +40,5 @@ export const authOptions = {
         },
     },
     debug: process.env.NODE_ENV === "development",
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "your-fallback-secret-key-here",
 };
