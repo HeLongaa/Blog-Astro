@@ -1,12 +1,9 @@
 name: Fetch Links Issues
 
 on:
-  # 当有新的 issue 被创建或更新时触发
-  issues:
-    types: [opened, edited, labeled, unlabeled, deleted]
-  # 定时任务，每天凌晨3点执行
+  # 定时任务，每6小时执行一次（北京时间：2点、8点、14点、20点）
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '0 18,0,6,12 * * *'
   # 手动触发工作流
   workflow_dispatch:
 
