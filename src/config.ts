@@ -127,9 +127,9 @@ export default {
   // 友链配置
   Link_conf: {
     // 数据源类型：api | memos_rss | static
-    api_source: "memos_rss",
+    api_source: "api",
     // api_source: "api",
-    api: 'https://mdoctrajseqh.ap-northeast-1.clawcloudrun.com/api/friends/adapted',
+    api: 'https://blog-api.040720.xyz/json',
     //api_source: "memos_rss",
     memos_rss_url: 'https://s.helong.online/u/HeLong/rss.xml',
     cors_url: 'https://cors.helong.online',

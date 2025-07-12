@@ -5,6 +5,8 @@ layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "links"
 setup: |
   import EmbedLinksButton from "@/components/EmbedLinks/EmbedLinksButton.astro";
+  import SITE_CONFIG from "@/config";
+  const { Link_conf } = SITE_CONFIG;
 ---
 
 <script src='/assets/js/fas.js' crossorigin='anonymous'></script>
@@ -72,7 +74,7 @@ descr: Face life with hope.
 Remember to add this site before applying
 
 <div style="text-align: center; margin: 10px 0;">
-  <button id="backup-links-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 14px;" data-links-url="http://localhost:3000/embed">
+  <button id="backup-links-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 14px;" data-links-url="https://blog-api.040720.xyz/embed">
     🔗 申请友链
   </button>
 </div>
