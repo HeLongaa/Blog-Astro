@@ -1,9 +1,6 @@
 {
     "name": "blog-links-app",
     "version": 2,
-    "buildCommand": "cd links-app && npm run build",
-    "outputDirectory": "links-app/.next",
-    "installCommand": "cd links-app && npm install",
     "rewrites": [
         {
             "source": "/json",
@@ -19,6 +16,24 @@
         "REPO_NAME": "Blog-Astro"
     },
     "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "SAMEORIGIN"
+                }
+            ]
+        },
+        {
+            "source": "/embed",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "ALLOWALL"
+                }
+            ]
+        },
         {
             "source": "/api/(.*)",
             "headers": [

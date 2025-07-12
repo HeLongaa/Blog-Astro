@@ -3,6 +3,8 @@ title: "Links"
 desc: "Some interesting or useful links are recorded here."
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "links"
+setup: |
+  import EmbedLinksButton from "@/components/EmbedLinks/EmbedLinksButton.astro";
 ---
 
 <script src='/assets/js/fas.js' crossorigin='anonymous'></script>
@@ -68,6 +70,24 @@ avatar: https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88
 descr: Face life with hope.
 ```
 Remember to add this site before applying
+
+<div style="text-align: center; margin: 10px 0;">
+  <button id="backup-links-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 14px;" data-links-url="http://localhost:3000/embed">
+    🔗 申请友链
+  </button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const backupBtn = document.getElementById('backup-links-btn');
+  if (backupBtn) {
+    backupBtn.addEventListener('click', function() {
+      const url = this.getAttribute('data-links-url');
+      window.open(url, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+    });
+  }
+});
+</script>
 
 
 4. ### Links List（Randomly refresh ⚡️）
