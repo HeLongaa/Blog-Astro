@@ -90,62 +90,100 @@ def github_issuse(friend_poor):
             # 调试：检查页面内容
             print(f'页面长度: {len(github)}')
             
-            # 尝试不同的选择器
-            main_content = soup.find_all('div',{'aria-label': 'Issues'})
-            if not main_content:
-                print('未找到Issues容器，尝试其他选择器...')
-                # 尝试其他可能的选择器
-                main_content = soup.find_all('div', {'class': 'js-issue-row'})
-                if not main_content:
-                    main_content = soup.find_all('div', {'data-testid': 'issue-item'})
-                    if not main_content:
-                        print('无法找到Issues列表')
-                        print('页面内容（前500字符）:', github[:500])
-                        break
+            # 查找最新的GitHub Issues列表结构
+            # 1. 首先查找ListView-module__ul类的ul元素
+            issue_items = []
+            list_view = soup.find('ul', {'class': re.compile(r'ListView-module__ul')})
+            if list_view:
+                print('找到ListView-module__ul元素')
+                # 查找ListItem-module__listItem类的li元素
+                issue_items = list_view.find_all('li', {'class': re.compile(r'ListItem-module__listItem')})
+                print(f'找到{len(issue_items)}个列表项')
             
-            if main_content:
-                linklist = main_content[0].find_all('a', {'class': 'Link--primary'})
-                if not linklist:
-                    # 尝试其他链接选择器
-                    linklist = main_content[0].find_all('a', {'data-hovercard-type': 'issue'})
-                    if not linklist:
-                        linklist = main_content[0].find_all('a', href=re.compile(r'/issues/\d+'))
+            # 如果没有找到，尝试其他选择器
+            if not issue_items:
+                print('使用备选选择器查找Issues列表')
+                # 尝试查找旧版选择器
+                main_content = soup.find_all('div', {'aria-label': 'Issues'})
+                if main_content:
+                    linklist = main_content[0].find_all('a', {'class': 'Link--primary'})
+                    if len(linklist) == 0:
+                        print('爬取完毕')
+                        break
+                    
+                    for item in linklist:
+                        issueslink = baselink + item['href'].lstrip('/')
+                        process_issue(issueslink, friend_poor)
+                else:
+                    print('无法找到Issues列表')
+                    # 打印一小部分页面内容以便调试
+                    print('页面内容（前500字符）:', github[:500])
+                    break
+            else:
+                # 处理找到的issue_items
+                for item in issue_items:
+                    # 查找data-testid='issue-pr-title-link'的a元素
+                    link = item.find('a', {'data-testid': 'issue-pr-title-link'})
+                    if not link:
+                        # 尝试其他可能的链接选择器
+                        link = item.find('a', {'class': re.compile(r'IssuePullRequestTitle')})
+                    if not link:
+                        # 再尝试href属性包含/issues/的a元素
+                        link = item.find('a', href=re.compile(r'/issues/\d+'))
+                    
+                    if link:
+                        issueslink = baselink + link['href'].lstrip('/')
+                        print(f'处理Issue: {issueslink}')
+                        process_issue(issueslink, friend_poor)
                 
-                print(f'找到{len(linklist)}个Issues链接')
-                
-                if len(linklist) == 0:
+                # 如果没有找到issue_items，说明已经到达最后一页
+                if len(issue_items) == 0:
                     print('爬取完毕')
                     break
-                    
-                for item in linklist:
-                    issueslink = baselink + item['href'].lstrip('/')
-                    print(f'处理Issue: {issueslink}')
-                    issues_page = request.get_data(issueslink)
-                    if issues_page == 'error' or not issues_page:
-                        continue
-                    issues_soup = BeautifulSoup(issues_page, 'html.parser')
-                    try:
-                        issues_linklist = issues_soup.find_all('pre')
-                        if not issues_linklist:
-                            issues_linklist = issues_soup.find_all('code')
-                        
-                        for code_block in issues_linklist:
-                            source = code_block.text.strip()
-                            if "{" in source and "}" in source:
-                                try:
-                                    source = json.loads(source)
-                                    print(f'找到友链数据: {source}')
-                                    friend_poor.append(source)
-                                except json.JSONDecodeError:
-                                    continue
-                    except Exception as e:
-                        print(f'解析Issue内容出错: {e}')
-                        continue
+    
     except Exception as e:
         print(f'爬取出错: {e}')
+        import traceback
+        traceback.print_exc()
 
     print('------结束github友链获取----------')
     print('\n')
+
+def process_issue(issue_url, friend_poor):
+    """处理单个Issue页面，提取友链信息"""
+    issues_page = request.get_data(issue_url)
+    if issues_page == 'error' or not issues_page:
+        print(f'获取Issue页面失败: {issue_url}')
+        return
+        
+    issues_soup = BeautifulSoup(issues_page, 'html.parser')
+    try:
+        # 依次尝试不同类型的代码块
+        code_blocks = issues_soup.find_all('pre')
+        if not code_blocks:
+            code_blocks = issues_soup.find_all('code')
+        if not code_blocks:
+            code_blocks = issues_soup.find_all('div', {'class': 'highlight'})
+        
+        if code_blocks:
+            print(f'找到{len(code_blocks)}个代码块')
+            for code_block in code_blocks:
+                source = code_block.text.strip()
+                if "{" in source and "}" in source:
+                    try:
+                        # 尝试解析JSON
+                        source = json.loads(source)
+                        print(f'找到友链数据: {source}')
+                        friend_poor.append(source)
+                    except json.JSONDecodeError as e:
+                        print(f'JSON解析错误: {e}')
+                        continue
+        else:
+            print(f'未在Issue中找到代码块: {issue_url}')
+    except Exception as e:
+        print(f'解析Issue内容出错: {e}')
+        import traceback
+        traceback.print_exc()
 
 
 #友链规则

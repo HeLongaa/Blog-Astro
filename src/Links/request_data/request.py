@@ -4,7 +4,29 @@ import yaml
 requests.packages.urllib3.disable_warnings()
 
 def load_config():
-    f = open('./src/Links/_config.yml', 'r',encoding='gbk')
+    import os
+    config_path = './src/Links/_config.yml'
+    # 如果当前目录下不存在配置文件，尝试使用绝对路径
+    if not os.path.exists(config_path):
+        # 尝试几种可能的路径
+        possible_paths = [
+            './_config.yml', 
+            '../_config.yml',
+            'src/Links/_config.yml',
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), '_config.yml')
+        ]
+        
+        for path in possible_paths:
+            if os.path.exists(path):
+                config_path = path
+                break
+    
+    try:
+        f = open(config_path, 'r', encoding='utf-8')
+    except:
+        # 如果utf-8打开失败，尝试gbk编码
+        f = open(config_path, 'r', encoding='gbk')
+        
     ystr = f.read()
     ymllist = yaml.load(ystr, Loader=yaml.FullLoader)
     return ymllist
