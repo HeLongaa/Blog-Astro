@@ -3,10 +3,6 @@ title: "Links"
 desc: "Some interesting or useful links are recorded here."
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "links"
-setup: |
-  import EmbedLinksButton from "@/components/EmbedLinks/EmbedLinksButton.astro";
-  import SITE_CONFIG from "@/config";
-  const { Link_conf } = SITE_CONFIG;
 ---
 
 <script src='/assets/js/fas.js' crossorigin='anonymous'></script>
@@ -79,16 +75,52 @@ Remember to add this site before applying
   </button>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+<script is:inline>
+// 多重初始化策略，确保在 Astro 客户端导航中正常工作
+function initFriendLinksButton() {
   const backupBtn = document.getElementById('backup-links-btn');
-  if (backupBtn) {
+  if (backupBtn && !backupBtn.hasAttribute('data-initialized')) {
+    backupBtn.setAttribute('data-initialized', 'true');
     backupBtn.addEventListener('click', function() {
       const url = this.getAttribute('data-links-url');
       window.open(url, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
     });
   }
+}
+
+// 立即执行
+initFriendLinksButton();
+
+// DOMContentLoaded 事件
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFriendLinksButton);
+} else {
+  initFriendLinksButton();
+}
+
+// Astro 页面加载事件
+document.addEventListener('astro:page-load', initFriendLinksButton);
+
+// 备用的延迟执行
+setTimeout(initFriendLinksButton, 100);
+
+// MutationObserver 作为最后的保险
+const observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if (mutation.type === 'childList') {
+      initFriendLinksButton();
+    }
+  });
 });
+
+// 监听 body 的变化
+if (document.body) {
+  observer.observe(document.body, { childList: true, subtree: true });
+} else {
+  document.addEventListener('DOMContentLoaded', function() {
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+}
 </script>
 
 
