@@ -23,7 +23,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-            - name: Fetch Links Issues and Generate JSON
+          
+      - name: Fetch Links Issues and Generate JSON
         run: |
           # 创建临时脚本文件
           cat > fetch-links.mjs << 'EOF'
@@ -99,6 +100,8 @@ jobs:
           
           # 运行脚本
           node fetch-links.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Commit and Push Changes
         run: |
