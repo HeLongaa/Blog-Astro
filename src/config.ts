@@ -36,7 +36,7 @@ export default {
   Theme: {
     // 颜色请用 16 进制颜色码
     // 主题颜色
-    "--vh-main-color": "#01C4B6",
+    "--vh-main-color": "#49B1F5",
     // 字体颜色
     "--vh-font-color": "#34495e",
     // 侧边栏宽度
