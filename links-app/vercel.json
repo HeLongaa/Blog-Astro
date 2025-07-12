@@ -1,0 +1,44 @@
+{
+    "name": "blog-links-app",
+    "version": 2,
+    "buildCommand": "cd links-app && npm run build",
+    "outputDirectory": "links-app/.next",
+    "installCommand": "cd links-app && npm install",
+    "rewrites": [
+        {
+            "source": "/json",
+            "destination": "/api/json"
+        }
+    ],
+    "env": {
+        "GITHUB_ID": "",
+        "GITHUB_SECRET": "",
+        "NEXTAUTH_SECRET": "",
+        "NEXTAUTH_URL": "",
+        "REPO_OWNER": "HeLongaa",
+        "REPO_NAME": "Blog-Astro"
+    },
+    "headers": [
+        {
+            "source": "/api/(.*)",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Credentials",
+                    "value": "true"
+                },
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "*"
+                },
+                {
+                    "key": "Access-Control-Allow-Methods",
+                    "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+                },
+                {
+                    "key": "Access-Control-Allow-Headers",
+                    "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+                }
+            ]
+        }
+    ]
+}
