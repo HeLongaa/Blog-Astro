@@ -13,12 +13,11 @@ on:
 jobs:
   fetch-links:
     runs-on: ubuntu-latest
-    steps:      
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-          # 使用 PAT 而不是默认令牌，以获得推送权限
           token: ${{ secrets.PAT }}
           
       - name: Setup Node.js
@@ -27,6 +26,8 @@ jobs:
           node-version: '18'
           
       - name: Fetch Links Issues and Generate JSON
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           # 创建临时脚本文件
           cat > fetch-links.mjs << 'EOF'
@@ -47,7 +48,8 @@ jobs:
               
               const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
               console.log(`仓库: ${owner}/${repo}`);
-                // 获取带有 "Links" 标签的 issues（包括已关闭的）
+              
+              // 获取带有 "Links" 标签的 issues（包括已关闭的）
               const { data: issues } = await octokit.issues.listForRepo({
                 owner,
                 repo,
@@ -100,9 +102,11 @@ jobs:
           npm install @octokit/rest
           
           # 运行脚本
-          node fetch-links.mjs        env:
+          node fetch-links.mjs
+          
+      - name: Commit and Push Changes
+        env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-            - name: Commit and Push Changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
@@ -117,5 +121,3 @@ jobs:
           
           git commit -m "更新 Links.json [skip ci]"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
