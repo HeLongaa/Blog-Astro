@@ -16,7 +16,7 @@ export default {
   // Cover 网站缩略图
   Cover: '/assets/images/banner/072c12ec85d2d3b5.webp',
   // 网站侧边栏公告 (不填写即不开启)
-  Tips: '<p>I wish every visitor inspired if confused, and enlightened if frustrated.</p><p>If you have any questions, please feel free to contact me. I am happy to be your friend.</p>',
+  Tips: '',
   // 首页打字机文案列表
   TypeWriteList: [
   ],
@@ -64,17 +64,18 @@ export default {
     { text: 'Github', link: 'https://github.com/HeLongaa', icon: 'WebSite_github' },
     { text: 'BiliBili', link: 'https://space.bilibili.com/491035693', icon: 'WebSite_bili' },
     { text: 'ZhiHu', link: 'https://www.zhihu.com/people/yu-luo-wu-sheng-73-99', icon: 'WebSite_zhi' },
-  ],
-  // 侧边栏展示
+  ],  // 侧边栏展示
   AsideShow: {
     // 是否展示个人网站
     WebSitesShow: true,
     // 是否展示分类
     CategoriesShow: true,
     // 是否展示标签
-    TagsShow: true,
+    TagsShow: false,
     // 是否展示推荐文章
-    recommendArticleShow: true
+    recommendArticleShow: true,
+    // 是否展示文章目录
+    TableOfContentsShow: true
   },
   // DNS预解析地址
   DNSOptimization: [
