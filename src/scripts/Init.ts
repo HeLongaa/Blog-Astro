@@ -31,8 +31,6 @@ import initTalking from "@/scripts/Talking";
 import { checkComment, commentInit } from "@/scripts/Comment";
 // 移动端侧边栏初始化
 import initMobileSidebar from "@/scripts/MobileSidebar";
-// Google 广告
-import GoogleAdInit from "@/scripts/GoogleAd";
 import Umami from "@/scripts/Umami";
 // Han Analytics 统计
 import HanAnalyticsInit from "@/scripts/HanAnalytics";
@@ -75,13 +73,10 @@ const indexInit = async (only: boolean = true) => {
   // 文章音乐播放器初始化
   musicInit(MusicList);
   // 友情链接初始化
-  initLinks();
-  // 朋友圈 RSS 初始化
+  initLinks();  // 朋友圈 RSS 初始化
   initFriends();
   // 动态说说初始化
   initTalking();
-  // Google 广告
-  GoogleAdInit();
   // 谷歌 SEO 推送
   SeoPushInit();
   // 文章评论初始化

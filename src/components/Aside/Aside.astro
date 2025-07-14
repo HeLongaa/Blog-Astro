@@ -6,7 +6,7 @@ import Svg from "@/components/Svg/Svg.astro";
 import { fmtTime } from "@/utils";
 // 获取用户配置数据
 import SITE_CONFIG from "@/config";
-const { Avatar, Author, Motto, WebSites, GoogleAds, AsideShow } = SITE_CONFIG;
+const { Avatar, Author, Motto, WebSites, AsideShow } = SITE_CONFIG;
 // 获取文章数据
 import {
 	getCategories,
@@ -23,8 +23,6 @@ const tags = getTags();
 const CountInfo = getCountInfo();
 // 最新文章
 const recommendArticles = getRecommendArticles();
-// Google 广告组件
-import GoogleAd from "@/components/GoogleAd/GoogleAd.astro";
 // 目录组件
 import TableOfContents from "@/components/TableOfContents/TableOfContents.astro";
 // 侧边栏样式
@@ -161,19 +159,6 @@ import "./Aside.less";
 							</a>
 						))}
 					</div>
-				</section>
-			)
-		}
-
-		<!-- 谷歌广告块 -->
-		{
-			GoogleAds.ad_Client && GoogleAds.asideAD_Slot && (
-				<section class="vh-aside-item ad">
-					<h3>广而告之</h3>
-					<GoogleAd
-						className="vh-aside-ad"
-						slotID={GoogleAds.asideAD_Slot}
-					/>
 				</section>
 			)
 		}

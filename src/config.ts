@@ -76,15 +76,13 @@ export default {
     recommendArticleShow: true,
     // 是否展示文章目录
     TableOfContentsShow: true
-  },
-  // DNS预解析地址
+  },  // DNS预解析地址
   DNSOptimization: [
     'https://i0.wp.com',
     'https://cn.cravatar.com',
     'https://analytics.vvhan.com',
     'https://vh-api.4ce.cn',
-    'https://registry.npmmirror.com',
-    'https://pagead2.googlesyndication.com'
+    'https://registry.npmmirror.com'
   ],
   // 博客音乐组件解析接口
   vhMusicApi: 'https://vh-api.4ce.cn/blog/meting',
@@ -181,16 +179,7 @@ export default {
         "content": "在移动端触控交互中，惯性滚动带来的丝滑体验已成为标配，但鼠标滚轮受限于机械结构，滚动时难免产生生硬的段落感。如何让传统滚轮操作也能获得如触控板般的阻尼反馈？Lenis库通过JavaScript模拟惯性算法，成功将”物理惯性”引入网页滚动，本文将解析其实现原理与实战应用。核心技术原理​滚轮事件拦截与目"
       }
     ]
-  },
-  // Google 广告
-  GoogleAds: {
-    ad_Client: '', //ca-pub-xxxxxx
-    // 侧边栏广告(不填不开启)
-    asideAD_Slot: ``,
-    // 文章页广告(不填不开启)
-    articleAD_Slot: ``
-  },
-  // 文章内赞赏码
+  },  // 文章内赞赏码
   Reward: {
     // 支付宝收款码
     AliPay: '/assets/images/alipay.webp',

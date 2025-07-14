@@ -1,9 +1,9 @@
 ---
-const { title, keywords, description, pagecover, activeNav, Home } = Astro.props;
+const { title, keywords, description, pagecover, activeNav, Home } =
+	Astro.props;
 // 网站配置
 import SITE_INFO from "@/config";
-const { GoogleAds, Theme, HomeBanner } = SITE_INFO;
-const { ad_Client, asideAD_Slot, articleAD_Slot } = GoogleAds;
+const { Theme, HomeBanner } = SITE_INFO;
 // Head 依赖
 import Head from "@/components/Head/Head.astro";
 // 顶部 Header
@@ -27,16 +27,21 @@ import "./Layout.less";
 ---
 
 <html lang="zh-CN">
-	<Head Title={title} Keywords={keywords} Description={description} PageCover={pagecover}>
-		<!-- 谷歌广告JS加载项 -->
-		{ad_Client && (asideAD_Slot || articleAD_Slot) && <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ad_Client}`} crossorigin="anonymous" />}
+	<Head
+		Title={title}
+		Keywords={keywords}
+		Description={description}
+		PageCover={pagecover}
+	>
 		<!-- 彩旗🎈 -->
 		<script is:inline src="/assets/js/vhCaiqi.js" defer></script>
 		<!-- 设置主题颜色 -->
 		<Fragment
 			set:html={`<style>:root {${Object.entries(Theme)
 				.map(([key, value]) => `${key}:${value};`)
-				.join("")}--vh-main-header-height:${Home ? HomeBanner.HomeHeight : HomeBanner.PageHeight};--vh-home-banner:${HomeBanner.background}}</style>`}
+				.join(
+					"",
+				)}--vh-main-header-height:${Home ? HomeBanner.HomeHeight : HomeBanner.PageHeight};--vh-home-banner:${HomeBanner.background}}</style>`}
 		/>
 	</Head>
 	<body>
@@ -44,7 +49,10 @@ import "./Layout.less";
 		<Header activeNav={activeNav} />
 		<main class="main">
 			{HomeBanner.enable && <MainHeader />}
-			<section class="main-inner" style={`padding-top:${HomeBanner.enable ? "0.88rem" : "calc(66px + 0.68rem)"}`}>
+			<section
+				class="main-inner"
+				style={`padding-top:${HomeBanner.enable ? "0.88rem" : "calc(66px + 0.68rem)"}`}
+			>
 				<section class="main-inner-content">
 					<slot />
 				</section>
