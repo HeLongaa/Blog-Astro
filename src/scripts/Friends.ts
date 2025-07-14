@@ -4,6 +4,7 @@ import { fmtDate } from '@/utils'
 import { $GET } from '@/utils'
 // 图片懒加载
 import vhLzImgInit from "@/scripts/vhLazyImg";
+import { createErrorMessage, showMessage } from '@/utils/message'
 
 const FriendsInit = async (data: any) => {
 	const friendsDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.friends-main')
@@ -16,8 +17,15 @@ const FriendsInit = async (data: any) => {
 		friendsDOM.innerHTML = res.map((i: any) => `<article><a href="${i.link}" target="_blank" rel="noopener nofollow"><header><h2>${i.title}</h2></header><p class="vh-ellipsis line-2">${i.content}</p><footer><span><img src="https://icon.bqb.cool/?url=${i.link.split('//')[1].split('/')[0]}" /><em class="vh-ellipsis">${i.auther}</em></span><time>${fmtDate(i.date, false)}前</time></footer></a></article>`).join('');
 		// 图片懒加载
 		vhLzImgInit();
-	} catch {
-		vh.Toast('获取数据失败')
+	} catch (error) {
+		console.error('朋友动态加载失败:', error)
+		const friendsDOM = document.querySelector('.friends-main') as HTMLElement
+		if (friendsDOM) {
+			showMessage(friendsDOM, createErrorMessage(
+				'无法获取朋友们的最新动态，请稍后重试',
+				'朋友动态加载失败'
+			), true);
+		}
 	}
 }
 

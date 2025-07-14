@@ -1,6 +1,7 @@
 import vh from 'vh-plugin'
 import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
+import { createErrorMessage, createWarningMessage, showMessage } from '@/utils/message'
 
 const strictKeys = ['name', 'link', 'avatar', 'descr'] as const
 
@@ -38,69 +39,6 @@ const decodeHTML = (() => {
     return decoder.value;
   };
 })();
-
-const parseMemosRSSItem = (description: string) => {
-  try {
-    const decodedDesc = decodeHTML(description)
-    const doc = new DOMParser().parseFromString(decodedDesc, 'text/html')
-    const tempDiv = doc.body
-
-    const linkTag = Array.from(tempDiv.querySelectorAll('*')).find(el =>
-      el.textContent?.trim().toLowerCase() === '#link'
-    )
-    if (!linkTag) return null
-
-    const fieldMap: Record<string, string> = {}
-    Array.from(tempDiv.querySelectorAll('p')).forEach((p) => {
-      const text = p.textContent?.trim().replace(/\s+/g, ' ') || ''
-      const keyValueMatch = text.match(/^([^:\uFF1A]+)[:\uFF1A]\s*(.+)$/)
-      if (!keyValueMatch) return
-
-      const rawKey = keyValueMatch[1].trim().toLowerCase()
-      let rawValue = keyValueMatch[2].trim()
-
-      if (!strictKeys.includes(rawKey as any)) return
-
-      const linkEl = p.querySelector('a')
-      if (linkEl?.href) {
-        rawValue = linkEl.href
-      } else {
-        rawValue = rawValue.replace(/^["'`]|["'`]$/g, '').replace(/,$/g, '')
-      }
-
-      fieldMap[rawKey] = rawValue
-    })
-
-    if (!fieldMap.name || !fieldMap.link) return null
-
-    return {
-      name: fieldMap.name,
-      link: fieldMap.link,
-      avatar: fieldMap.avatar || `${new URL(fieldMap.link).origin}/favicon.ico`,
-      descr: fieldMap.descr || '[无描述内容]'
-    }
-  } catch (error) {
-    console.error('解析异常:', error)
-    return null
-  }
-}
-
-const fetchMemosData = async (rssUrl: string) => {
-  try {
-    const response = await fetch(rssUrl)
-    if (!response.ok) throw new Error(`HTTP ${response.status}`)
-
-    const xmlText = await response.text()
-    const xmlDoc = new DOMParser().parseFromString(xmlText, "text/xml")
-
-    return Array.from(xmlDoc.querySelectorAll('item'))
-      .map(item => parseMemosRSSItem(item.querySelector('description')?.innerHTML || ''))
-      .filter(Boolean) as Array<{ name: string; link: string; avatar: string; descr: string }>
-  } catch (error) {
-    console.error('[获取数据失败]', error)
-    throw error
-  }
-}
 
 const renderLinks = (data: any[]) => {
   const linksDOM = document.querySelector('.main-inner-content > .vh-tools-main > main.links-main');
@@ -167,7 +105,7 @@ const renderLinks = (data: any[]) => {
 
 import SITE_INFO from "@/config";
 export default async () => {
-  const { api_source, api, memos_rss_url, cors_url, data } = SITE_INFO.Link_conf
+  const { api_source, api, data } = SITE_INFO.Link_conf
 
   try {
     let result: any[] = []
@@ -175,12 +113,6 @@ export default async () => {
     switch (api_source) {
       case 'static':
         result = data || []
-        break
-
-      case 'memos_rss':
-        if (!memos_rss_url || !cors_url) throw new Error('Memos配置不完整')
-        const rssUrl = `${cors_url}?remoteUrl=${encodeURIComponent(memos_rss_url)}`
-        result = await fetchMemosData(rssUrl)
         break
 
       case 'api':
@@ -193,26 +125,38 @@ export default async () => {
     }
 
     // 每次获取数据后重新随机排序
-    result = shuffleArray([...result])
-
-    // 优化空数据提示逻辑
+    result = shuffleArray([...result])    // 优化空数据提示逻辑
     if (result.length === 0) {
       const emptyMsg = {
         static: '静态数据为空',
         memos_rss: '未发现有效友链数据',
         api: 'API未返回有效数据'
       }[api_source]
-      vh.Toast(emptyMsg)
+
+      // 在页面显示提示信息
+      const linksDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.links-main') as HTMLElement
+      if (linksDOM) {
+        const messageHTML = createWarningMessage(emptyMsg, '暂无友链数据');
+        showMessage(linksDOM, messageHTML, true);
+      }
+
       return
     }
 
     renderLinks(result)
   } catch (err: any) {
     console.error('[初始化错误]', err)
-    const errorMap = {
+    const errorMap: { [key: string]: string } = {
       'Failed to fetch': '网络请求失败',
       'fetch failed': '网络请求失败'
+    }    // 在页面显示错误信息
+    const linksDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.links-main') as HTMLElement
+    if (linksDOM) {
+      const errorMessage = errorMap[err.message] || err.message;
+      showMessage(linksDOM, createErrorMessage(
+        `${errorMessage}，请检查网络连接或稍后重试`,
+        '友链数据加载失败'
+      ), true);
     }
-    vh.Toast(`数据加载失败: ${err.message}`)
   }
 }

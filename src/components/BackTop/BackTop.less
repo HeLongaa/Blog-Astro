@@ -21,6 +21,12 @@ section.vh-back-top {
     pointer-events: auto;
   }
 
+  // 在文章页面时隐藏右下角的回到顶部按钮
+  // 使用CSS选择器检测页面中是否存在文章内容
+  body:has(.vh-article-main) & {
+    display: none !important;
+  }
+
   &>svg {
     position: absolute;
     left: 50%;

@@ -30,6 +30,18 @@ export default () => {
   circle = document.querySelector(".vh-back-top>svg>circle");
   // 更新 回顶部DOM
   backTop = document.querySelector(".vh-back-top");
+
+  if (!backTop || !circle) return;
+
+  // 检测是否在文章页面，如果是则隐藏右下角的回到顶部按钮
+  const isArticlePage = document.querySelector(".vh-article-main");
+  if (isArticlePage) {
+    backTop.style.display = "none";
+    return; // 在文章页面时不初始化右下角的回到顶部功能
+  } else {
+    backTop.style.display = ""; // 确保在非文章页面显示
+  }
+
   // BackTop 圈圈初始化
   circle.style.strokeDasharray = circumference;
   circle.style.strokeDashoffset = circumference;

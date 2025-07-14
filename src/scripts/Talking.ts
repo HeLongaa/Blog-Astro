@@ -4,6 +4,7 @@ import { fmtDate } from '@/utils'
 import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
 import SITE_INFO from "@/config"
+import { createErrorMessage, showMessage } from '@/utils/message'
 
 const DATA_SOURCE = {
   // API 数据处理
@@ -48,14 +49,14 @@ const DATA_SOURCE = {
           date: new Date(pubDate).toISOString(),
           tags,
           content: `${div.innerHTML.replace(/<\/?span[^>]*>/g, '')}${imageUrls.size > 0
-              ? `<p class="vh-img-flex">${Array.from(imageUrls).map(img => `
+            ? `<p class="vh-img-flex">${Array.from(imageUrls).map(img => `
                   <img 
                     data-vh-lz-src="${img}" 
                     alt="动态图片" 
                     loading="lazy"
                   >`).join('')
-              }</p>`
-              : ''
+            }</p>`
+            : ''
             }`
         }
       })
@@ -122,18 +123,13 @@ const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
     vhLzImgInit()
   } catch (error) {
     console.error('数据加载异常:', error)
-    const talkingDOM = document.querySelector('.talking-main')
+    const talkingDOM = document.querySelector('.talking-main') as HTMLElement
     if (talkingDOM) {
-      talkingDOM.innerHTML = `
-        <div class="error-message">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#dc3545" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-          </svg>
-          <p>数据加载失败，请稍后重试</p>
-        </div>
-      `
+      showMessage(talkingDOM, createErrorMessage(
+        '无法获取说说数据，请稍后重试或检查网络连接',
+        '数据加载失败'
+      ));
     }
-    vh.Toast('数据加载失败')
   }
 }
 

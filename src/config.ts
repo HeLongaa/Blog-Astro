@@ -109,29 +109,19 @@ export default {
       siteName: 'Blog',
     }
   },
-
   statistics: {
     Umami: {
       enable: true,
       server: 'https://umami.helong.online',
       siteId: '50e99b76-4bfd-4f44-9378-4ca270e1ca9c'
     },
-    // Han Analytics 统计（https://github.com/uxiaohan/HanAnalytics）
-    HanAnalytics: {
-      enable: false,
-      server: 'https://analytics.vvhan.com',
-      siteId: 'Hello-HanHexoBlog'
-    },
   },
   // 友链配置
   Link_conf: {
-    // 数据源类型：api | memos_rss | static
+    // 数据源类型：api | static
     api_source: "api",
     // api_source: "api",
     api: 'https://blog-api.040720.xyz/json',
-    //api_source: "memos_rss",
-    memos_rss_url: 'https://s.helong.online/u/HeLong/rss.xml',
-    cors_url: 'https://cors.helong.online',
     // api_source: "static",
     data: [
       {
@@ -148,7 +138,6 @@ export default {
     api_source: "memos_rss",
 
     // 当api_source=api时生效
-    // api: "https://ygjpjcpycxqy.ap-northeast-1.clawcloudrun.com/api/talks",
     api: "",
 
     // 当api_source=rss时生效，使用Memos的RSS订阅

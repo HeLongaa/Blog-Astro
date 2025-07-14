@@ -32,8 +32,6 @@ import { checkComment, commentInit } from "@/scripts/Comment";
 // 移动端侧边栏初始化
 import initMobileSidebar from "@/scripts/MobileSidebar";
 import Umami from "@/scripts/Umami";
-// Han Analytics 统计
-import HanAnalyticsInit from "@/scripts/HanAnalytics";
 //  谷歌 SEO 推送
 import SeoPushInit from "@/scripts/SeoPush";
 // SmoothScroll 滚动优化
@@ -79,10 +77,7 @@ const indexInit = async (only: boolean = true) => {
   initTalking();
   // 谷歌 SEO 推送
   SeoPushInit();
-  // 文章评论初始化
-  checkComment() && commentInit(checkComment(), commentLIst)
-  // Han Analytics 统计
-  HanAnalyticsInit();
+  // 文章评论初始化  checkComment() && commentInit(checkComment(), commentLIst)
   // 打字效果
   only && TypeWriteInit();
   // 泡泡🫧效果

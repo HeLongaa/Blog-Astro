@@ -1,0 +1,212 @@
+// 通用消息组件样式
+.vh-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    border-radius: var(--vh-main-radius);
+    border-left: 4px solid;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--vh-white-color);
+    transition: all 0.2s ease-in-out;
+
+    // 图标样式
+    .vh-message-icon {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-top: 0.125rem;
+
+        svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+    }
+
+    // 内容样式
+    .vh-message-content {
+        flex: 1;
+        word-break: break-word;
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        // 标题样式
+        .vh-message-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    // 关闭按钮
+    .vh-message-close {
+        flex-shrink: 0;
+        padding: 0.25rem;
+        margin: -0.25rem -0.25rem -0.25rem 0;
+        background: none;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        svg {
+            width: 1rem;
+            height: 1rem;
+            fill: currentColor;
+        }
+    }
+
+    // 不同类型的样式
+    &.vh-message-info {
+        border-left-color: var(--vh-info);
+        color: var(--vh-info);
+        background-color: var(--vh-info-hover);
+
+        .vh-message-icon {
+            color: var(--vh-info);
+        }
+    }
+
+    &.vh-message-success {
+        border-left-color: var(--vh-success);
+        color: var(--vh-success);
+        background-color: var(--vh-success-hover);
+
+        .vh-message-icon {
+            color: var(--vh-success);
+        }
+    }
+
+    &.vh-message-warning {
+        border-left-color: var(--vh-warning);
+        color: var(--vh-warning);
+        background-color: var(--vh-warning-hover);
+
+        .vh-message-icon {
+            color: var(--vh-warning);
+        }
+    }
+
+    &.vh-message-error {
+        border-left-color: var(--vh-error);
+        color: var(--vh-error);
+        background-color: var(--vh-error-hover);
+
+        .vh-message-icon {
+            color: var(--vh-error);
+        }
+    }
+
+    // 紧凑模式
+    &.vh-message-compact {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+
+        .vh-message-icon {
+            width: 1rem;
+            height: 1rem;
+        }
+    }
+
+    // 无图标模式
+    &.vh-message-no-icon {
+        .vh-message-icon {
+            display: none;
+        }
+    }
+
+    // 居中对齐
+    &.vh-message-center {
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+
+        .vh-message-content {
+            text-align: center;
+        }
+    }
+}
+
+// 移动端适配
+@media screen and (max-width: 768px) {
+    .vh-message {
+        padding: 0.875rem 1rem;
+        font-size: 0.875rem;
+        margin: 0.75rem 0;
+
+        .vh-message-icon {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+
+        &.vh-message-compact {
+            padding: 0.625rem 0.875rem;
+            font-size: 0.8rem;
+        }
+    }
+}
+
+// 网格布局中的消息适配
+.links-main .vh-message,
+.friends-main .vh-message,
+.talking-main .vh-message {
+    width: 100%;
+    max-width: none;
+}
+
+// 暗色模式适配
+html[data-theme="dark"] {
+    .vh-message {
+        background-color: var(--vh-white-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+        .vh-message-close:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+
+// 动画效果
+@keyframes vh-message-slide-in {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes vh-message-fade-out {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+}
+
+.vh-message {
+    animation: vh-message-slide-in 0.3s ease-out;
+
+    &.vh-message-removing {
+        animation: vh-message-fade-out 0.2s ease-in forwards;
+    }
+}

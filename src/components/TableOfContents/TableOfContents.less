@@ -133,6 +133,53 @@
             font-size: 0.75rem;
             padding: 1rem;
         }
+
+        // 目录内部回到顶部按钮
+        .toc-back-top {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-top: 0.5rem;
+            background: linear-gradient(135deg, var(--vh-main-color), var(--vh-main-color-88));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+            &:hover {
+                background: linear-gradient(135deg, var(--vh-main-color-88), var(--vh-main-color));
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            svg {
+                width: 14px;
+                height: 14px;
+                flex-shrink: 0;
+            }
+
+            span {
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+        }
     }
 }
 

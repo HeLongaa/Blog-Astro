@@ -9,6 +9,22 @@ import "./TableOfContents.less";
         <nav id="toc-navigation">
             <!-- 目录将通过 JavaScript 动态生成 -->
         </nav>
+        <button class="toc-back-top" id="toc-back-top" title="回到顶部">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="m6 15l6-6l6 6"></path>
+            </svg>
+            <span>回到顶部</span>
+        </button>
     </div>
 </section>
 
@@ -112,30 +128,54 @@ import "./TableOfContents.less";
             link.href = `#${heading.id}`;
             link.textContent = text;
             link.className = "toc-link";
-            link.title = text; // 添加悬停提示
-
-            // 添加平滑滚动
+            link.title = text; // 添加悬停提示            // 添加平滑滚动
             link.addEventListener("click", (e) => {
                 e.preventDefault();
 
                 try {
-                    heading.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                    });
-
-                    // 更新活跃状态
+                    // 立即更新活跃状态，避免延迟
                     document
                         .querySelectorAll(".toc-link")
                         .forEach((l) => l.classList.remove("active"));
                     link.classList.add("active");
 
-                    // 更新 URL hash
-                    if (history.pushState) {
-                        history.pushState(null, "", `#${heading.id}`);
-                    }
+                    // 计算目标位置，考虑固定导航栏的高度
+                    const headerHeight = 66; // 导航栏高度
+                    const extraOffset = 20; // 额外偏移量，让标题更清晰可见
+                    const totalOffset = headerHeight + extraOffset;
+
+                    // 重新获取目标元素位置，确保准确性
+                    const headingRect = heading.getBoundingClientRect();
+                    const currentScrollTop =
+                        window.pageYOffset ||
+                        document.documentElement.scrollTop;
+                    const targetPosition =
+                        headingRect.top + currentScrollTop - totalOffset;
+
+                    // 使用 requestAnimationFrame 确保滚动的准确性
+                    const smoothScrollToTarget = () => {
+                        window.scrollTo({
+                            top: Math.max(0, targetPosition),
+                            behavior: "smooth",
+                        });
+
+                        // 滚动完成后更新 URL hash
+                        setTimeout(() => {
+                            if (history.pushState) {
+                                history.pushState(null, "", `#${heading.id}`);
+                            }
+                        }, 300); // 等待滚动动画完成
+                    };
+
+                    // 使用 requestAnimationFrame 确保 DOM 更新完成
+                    requestAnimationFrame(smoothScrollToTarget);
                 } catch (error) {
                     console.warn("目录跳转失败:", error);
+                    // 错误处理：直接跳转到目标元素
+                    heading.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
                 }
             });
 
@@ -147,7 +187,6 @@ import "./TableOfContents.less";
 
         // 监听滚动事件，高亮当前标题
         let activeLink: HTMLElement | null = null;
-
         function updateActiveLink() {
             try {
                 const scrollTop =
@@ -178,6 +217,9 @@ import "./TableOfContents.less";
                             // 添加新的活跃状态
                             newActiveLink.classList.add("active");
                             activeLink = newActiveLink;
+
+                            // 自动滚动目录到当前活跃项
+                            scrollTocToActiveItem(newActiveLink);
                         }
                         break;
                     }
@@ -185,6 +227,33 @@ import "./TableOfContents.less";
             } catch (error) {
                 console.warn("目录高亮更新失败:", error);
             }
+        }
+
+        // 滚动目录到当前活跃项
+        function scrollTocToActiveItem(activeLink: HTMLElement) {
+            const tocContainer = document.querySelector(
+                ".vh-aside-toc",
+            ) as HTMLElement;
+            if (!tocContainer || !activeLink) return;
+
+            const containerRect = tocContainer.getBoundingClientRect();
+            const activeRect = activeLink.getBoundingClientRect();
+
+            // 计算活跃项相对于容器的位置
+            const relativeTop =
+                activeRect.top - containerRect.top + tocContainer.scrollTop;
+            const containerHeight = tocContainer.clientHeight;
+            const itemHeight = activeRect.height;
+
+            // 计算目标滚动位置，让活跃项居中显示
+            const targetScrollTop =
+                relativeTop - containerHeight / 2 + itemHeight / 2;
+
+            // 平滑滚动到目标位置
+            tocContainer.scrollTo({
+                top: Math.max(0, targetScrollTop),
+                behavior: "smooth",
+            });
         }
 
         // 节流滚动事件
@@ -223,6 +292,17 @@ import "./TableOfContents.less";
                     }
                 }
             }, 500);
+        }
+
+        // 添加目录内部回到顶部按钮的事件监听
+        const tocBackTopButton = document.getElementById("toc-back-top");
+        if (tocBackTopButton) {
+            tocBackTopButton.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            });
         }
     }
 

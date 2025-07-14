@@ -217,10 +217,77 @@ const FriendLinkSubmitter = ({
       opacity: 0.5;
       cursor: not-allowed;
     }
-    
-    /* 消息提示 */
+      /* 消息提示 */
     .fl-message {
       margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 0.375rem;
+    }
+    
+    /* 统一消息组件样式 */
+    .vh-message {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      border-radius: 0.5rem;
+      border-left: 4px solid;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      transition: all 0.2s ease-in-out;
+    }
+    
+    .vh-message-icon {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.125rem;
+    }
+    
+    .vh-message-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+    
+    .vh-message-content {
+      flex: 1;
+      word-break: break-word;
+    }
+    
+    .vh-message-content p {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .vh-message-success {
+      border-left-color: #01C4B6;
+      color: #01C4B6;
+      background-color: rgba(1, 196, 182, 0.1);
+    }
+    
+    .vh-message-error {
+      border-left-color: #DE3C3D;
+      color: #DE3C3D;
+      background-color: rgba(222, 60, 61, 0.1);
+    }
+    
+    /* 暗色模式下的消息样式 */
+    .dark .vh-message {
+      background-color: #1f2937;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .dark .vh-message-success {
+      background-color: rgba(1, 196, 182, 0.15);
+    }
+    
+    .dark .vh-message-error {
+      background-color: rgba(222, 60, 61, 0.15);
+    }
       padding: 1rem;
       border-radius: 0.375rem;
     }
@@ -318,14 +385,20 @@ const FriendLinkSubmitter = ({
                                 {isSubmitting ? labels.submitting : labels.submit}
                             </button>
                         </div>
-                    </form>
-
-                    {message && (
-                        <div
-                            className={`fl-message mt-6 p-4 rounded-md ${message.includes("错误") ? `${themeClasses.errorBg} ${themeClasses.errorText}` : `${themeClasses.successBg} ${themeClasses.successText}`
-                                }`}
-                        >
-                            {message}
+                    </form>                    {message && (
+                        <div className={`vh-message ${message.includes("错误") ? "vh-message-error" : "vh-message-success"} mt-6`}>
+                            <div className="vh-message-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    {message.includes("错误") ? (
+                                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                                    ) : (
+                                        <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    )}
+                                </svg>
+                            </div>
+                            <div className="vh-message-content">
+                                <p>{message}</p>
+                            </div>
                         </div>
                     )}
                 </div>
