@@ -100,7 +100,8 @@ export default {
       inputPosition: 'top',
       theme: 'preferred_color_scheme',
       lang: 'zh-CN',
-      loading: 'lazy'
+      loading: 'lazy',
+      defaultCommentOrder: 'newest'
     }
   },
   statistics: {

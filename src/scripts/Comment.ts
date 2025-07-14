@@ -21,7 +21,7 @@ const GiscusFn = async (commentDOM: string) => {
   script.setAttribute('data-reactions-enabled', SITE_INFO.Comment.Giscus.reactionsEnabled);
   script.setAttribute('data-emit-metadata', SITE_INFO.Comment.Giscus.emitMetadata);
   script.setAttribute('data-input-position', SITE_INFO.Comment.Giscus.inputPosition);
-
+  script.setAttribute('defaultCommentOrder', SITE_INFO.Comment.Giscus.defaultCommentOrder || 'newest');
   // 根据当前主题设置 Giscus 主题
   const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
   script.setAttribute('data-theme', currentTheme === 'dark' ? 'dark' : 'light');
