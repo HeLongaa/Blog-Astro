@@ -59,46 +59,24 @@ const initTheme = () => {
         // 保存用户选择的模式（auto、light 或 dark）
         localStorage.setItem('vh-theme', mode);
 
-        // 更新 Artalk 评论的深色模式
-        updateArtalkTheme(effectiveTheme === 'dark');
+        // 更新 Giscus 评论的主题
+        updateGiscusTheme(effectiveTheme);
 
         // 更新按钮和下拉菜单状态
         updateActiveState(mode);
-    };    // 更新 Artalk 评论的主题
-    const updateArtalkTheme = (isDark: boolean) => {
-        // 尝试查找并更新页面上的 Artalk 实例
+    };    // 更新 Giscus 评论的主题
+    const updateGiscusTheme = (theme: string) => {
         try {
-            // 首先尝试使用我们自定义的全局实例数组
-            const vhArtalkInstances = (window as any).vhArtalkInstances;
-            if (vhArtalkInstances && Array.isArray(vhArtalkInstances) && vhArtalkInstances.length > 0) {
-                vhArtalkInstances.forEach((instance: any) => {
-                    if (instance && typeof instance.setDarkMode === 'function') {
-                        instance.setDarkMode(isDark);
+            const vhGiscusInstances = (window as any).vhGiscusInstances;
+            if (vhGiscusInstances && Array.isArray(vhGiscusInstances)) {
+                vhGiscusInstances.forEach((instance: any) => {
+                    if (instance && typeof instance.updateTheme === 'function') {
+                        instance.updateTheme(theme);
                     }
                 });
-                return; // 如果已成功更新自定义实例，则返回
             }
-
-            // 尝试使用 Artalk 官方的全局实例
-            const artalkGlobal = (window as any).Artalk;
-            if (artalkGlobal && artalkGlobal.instances && artalkGlobal.instances.length > 0) {
-                artalkGlobal.instances.forEach((instance: any) => {
-                    if (instance && typeof instance.setDarkMode === 'function') {
-                        instance.setDarkMode(isDark);
-                    }
-                });
-                return;
-            }
-
-            // 尝试通过 DOM 查找实例
-            document.querySelectorAll('.artalk').forEach((el) => {
-                const instance = (el as any).__artalk;
-                if (instance && typeof instance.setDarkMode === 'function') {
-                    instance.setDarkMode(isDark);
-                }
-            });
         } catch (error) {
-            console.error('Error updating Artalk theme:', error);
+            console.error('Error updating Giscus theme:', error);
         }
     };
 

@@ -44,7 +44,6 @@ import initTheme from "@/scripts/Theme";
 // 页面初始化 Only
 const videoList: any[] = [];
 const MusicList: any[] = [];
-let commentLIst: any = { walineInit: null };
 
 const UmamiInit = () => {
   // Umami 统计 
@@ -72,12 +71,11 @@ const indexInit = async (only: boolean = true) => {
   musicInit(MusicList);
   // 友情链接初始化
   initLinks();  // 朋友圈 RSS 初始化
-  initFriends();
-  // 动态说说初始化
-  initTalking();
-  // 谷歌 SEO 推送
+  initFriends();  // 动态说说初始化
+  initTalking();  // 谷歌 SEO 推送
   SeoPushInit();
-  // 文章评论初始化  checkComment() && commentInit(checkComment(), commentLIst)
+  // 文章评论初始化
+  checkComment() && commentInit(checkComment());
   // 打字效果
   only && TypeWriteInit();
   // 泡泡🫧效果
@@ -101,11 +99,8 @@ export default () => {
   inRouter(() => indexInit(false));
   // 离开当前页面时触发  outRouter(() => {
   // 清理 SmoothScroll
-  cleanupSmoothScroll();
-  // 销毁评论
-  commentLIst.walineInit && commentLIst.walineInit.destroy();
-  commentLIst.walineInit = null;
-
+  cleanupSmoothScroll();  // 销毁评论
+  // 评论已改为 Giscus，无需特殊清理
   // 清理 Artalk 实例
   const vhArtalkInstances = (window as any).vhArtalkInstances;
   if (vhArtalkInstances && Array.isArray(vhArtalkInstances)) {
@@ -119,6 +114,22 @@ export default () => {
       }
     });
     vhArtalkInstances.length = 0;
+  }
+
+  // 清理 Giscus 实例
+  const vhGiscusInstances = (window as any).vhGiscusInstances;
+  if (vhGiscusInstances && Array.isArray(vhGiscusInstances)) {
+    vhGiscusInstances.forEach((instance: any) => {
+      if (instance && instance.container) {
+        try {
+          // 移除 Giscus 容器
+          instance.container.remove();
+        } catch (e) {
+          console.error('Error destroying Giscus instance:', e);
+        }
+      }
+    });
+    vhGiscusInstances.length = 0;
   }
 
   // 销毁播放器

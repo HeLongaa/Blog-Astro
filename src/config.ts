@@ -85,28 +85,22 @@ export default {
     'https://registry.npmmirror.com'
   ],
   // 博客音乐组件解析接口
-  vhMusicApi: 'https://vh-api.4ce.cn/blog/meting',
-  // 评论组件（只允许同时开启一个）
+  vhMusicApi: 'https://vh-api.4ce.cn/blog/meting',  // 评论组件
   Comment: {
-    // Twikoo 评论
-    Twikoo: {
-      enable: false,
-      envId: ''
-    },
-    // Waline 评论
-    Waline: {
-      enable: false,
-      serverURL: 'https://waline.helong.online',
-      //Waline 评论配置参数，参考https://waline.js.org/reference/client/props.html
-      login_Model: 'enable',
-      // turnstileKey: '0x4AAAAAABceQREHurDjC26L'
-
-    },
-    Artalk: {
+    Giscus: {
       enable: true,
-      serverURL: 'https://artalk.helong.online/',
-      // Artalk 评论配置参数，参考https://artalk.js.org/zh/guide/deploy.html
-      siteName: 'Blog',
+      repo: 'HeLongaa/Blog-Astro',
+      repoId: 'R_kgDOOm0XIg',
+      category: 'Announcements',
+      categoryId: 'DIC_kwDOOm0XIs4Cs68u',
+      mapping: 'pathname',
+      strict: '0',
+      reactionsEnabled: '1',
+      emitMetadata: '0',
+      inputPosition: 'top',
+      theme: 'preferred_color_scheme',
+      lang: 'zh-CN',
+      loading: 'lazy'
     }
   },
   statistics: {
