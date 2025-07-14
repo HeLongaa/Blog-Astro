@@ -1,0 +1,159 @@
+.vh-comment-jump-button {
+    position: fixed;
+    right: var(--vh-back-top);
+    bottom: 6rem; // 位于回到顶部按钮上方
+    height: 2.6rem;
+    min-width: 2.6rem;
+    border-radius: 2rem;
+    border: 1px solid #49B1F5;
+    background-color: var(--vh-white-color);
+    color: #49B1F5;
+    cursor: pointer;
+    display: none; // 默认隐藏
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(1rem);
+    transition: all 0.3s ease-in-out;
+    z-index: 8; // 比回到顶部按钮低一层
+    box-shadow: var(--vh-box-shadow);
+    overflow: hidden;
+    padding: 0; // 按钮内容容器
+
+    .button-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+        transition: all 0.3s ease-in-out;
+        white-space: nowrap;
+        height: 100%;
+        width: 100%;
+    }
+
+    // 文字默认隐藏
+    .button-text {
+        font-size: 0.75rem;
+        font-weight: 500;
+        opacity: 0;
+        width: 0;
+        margin-left: 0;
+        transition: all 0.3s ease-in-out;
+        overflow: hidden;
+    }
+
+    // 显示状态
+    &.visible {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+    // 悬停效果
+    &:hover {
+        background-color: #49B1F5;
+        color: var(--vh-white-color);
+        transform: translateX(0) scale(1.02);
+        box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3);
+        min-width: 4.5rem;
+
+        .button-content {
+            gap: 0.4rem;
+            padding: 0 0.7rem;
+        }
+
+        .button-text {
+            opacity: 1;
+            width: auto;
+            margin-left: 0.4rem;
+        }
+    }
+
+    // SVG 图标样式
+    svg {
+        width: 20px;
+        height: 20px;
+        transition: all 0.2s ease-in-out;
+        flex-shrink: 0;
+    }
+
+    // 在文章页面以外隐藏
+    body:not(:has(.vh-article-main)) & {
+        display: none !important;
+    }
+
+    // 没有评论时隐藏
+    body:not(:has(.vh-comment)) & {
+        display: none !important;
+    }
+}
+
+// 暗色模式适配
+html[data-theme="dark"] {
+    .vh-comment-jump-button {
+        background-color: var(--vh-white-color);
+        border-color: #49B1F5;
+        color: #49B1F5;
+
+        &:hover {
+            background-color: #49B1F5;
+            color: var(--vh-white-color);
+        }
+    }
+}
+
+// 移动端适配
+@media screen and (max-width: 768px) {
+    .vh-comment-jump-button {
+        right: 1rem;
+        bottom: 5rem;
+        height: 2.2rem;
+        min-width: 2.2rem;
+
+        .button-text {
+            font-size: 0.7rem;
+        }
+
+        &:hover {
+            min-width: 3.8rem;
+
+            .button-content {
+                padding: 0 0.5rem;
+            }
+        }
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
+
+
+
+// 防止与回到顶部按钮重叠
+@media screen and (max-width: 480px) {
+    .vh-comment-jump-button {
+        bottom: 4.5rem;
+        height: 2rem;
+        min-width: 2rem;
+
+        .button-content {
+            padding: 0 0.4rem;
+        }
+
+        .button-text {
+            font-size: 0.65rem;
+        }
+
+        &:hover {
+            min-width: 3.5rem;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}

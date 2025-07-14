@@ -1,0 +1,137 @@
+---
+// 跳转到评论区按钮组件样式
+import "./CommentJumpButton.less";
+---
+
+<button
+    class="vh-comment-jump-button"
+    id="vh-comment-jump-button"
+    title="跳转到评论区"
+>
+    <div class="button-content">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path
+                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+        </svg>
+        <span class="button-text">评论</span>
+    </div>
+</button>
+
+<script>
+    // 初始化跳转评论按钮
+    function initCommentJumpButton() {
+        const commentJumpButton = document.getElementById(
+            "vh-comment-jump-button",
+        );
+        const commentSection =
+            document.querySelector(".vh-comment") ||
+            document.getElementById("comment-section");
+
+        if (!commentJumpButton || !commentSection) {
+            // 如果没有评论区或按钮，隐藏按钮
+            if (commentJumpButton) {
+                commentJumpButton.style.display = "none";
+            }
+            return;
+        }
+
+        // 显示按钮
+        commentJumpButton.style.display = "flex";
+
+        // 点击事件：滚动到评论区
+        commentJumpButton.addEventListener("click", () => {
+            const headerHeight = 66; // 导航栏高度
+            const extraOffset = 20; // 额外偏移量
+            const totalOffset = headerHeight + extraOffset;
+
+            const commentRect = commentSection.getBoundingClientRect();
+            const currentScrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+            const targetPosition =
+                commentRect.top + currentScrollTop - totalOffset;
+
+            // 平滑滚动到评论区
+            window.scrollTo({
+                top: Math.max(0, targetPosition),
+                behavior: "smooth",
+            });
+        }); // 监听滚动事件，控制按钮显示/隐藏
+        let isVisible = false;
+
+        function updateButtonVisibility() {
+            if (!commentJumpButton || !commentSection) return;
+
+            const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+            const commentRect = commentSection.getBoundingClientRect();
+            const commentTop = commentRect.top + scrollTop;
+            const windowHeight = window.innerHeight;
+
+            // 当评论区不在视窗内时显示按钮
+            const shouldShow = scrollTop + windowHeight < commentTop - 100;
+
+            if (shouldShow !== isVisible) {
+                isVisible = shouldShow;
+                commentJumpButton.classList.toggle("visible", shouldShow);
+            }
+        }
+
+        // 节流函数
+        let ticking = false;
+        function throttledUpdate() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateButtonVisibility();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        // 添加滚动监听
+        window.addEventListener("scroll", throttledUpdate);
+
+        // 初始检查
+        updateButtonVisibility();
+
+        // 页面卸载时清理事件监听器
+        const cleanup = () => {
+            window.removeEventListener("scroll", throttledUpdate);
+        };
+
+        // 存储清理函数以供路由变化时使用
+        (window as any).vhCommentJumpCleanup = cleanup;
+    }
+
+    // 页面加载完成后初始化
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initCommentJumpButton);
+    } else {
+        initCommentJumpButton();
+    }
+
+    // 路由变化时重新初始化
+    import { inRouter, outRouter } from "@/utils/updateRouter";
+
+    inRouter(() => {
+        setTimeout(initCommentJumpButton, 100);
+    });
+
+    outRouter(() => {
+        // 清理事件监听器
+        if ((window as any).vhCommentJumpCleanup) {
+            (window as any).vhCommentJumpCleanup();
+        }
+    });
+</script>
