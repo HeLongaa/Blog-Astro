@@ -25,6 +25,8 @@ const CountInfo = getCountInfo();
 const recommendArticles = getRecommendArticles();
 // 目录组件
 import TableOfContents from "@/components/TableOfContents/TableOfContents.astro";
+// 说说轮播组件
+import TalkingCarousel from "@/components/TalkingCarousel/TalkingCarousel.astro";
 // 侧边栏样式
 import "./Aside.less";
 ---
@@ -68,11 +70,14 @@ import "./Aside.less";
 						<span>{CountInfo.TagCount}</span>
 						<p>标签数</p>
 					</div>
-				</section>
+				</section>{" "}
 				<canvas class="vh-aside-canvas" width="888" height="1888" />
 			</section>
 		)
 	}
+
+	<!-- 说说轮播 -->
+	{AsideShow.TalkingCarouselShow && <TalkingCarousel />}
 
 	<!-- 公告块 -->
 	{

@@ -1,0 +1,264 @@
+.vh-aside-item.talking-carousel {
+    .talking-carousel-container {
+        width: 100%;
+        height: max-content;
+        overflow: hidden;
+
+        .talking-carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: max-content;
+            min-height: 8rem;
+            border-radius: var(--vh-main-radius);
+            background-color: var(--vh-font-6);
+            overflow: hidden;
+
+            .talking-carousel-content {
+                width: 100%;
+                height: 100%;
+                transition: transform 0.3s ease-in-out;
+
+                .carousel-loading {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    height: 8rem;
+
+                    span {
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        border-radius: 50%;
+                        background-color: var(--vh-main-color);
+                        animation: talking-carousel-loading 1.4s infinite ease-in-out both;
+
+                        &:nth-child(1) {
+                            animation-delay: -0.32s;
+                        }
+
+                        &:nth-child(2) {
+                            animation-delay: -0.16s;
+                        }
+
+                        &:nth-child(3) {
+                            animation-delay: 0s;
+                        }
+                    }
+                }
+
+                .talking-item {
+                    display: none;
+                    padding: 1rem;
+                    width: 100%;
+                    height: max-content;
+                    min-height: 6rem;
+
+                    &.active {
+                        display: block;
+                    }
+
+                    .talking-content {
+                        font-size: 0.85rem;
+                        line-height: 1.4;
+                        color: var(--vh-font-color);
+                        margin-bottom: 0.75rem;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+
+                        // 移除图片
+                        img {
+                            display: none;
+                        }
+
+                        // 移除标签
+                        .vh-img-flex {
+                            display: none;
+                        }
+                    }
+
+                    .talking-meta {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-size: 0.7rem;
+                        color: var(--vh-font-56);
+
+                        .talking-date {
+                            font-weight: 500;
+                        }
+
+                        .talking-tags {
+                            display: flex;
+                            gap: 0.25rem;
+                            flex-wrap: wrap;
+
+                            .tag {
+                                padding: 0.125rem 0.375rem;
+                                background-color: var(--vh-main-color-16);
+                                color: var(--vh-main-color);
+                                border-radius: 0.25rem;
+                                font-size: 0.65rem;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+
+                    .talking-action {
+                        margin-top: 0.5rem;
+                        text-align: right;
+
+                        .view-more {
+                            font-size: 0.7rem;
+                            color: var(--vh-main-color);
+                            text-decoration: none;
+                            font-weight: 500;
+                            transition: color 0.2s ease-in-out;
+
+                            &:hover {
+                                color: var(--vh-main-color-88);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .talking-carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem 0;
+            width: 100%;
+
+            .carousel-prev,
+            .carousel-next {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.5rem;
+                height: 1.5rem;
+                border: none;
+                border-radius: 50%;
+                background-color: var(--vh-font-16);
+                color: var(--vh-font-66);
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+
+                &:not(:disabled):hover {
+                    background-color: var(--vh-main-color);
+                    color: var(--vh-white-color);
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+
+                svg {
+                    width: 0.75rem;
+                    height: 0.75rem;
+                }
+            }
+
+            .carousel-indicators {
+                display: flex;
+                gap: 0.25rem;
+
+                .indicator {
+                    width: 0.375rem;
+                    height: 0.375rem;
+                    border-radius: 50%;
+                    background-color: var(--vh-font-28);
+                    cursor: pointer;
+                    transition: background-color 0.2s ease-in-out;
+
+                    &.active {
+                        background-color: var(--vh-main-color);
+                    }
+
+                    &:hover {
+                        background-color: var(--vh-main-color-66);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 加载动画
+@keyframes talking-carousel-loading {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
+
+// 移动端适配
+@media screen and (max-width: 888px) {
+    .vh-aside-item.talking-carousel {
+        .talking-carousel-container {
+            .talking-carousel-wrapper {
+                min-height: 6rem;
+
+                .talking-carousel-content {
+                    .talking-item {
+                        padding: 0.75rem;
+                        min-height: 4.5rem;
+
+                        .talking-content {
+                            font-size: 0.8rem;
+                            -webkit-line-clamp: 2;
+                        }
+
+                        .talking-meta {
+                            font-size: 0.65rem;
+
+                            .talking-tags .tag {
+                                font-size: 0.6rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .talking-carousel-controls {
+                padding: 0.375rem 0.5rem 0;
+
+                .carousel-prev,
+                .carousel-next {
+                    width: 1.25rem;
+                    height: 1.25rem;
+
+                    svg {
+                        width: 0.65rem;
+                        height: 0.65rem;
+                    }
+                }
+
+                .carousel-indicators .indicator {
+                    width: 0.3rem;
+                    height: 0.3rem;
+                }
+            }
+        }
+    }
+}
+
+// 暗色模式适配
+html[data-theme="dark"] {
+    .vh-aside-item.talking-carousel {
+        .talking-carousel-container {
+            .talking-carousel-wrapper {
+                background-color: var(--vh-font-6);
+            }
+        }
+    }
+}

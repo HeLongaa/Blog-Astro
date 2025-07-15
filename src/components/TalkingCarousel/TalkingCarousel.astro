@@ -1,0 +1,61 @@
+---
+// 说说轮播组件
+import "./TalkingCarousel.less";
+---
+
+<section class="vh-aside-item talking-carousel">
+    <h3>最新动态</h3>
+    <div class="talking-carousel-container">
+        <div class="talking-carousel-wrapper">
+            <div class="talking-carousel-content">
+                <!-- 说说内容将通过JavaScript动态加载 -->
+                <div class="carousel-loading">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+        <div class="talking-carousel-controls">
+            <button class="carousel-prev" disabled>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M15 18l-6-6 6-6"></path>
+                </svg>
+            </button>
+            <div class="carousel-indicators"></div>
+            <button class="carousel-next" disabled>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M9 18l6-6-6-6"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<script>
+    import { initTalkingCarousel } from "@/scripts/TalkingCarousel";
+
+    // 初始化说说轮播
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        initTalkingCarousel();
+    } else {
+        document.addEventListener("DOMContentLoaded", initTalkingCarousel);
+    }
+</script>
