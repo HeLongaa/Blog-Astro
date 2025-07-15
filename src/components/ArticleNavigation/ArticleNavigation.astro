@@ -1,0 +1,86 @@
+---
+interface Props {
+    prevPost?: {
+        id: string | number;
+        title: string;
+        date: Date;
+    };
+    nextPost?: {
+        id: string | number;
+        title: string;
+        date: Date;
+    };
+}
+
+const { prevPost, nextPost } = Astro.props as Props;
+// 导入样式
+import "./ArticleNavigation.less";
+---
+
+<nav class="vh-article-navigation">
+    {
+        prevPost && (
+            <a
+                href={`/article/${prevPost.id}`}
+                class="nav-item prev"
+                title={`上一篇：${prevPost.title}`}
+            >
+                <div class="nav-icon">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M15 6l-6 6l6 6" />
+                    </svg>
+                </div>
+                <div class="nav-content">
+                    <span class="nav-label">上一篇</span>
+                    <h3 class="nav-title">{prevPost.title}</h3>
+                </div>
+            </a>
+        )
+    }
+
+    {
+        nextPost && (
+            <a
+                href={`/article/${nextPost.id}`}
+                class="nav-item next"
+                title={`下一篇：${nextPost.title}`}
+            >
+                <div class="nav-content">
+                    <span class="nav-label">下一篇</span>
+                    <h3 class="nav-title">{nextPost.title}</h3>
+                </div>
+                <div class="nav-icon">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 6l6 6l-6 6" />
+                    </svg>
+                </div>
+            </a>
+        )
+    }
+
+    {
+        !prevPost && !nextPost && (
+            <div class="nav-item empty">
+                <span>暂无相邻文章</span>
+            </div>
+        )
+    }
+</nav>

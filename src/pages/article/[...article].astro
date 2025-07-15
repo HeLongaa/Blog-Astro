@@ -12,6 +12,20 @@ export async function getStaticPaths() {
 // 处理文章内容
 type Props = CollectionEntry<"blog">;
 const post: any = Astro.props;
+
+// 获取所有文章以计算上一篇和下一篇
+const allPosts = await getCollection("blog");
+const sortedPosts = allPosts
+	.filter((p) => !p.data.hide) // 过滤隐藏文章
+	.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()); // 按日期降序排列
+
+const currentIndex = sortedPosts.findIndex((p) => p.data.id === post.data.id);
+const prevPost =
+	currentIndex < sortedPosts.length - 1
+		? sortedPosts[currentIndex + 1]
+		: null;
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
 // 获取封面图
 import getCover from "@/utils/getCover";
 const ARTICLE_COVER: string = await getCover(post.data.cover);
@@ -25,6 +39,8 @@ const { Content, remarkPluginFrontmatter } = await render(post);
 const { reading_time, article_word_count } = remarkPluginFrontmatter;
 // 公共 Layout
 import Layout from "@/layouts/Layout/Layout.astro";
+// ArticleNavigation 组件
+import ArticleNavigation from "@/components/ArticleNavigation/ArticleNavigation.astro";
 // Copyright 组件
 import Copyright from "@/components/Copyright/Copyright.astro";
 // 评论组件
@@ -130,6 +146,23 @@ import "@/styles/ArticleBase.less";
 			</section>
 		</main>
 		<footer>
+			<!-- 文章导航：上一篇和下一篇 -->
+			<ArticleNavigation
+				prevPost={prevPost
+					? {
+							id: prevPost.data.id,
+							title: prevPost.data.title,
+							date: prevPost.data.date,
+						}
+					: undefined}
+				nextPost={nextPost
+					? {
+							id: nextPost.data.id,
+							title: nextPost.data.title,
+							date: nextPost.data.date,
+						}
+					: undefined}
+			/>
 			<!-- 版权©️信息 -->
 			<Copyright
 				site={Site}
