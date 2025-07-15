@@ -54,7 +54,7 @@ export default {
     { text: 'Archive', link: '/archives', icon: 'Nav_archives' },
     { text: 'Dynamic', link: '/talking', icon: 'Nav_talking' },
     { text: 'Links', link: '/links', icon: 'Nav_friends' },
-    { text: 'Message', link: '/message', icon: 'Nav_message' },
+    // { text: 'Message', link: '/message', icon: 'Nav_message' },
     { text: 'About', link: '/about', icon: 'Nav_about' },
   ],
   // 侧边栏个人网站

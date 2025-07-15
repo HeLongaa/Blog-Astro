@@ -1,5 +1,6 @@
 ---
 title: "友链"
+h1: "🔗 友链"
 desc: "这里记录了一些有趣或有用的链接。"
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "links"

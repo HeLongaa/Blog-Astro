@@ -21,9 +21,58 @@ import Archive from "@/components/Archive/Archive.astro";
 ---
 
 <Layout
-	title={`Articles in category ${categories}`}
+	title={`分类：${categories}`}
 	description={Description}
 	activeNav="categories"
 >
-	<Archive articleList={articleList} />
+	<div class="vh-category-page">
+		<div class="vh-category-breadcrumb">
+			<a href="/categories">📂 所有分类</a>
+			<span class="separator">›</span>
+			<span class="current">📁 {categories}</span>
+		</div>
+		<Archive articleList={articleList} />
+	</div>
 </Layout>
+
+<style>
+	.vh-category-page {
+		width: 100%;
+	}
+
+	.vh-category-breadcrumb {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 1rem 1rem 0;
+		margin-bottom: 1rem;
+		font-size: 0.9rem;
+
+		a {
+			color: var(--vh-main-color);
+			text-decoration: none;
+			transition: color 0.2s ease-in-out;
+
+			&:hover {
+				color: var(--vh-main-color-88);
+			}
+		}
+
+		.separator {
+			color: var(--vh-font-56);
+			font-weight: 500;
+		}
+
+		.current {
+			color: var(--vh-font-color);
+			font-weight: 500;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		.vh-category-breadcrumb {
+			padding: 0.75rem 0.75rem 0;
+			font-size: 0.85rem;
+		}
+	}
+</style>

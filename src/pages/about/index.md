@@ -1,6 +1,6 @@
 ---
 title: "关于"
-h1: "关于这个博客"
+h1: "ℹ️ 关于这个博客"
 desc: "这是对于我和这个博客站点的说明，不定时更新~~~"
 layout: "@/layouts/PageLayout/PageLayout.astro"
 type: "about"

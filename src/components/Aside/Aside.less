@@ -164,6 +164,23 @@ aside.vh-aside {
             color: var(--vh-font-56);
           }
         }
+
+        // 文章数链接样式
+        &>a.count {
+          text-decoration: none;
+          color: inherit;
+          cursor: pointer;
+
+          &:hover {
+            box-shadow: var(--vh-box-shadow);
+            z-index: 1;
+            transform: translateY(-2px);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
       }
 
       &>.vh-aside-canvas {

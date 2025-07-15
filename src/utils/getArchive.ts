@@ -36,4 +36,25 @@ const getArchiveList = async () => {
   return fmtArticleList(articleList);
 }
 
-export { getCategoriesList, getTagsList, getArchiveList };
+// 获取所有分类及其文章数量
+const getAllCategories = async () => {
+  const posts = await getCollection("blog");
+  const categoriesMap = new Map();
+
+  posts.forEach((post: any) => {
+    const category = post.data.categories;
+    if (category) {
+      if (categoriesMap.has(category)) {
+        categoriesMap.set(category, categoriesMap.get(category) + 1);
+      } else {
+        categoriesMap.set(category, 1);
+      }
+    }
+  });
+
+  return Array.from(categoriesMap.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+export { getCategoriesList, getTagsList, getArchiveList, getAllCategories };

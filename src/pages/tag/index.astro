@@ -1,0 +1,117 @@
+---
+import { getCollection } from "astro:content";
+// 获取所有标签及数量
+const posts = await getCollection("blog");
+const tagMap = new Map();
+posts.forEach((post) => {
+    (post.data.tags || []).forEach((tag) => {
+        if (tagMap.has(tag)) {
+            tagMap.set(tag, tagMap.get(tag) + 1);
+        } else {
+            tagMap.set(tag, 1);
+        }
+    });
+});
+const tagList = Array.from(tagMap.entries()).map(([name, count]) => ({
+    name,
+    count,
+}));
+
+// 页面配置
+import SITE_CONFIG from "@/config";
+const { Description } = SITE_CONFIG;
+import Layout from "@/layouts/Layout/Layout.astro";
+---
+
+<Layout title="所有标签" description={Description} activeNav="tag">
+    <main class="vh-tag-main">
+        <section class="vh-tag-header">
+            <h1>🏷️ 标签云</h1>
+            <p>共 {tagList.length} 个标签</p>
+        </section>
+        <section class="vh-tag-cloud">
+            {
+                tagList.map((tag) => (
+                    <a
+                        href={`/tag/${tag.name}`}
+                        class="vh-tag-item"
+                        title={`查看 ${tag.name} 标签下的文章`}
+                        style={`font-size: ${0.9 + Math.min(tag.count, 8) * 0.18}rem; color: hsl(${(tag.name.length * 37) % 360}, 70%, 55%)`}
+                    >
+                        #{tag.name}
+                        <span class="tag-count">({tag.count})</span>
+                    </a>
+                ))
+            }
+        </section>
+    </main>
+</Layout>
+
+<style>
+    .vh-tag-main {
+        box-sizing: border-box;
+        padding: 2rem 1rem;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        min-height: calc(100vh - var(--vh-main-header-height) - 200px);
+    }
+    .vh-tag-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        h1 {
+            font-size: 2.2rem;
+            color: var(--vh-font-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        p {
+            font-size: 1rem;
+            color: var(--vh-font-56);
+            margin: 0;
+        }
+    }
+    .vh-tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.2rem;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .vh-tag-item {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1.2rem;
+        background: var(--vh-white-color);
+        box-shadow: var(--vh-box-shadow);
+        text-decoration: none;
+        color: inherit;
+        font-weight: 500;
+        transition: all 0.2s;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+    .vh-tag-item:hover {
+        background: var(--vh-main-color-16);
+        border-color: var(--vh-main-color-32);
+        transform: scale(1.08);
+        z-index: 2;
+    }
+    .tag-count {
+        font-size: 0.85em;
+        color: var(--vh-font-56);
+        margin-left: 0.18em;
+    }
+    @media screen and (max-width: 768px) {
+        .vh-tag-main {
+            padding: 1.2rem 0.5rem;
+        }
+        .vh-tag-header h1 {
+            font-size: 1.5rem;
+        }
+        .vh-tag-cloud {
+            gap: 0.7rem 0.6rem;
+        }
+    }
+</style>

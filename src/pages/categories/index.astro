@@ -1,0 +1,176 @@
+---
+// 获取所有分类
+import { getAllCategories } from "@/utils/getArchive";
+const categoriesList = await getAllCategories();
+
+// 页面配置
+import SITE_CONFIG from "@/config";
+const { Description } = SITE_CONFIG;
+
+// 公共 Layout
+import Layout from "@/layouts/Layout/Layout.astro";
+---
+
+<Layout title="所有分类" description={Description} activeNav="categories">
+    <main class="vh-categories-main">
+        <section class="vh-categories-header">
+            <h1>📂 文章分类</h1>
+            <p>共 {categoriesList.length} 个分类</p>
+        </section>
+
+        <section class="vh-categories-grid">
+            {
+                categoriesList.map((category) => (
+                    <a
+                        href={`/categories/${category.name}`}
+                        class="vh-category-card"
+                        title={`查看 ${category.name} 分类下的文章`}
+                    >
+                        <div class="category-icon">📁</div>
+                        <div class="category-info">
+                            <h3>{category.name}</h3>
+                            <span class="category-count">
+                                {category.count} 篇文章
+                            </span>
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+    </main>
+</Layout>
+
+<style>
+    .vh-categories-main {
+        box-sizing: border-box;
+        padding: 2rem 1rem;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        min-height: calc(100vh - var(--vh-main-header-height) - 200px);
+    }
+
+    .vh-categories-header {
+        text-align: center;
+        margin-bottom: 3rem;
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--vh-font-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1rem;
+            color: var(--vh-font-56);
+            margin: 0;
+        }
+    }
+
+    .vh-categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+    }
+
+    .vh-category-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: var(--vh-white-color);
+        border-radius: 0.75rem;
+        box-shadow: var(--vh-box-shadow);
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease-in-out;
+        border: 1px solid transparent;
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--vh-main-color-32);
+
+            .category-icon {
+                transform: scale(1.1);
+            }
+
+            .category-info h3 {
+                color: var(--vh-main-color);
+            }
+        }
+
+        &:active {
+            transform: translateY(-2px);
+        }
+    }
+
+    .category-icon {
+        font-size: 2.5rem;
+        transition: transform 0.3s ease-in-out;
+        flex-shrink: 0;
+    }
+
+    .category-info {
+        flex: 1;
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--vh-font-color);
+            margin: 0 0 0.25rem 0;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .category-count {
+            font-size: 0.875rem;
+            color: var(--vh-font-56);
+            font-weight: 500;
+        }
+    }
+
+    /* 响应式设计 */
+    @media screen and (max-width: 768px) {
+        .vh-categories-main {
+            padding: 1.5rem 1rem;
+        }
+
+        .vh-categories-header {
+            margin-bottom: 2rem;
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .vh-categories-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .vh-category-card {
+            padding: 1.25rem;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+        }
+
+        .category-info h3 {
+            font-size: 1.125rem;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .vh-categories-main {
+            padding: 1rem 0.75rem;
+        }
+
+        .vh-category-card {
+            padding: 1rem;
+            gap: 0.75rem;
+        }
+    }
+</style>

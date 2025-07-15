@@ -58,18 +58,27 @@ import "./Aside.less";
 					))}
 				</section>
 				<section class="vh-aside-info">
-					<div class="art-item count">
+					{" "}
+					<a
+						href="/archives"
+						class="art-item count"
+						title="查看所有文章"
+					>
 						<span>{CountInfo.ArticleCount}</span>
 						<p>文章数</p>
-					</div>
-					<div class="cat-item count">
+					</a>
+					<a
+						href="/categories"
+						class="cat-item count"
+						title="查看所有分类"
+					>
 						<span>{CountInfo.CategoryCount}</span>
 						<p>分类数</p>
-					</div>
-					<div class="tag-item count">
+					</a>
+					<a href="/tag" class="tag-item count" title="查看所有标签">
 						<span>{CountInfo.TagCount}</span>
 						<p>标签数</p>
-					</div>
+					</a>
 				</section>{" "}
 				<canvas class="vh-aside-canvas" width="888" height="1888" />
 			</section>

@@ -1,0 +1,67 @@
+---
+import { getTagsList } from "@/utils/getArchive";
+import { getCollection } from "astro:content";
+import SITE_CONFIG from "@/config";
+const { Description } = SITE_CONFIG;
+import Layout from "@/layouts/Layout/Layout.astro";
+import Archive from "@/components/Archive/Archive.astro";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    const tagSet = new Set();
+    posts.forEach((post) => {
+        (post.data.tags || []).forEach((tag) => tagSet.add(tag));
+    });
+    return Array.from(tagSet).map((tag) => ({ params: { tag }, props: {} }));
+}
+
+const tag = String(Astro.params.tag);
+const articleList = await getTagsList(tag);
+---
+
+<Layout title={`标签：${tag}`} description={Description} activeNav="tag">
+    <div class="vh-tag-page">
+        <div class="vh-tag-breadcrumb">
+            <a href="/tag">🏷️ 所有标签</a>
+            <span class="separator">›</span>
+            <span class="current">#{tag}</span>
+        </div>
+        <Archive articleList={articleList} />
+    </div>
+</Layout>
+
+<style>
+    .vh-tag-page {
+        width: 100%;
+    }
+    .vh-tag-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 1rem 0;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+    .vh-tag-breadcrumb a {
+        color: var(--vh-main-color);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .vh-tag-breadcrumb a:hover {
+        color: var(--vh-main-color-88);
+    }
+    .vh-tag-breadcrumb .separator {
+        color: var(--vh-font-56);
+        font-weight: 500;
+    }
+    .vh-tag-breadcrumb .current {
+        color: var(--vh-font-color);
+        font-weight: 500;
+    }
+    @media screen and (max-width: 768px) {
+        .vh-tag-breadcrumb {
+            padding: 0.75rem 0.75rem 0;
+            font-size: 0.85rem;
+        }
+    }
+</style>
