@@ -4,28 +4,15 @@ import { inRouter, outRouter } from "@/utils/updateRouter";
 // 储存事件监听器引用，方便后续移除
 let themeToggleHandler: ((e: Event) => void) | null = null;
 let systemThemeHandler: ((e: MediaQueryListEvent) => void) | null = null;
-let dropdownClickHandler: ((e: Event) => void) | null = null;
-let documentClickHandler: ((e: Event) => void) | null = null;
 
 // 清理事件监听器
 const cleanup = () => {
     const themeToggle = document.querySelector('.theme-toggle');
-    const themeDropdown = document.querySelector('.theme-dropdown');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
     if (themeToggleHandler && themeToggle) {
         themeToggle.removeEventListener('click', themeToggleHandler);
         themeToggleHandler = null;
-    }
-
-    if (dropdownClickHandler && themeDropdown) {
-        themeDropdown.removeEventListener('click', dropdownClickHandler);
-        dropdownClickHandler = null;
-    }
-
-    if (documentClickHandler) {
-        document.removeEventListener('click', documentClickHandler);
-        documentClickHandler = null;
     }
 
     if (systemThemeHandler) {
@@ -36,35 +23,31 @@ const cleanup = () => {
 
 const initTheme = () => {
     const themeToggle = document.querySelector('.theme-toggle');
-    const themeDropdown = document.querySelector('.theme-dropdown');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // 从本地存储获取主题设置
+    // 从本地存储获取主题设置，如果没有则使用系统主题
     const getTheme = () => {
         const savedTheme = localStorage.getItem('vh-theme');
-        if (!savedTheme || savedTheme === 'auto') {
+        if (!savedTheme) {
+            // 首次访问，使用系统主题
             return prefersDark.matches ? 'dark' : 'light';
         }
         return savedTheme;
     };
 
-    // 从本地存储获取主题模式
-    const getThemeMode = () => {
-        return localStorage.getItem('vh-theme') || 'auto';
-    };    // 设置主题
-    const setTheme = (mode: string) => {
-        // 实际应用的主题（light 或 dark）
-        const effectiveTheme = mode === 'auto' ? (prefersDark.matches ? 'dark' : 'light') : mode;
-        document.documentElement.setAttribute('data-theme', effectiveTheme);
-        // 保存用户选择的模式（auto、light 或 dark）
-        localStorage.setItem('vh-theme', mode);
+    // 设置主题
+    const setTheme = (theme: string) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('vh-theme', theme);
 
         // 更新 Giscus 评论的主题
-        updateGiscusTheme(effectiveTheme);
+        updateGiscusTheme(theme);
 
-        // 更新按钮和下拉菜单状态
-        updateActiveState(mode);
-    };    // 更新 Giscus 评论的主题
+        // 更新按钮图标
+        updateActiveState(theme);
+    };
+
+    // 更新 Giscus 评论的主题
     const updateGiscusTheme = (theme: string) => {
         try {
             const vhGiscusInstances = (window as any).vhGiscusInstances;
@@ -80,80 +63,53 @@ const initTheme = () => {
         }
     };
 
-    // 更新激活状态
-    const updateActiveState = (mode: string) => {
-        // 更新下拉菜单选项状态
-        document.querySelectorAll('.theme-option').forEach(option => {
-            if (option instanceof HTMLElement) {
-                const themeValue = option.dataset.theme;
-                option.classList.toggle('active', themeValue === mode);
-            }
-        });
-
-        // 更新主按钮图标
+    // 更新按钮图标状态
+    const updateActiveState = (theme: string) => {
+        // 隐藏所有图标
         document.querySelectorAll('.theme-icon').forEach(icon => {
             icon.classList.remove('active');
         });
-        const activeIcon = document.querySelector(`.${mode}-icon`);
+
+        // 显示当前主题对应的图标
+        const activeIcon = document.querySelector(`.${theme}-icon`);
         if (activeIcon) {
             activeIcon.classList.add('active');
         }
     };
 
-    // 切换下拉菜单显示状态
-    const toggleDropdown = (show?: boolean) => {
-        const dropdown = document.querySelector('.theme-dropdown');
-        if (dropdown) {
-            dropdown.classList.toggle('show', show !== undefined ? show : !dropdown.classList.contains('show'));
-        }
+    // 切换主题
+    const toggleTheme = () => {
+        const currentTheme = getTheme();
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
     };
 
     // 初始化主题
-    const currentMode = getThemeMode();
-    setTheme(currentMode);
+    const currentTheme = getTheme();
+    setTheme(currentTheme);
 
     // 先清理旧的事件监听器
     cleanup();
 
-    // 监听系统主题变化
+    // 监听系统主题变化（只在用户未手动设置时生效）
     systemThemeHandler = (e: MediaQueryListEvent) => {
-        if (getThemeMode() === 'auto') {
-            setTheme('auto');
+        const savedTheme = localStorage.getItem('vh-theme');
+        if (!savedTheme) {
+            // 只有在用户未手动设置过主题时才跟随系统
+            const systemTheme = e.matches ? 'dark' : 'light';
+            setTheme(systemTheme);
         }
     };
     prefersDark.addEventListener('change', systemThemeHandler);
 
-    // 监听按钮点击以显示下拉菜单
+    // 监听按钮点击切换主题
     if (themeToggle) {
         themeToggleHandler = (e: Event) => {
             e.stopPropagation();
-            toggleDropdown();
+            toggleTheme();
         };
         themeToggle.addEventListener('click', themeToggleHandler);
     }
-
-    // 监听下拉菜单选项点击
-    if (themeDropdown) {
-        dropdownClickHandler = (e: Event) => {
-            const target = e.target as HTMLElement;
-            const option = target.closest('.theme-option');
-            if (option instanceof HTMLElement) {
-                const mode = option.dataset.theme;
-                if (mode) {
-                    setTheme(mode);
-                    toggleDropdown(false);
-                }
-            }
-            e.stopPropagation();
-        };
-        themeDropdown.addEventListener('click', dropdownClickHandler);
-    }
-
-    // 点击其他地方关闭下拉菜单
-    documentClickHandler = () => {
-        toggleDropdown(false);
-    };
-    document.addEventListener('click', documentClickHandler);
 };
 
 // 监听路由变化，重新初始化主题

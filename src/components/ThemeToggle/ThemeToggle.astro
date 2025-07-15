@@ -3,7 +3,7 @@
 ---
 
 <div class="theme-toggle-wrapper">
-    <button id="theme-toggle" class="theme-toggle" title="选择主题">
+    <button id="theme-toggle" class="theme-toggle" title="切换主题">
         <svg
             class="light-icon theme-icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -35,77 +35,7 @@
         >
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
-        <svg
-            class="auto-icon theme-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 3a9 9 0 1 0 9 9"></path>
-        </svg>
     </button>
-    <div class="theme-dropdown">
-        <button class="theme-option" data-theme="light">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <circle cx="12" cy="12" r="5"></circle>
-                <path
-                    d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
-                ></path>
-            </svg>
-            <span>浅色</span>
-        </button>
-        <button class="theme-option" data-theme="auto">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <circle cx="12" cy="12" r="4"></circle>
-                <path d="M12 3a9 9 0 1 0 9 9"></path>
-            </svg>
-            <span>自动</span>
-        </button>
-        <button class="theme-option" data-theme="dark">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                ></path>
-            </svg>
-            <span>深色</span>
-        </button>
-    </div>
 </div>
 
 <style lang="less">
@@ -114,58 +44,6 @@
         display: inline-block;
     }
 
-    .theme-dropdown {
-        position: absolute;
-        top: calc(100% + 0.5rem);
-        right: 0;
-        min-width: 120px;
-        background: var(--vh-white-color);
-        border-radius: 0.5rem;
-        box-shadow: var(--vh-box-shadow);
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.2s ease;
-        z-index: 1000;
-
-        &.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .theme-option {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-            padding: 0.5rem 1rem;
-            border: none;
-            background: transparent;
-            color: var(--vh-font-color);
-            cursor: pointer;
-            text-align: left;
-            white-space: nowrap;
-            transition: background 0.2s ease;
-
-            svg {
-                color: var(--vh-font-color);
-            }
-
-            &:hover {
-                background: var(--vh-main-color-6);
-            }
-
-            &.active {
-                background: var(--vh-main-color-16);
-                color: var(--vh-main-color);
-
-                svg {
-                    color: var(--vh-main-color);
-                }
-            }
-        }
-    }
     .theme-toggle {
         display: flex;
         align-items: center;
@@ -176,8 +54,13 @@
         cursor: pointer;
         color: inherit;
         outline: none;
-        transition: color 0.2s ease;
-        height: 1.4rem; /* 保持与其他导航元素一致的高度 */
+        transition: all 0.2s ease;
+        height: 1.4rem;
+        border-radius: 0.25rem;
+
+        &:hover {
+            background: var(--vh-main-color-6);
+        }
 
         .theme-icon {
             display: none;
