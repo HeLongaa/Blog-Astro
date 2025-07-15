@@ -1,14 +1,24 @@
 name: Fetch Links Issues
 
 on:
-  # 定时任务，每6小时执行一次（北京时间：2点、8点、14点、20点）
+  # 定时任务，每天 00:00 执行（北京时间）
   schedule:
-    - cron: '0 18,0,6,12 * * *'
+    - cron: '0 16 * * *'
   # 手动触发工作流
   workflow_dispatch:
+  # 当有 issue 被关闭时触发
+  issues:
+    types: [closed]
 
 jobs:
   fetch-links:
+    # 新增的 if 判断：
+    # 1. 如果是定时任务(schedule)或手动触发(workflow_dispatch)，则执行。
+    # 2. 如果是 issue 关闭事件，则检查 issue 是否包含 "Links" 标签，如果包含才执行。
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'Links'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
