@@ -1,7 +1,7 @@
 .vh-comment-jump-button {
     position: fixed;
     right: var(--vh-back-top);
-    bottom: 6rem; // 位于回到顶部按钮上方
+    bottom: 6rem; // 位于BackTop按钮下方
     height: 2.6rem;
     min-width: 2.6rem;
     border-radius: 2rem;
@@ -18,7 +18,7 @@
     z-index: 8; // 比回到顶部按钮低一层
     box-shadow: var(--vh-box-shadow);
     overflow: hidden;
-    padding: 0; // 按钮内容容器
+    padding: 0;
 
     .button-content {
         display: flex;
@@ -107,7 +107,7 @@ html[data-theme="dark"] {
 @media screen and (max-width: 768px) {
     .vh-comment-jump-button {
         right: 1rem;
-        bottom: 5rem;
+        bottom: 5.5rem; // 移动端位于BackTop按钮下方
         height: 2.2rem;
         min-width: 2.2rem;
 
@@ -135,7 +135,7 @@ html[data-theme="dark"] {
 // 防止与回到顶部按钮重叠
 @media screen and (max-width: 480px) {
     .vh-comment-jump-button {
-        bottom: 4.5rem;
+        bottom: 5rem; // 超小屏幕下位于BackTop按钮下方
         height: 2rem;
         min-width: 2rem;
 
