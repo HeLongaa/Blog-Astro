@@ -27,8 +27,6 @@ const { reading_time, article_word_count } = remarkPluginFrontmatter;
 import Layout from "@/layouts/Layout/Layout.astro";
 // Copyright 组件
 import Copyright from "@/components/Copyright/Copyright.astro";
-// Reward 组件
-import Reward from "@/components/Reward/Reward.astro";
 // 评论组件
 import { checkComment } from "@/scripts/Comment";
 import Comment from "@/components/Comment/Comment.astro";
@@ -132,7 +130,6 @@ import "@/styles/ArticleBase.less";
 			</section>
 		</main>
 		<footer>
-			<!-- 打赏组件 -->
 			<!-- 版权©️信息 -->
 			<Copyright
 				site={Site}
