@@ -10,6 +10,25 @@ type: "links"
 
 <link rel="stylesheet" type="text/css" href="https:////at.alicdn.com/t/c/font_4902778_qnbxgtmm4i9.css">
 
+<div style="text-align: center; margin: 10px 0;">
+  <button id="links-show" class="backup-links-btn">
+    🔗 友链列表
+  </button>
+</div>
+<script>
+  document.getElementById('links-show').onclick = function () {
+  const target = document.getElementById('friend-links-list');
+  if (target) {
+    const header = document.querySelector('.vh-main-header');
+    const headerHeight = header ? header.offsetHeight : 66;
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const top = rect.top + scrollTop - headerHeight - 10;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+};
+</script>
+
 1. ### 服务提供商
 
     <i class="fa-brands fa-cloudflare"></i> [CloudFlare](https://www.cloudflare.com/zh-cn/) - 为所有项目提供全球DNS服务。
@@ -73,15 +92,13 @@ avatar: https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88
 descr: Face life with hope.
 ```
 申请前请记得先添加本站
-
 <div style="text-align: center; margin: 10px 0;">
-  <button id="backup-links-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 14px;" data-links-url="https://blog-api.040720.xyz/embed">
+  <button id="backup-links-btn" class="backup-links-btn" data-links-url="https://blog-api.040720.xyz/embed">
     🔗 申请友链
   </button>
 </div>
 
 <script is:inline>
-// 多重初始化策略，确保在 Astro 客户端导航中正常工作
 function initFriendLinksButton() {
   const backupBtn = document.getElementById('backup-links-btn');
   if (backupBtn && !backupBtn.hasAttribute('data-initialized')) {
@@ -93,23 +110,14 @@ function initFriendLinksButton() {
   }
 }
 
-// 立即执行
 initFriendLinksButton();
-
-// DOMContentLoaded 事件
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initFriendLinksButton);
 } else {
   initFriendLinksButton();
 }
-
-// Astro 页面加载事件
 document.addEventListener('astro:page-load', initFriendLinksButton);
-
-// 备用的延迟执行
 setTimeout(initFriendLinksButton, 100);
-
-// MutationObserver 作为最后的保险
 const observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutation) {
     if (mutation.type === 'childList') {
@@ -117,8 +125,6 @@ const observer = new MutationObserver(function(mutations) {
     }
   });
 });
-
-// 监听 body 的变化
 if (document.body) {
   observer.observe(document.body, { childList: true, subtree: true });
 } else {
@@ -128,5 +134,4 @@ if (document.body) {
 }
 </script>
 
-
-4. ### 友链列表（随机刷新 ⚡️）
+<h3 id="friend-links-list">4. 友链列表（随机刷新 ⚡️）</h3>

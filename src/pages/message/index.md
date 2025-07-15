@@ -1,7 +1,7 @@
 ---
-title: "Messages"
-h1: "📋 Message Board"
-desc: "Leave what you want to say to me......"
+title: "留言板"
+h1: "📋 留言板"
+desc: "你可以在这里写下任何你想对我说的~"
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "message"
 ---
