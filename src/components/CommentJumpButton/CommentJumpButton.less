@@ -1,7 +1,7 @@
 .vh-comment-jump-button {
     position: fixed;
     right: var(--vh-back-top);
-    bottom: 6rem; // 位于BackTop按钮下方
+    bottom: 6rem; // 桌面端位于BackTop按钮下方
     height: 2.6rem;
     min-width: 2.6rem;
     border-radius: 2rem;
@@ -103,29 +103,36 @@ html[data-theme="dark"] {
     }
 }
 
+// 平板端适配 - 768px~888px 区间，调整按钮顺序
+@media screen and (min-width: 769px) and (max-width: 888px) {
+    .vh-comment-jump-button {
+        bottom: 3rem; // 在平板端位于目录按钮下方
+    }
+}
+
 // 移动端适配
 @media screen and (max-width: 768px) {
     .vh-comment-jump-button {
         right: 1rem;
-        bottom: 5.5rem; // 移动端位于BackTop按钮下方
-        height: 2.2rem;
-        min-width: 2.2rem;
+        bottom: 3rem; // 移动端位于目录按钮下方
+        height: 2.6rem;
+        min-width: 2.6rem;
 
         .button-text {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
         }
 
         &:hover {
-            min-width: 3.8rem;
+            min-width: 4.5rem;
 
             .button-content {
-                padding: 0 0.5rem;
+                padding: 0 0.75rem;
             }
         }
 
         svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
     }
 }
@@ -135,25 +142,25 @@ html[data-theme="dark"] {
 // 防止与回到顶部按钮重叠
 @media screen and (max-width: 480px) {
     .vh-comment-jump-button {
-        bottom: 5rem; // 超小屏幕下位于BackTop按钮下方
-        height: 2rem;
-        min-width: 2rem;
+        bottom: 1rem; // 超小屏幕下保持间距
+        height: 2.6rem;
+        min-width: 2.6rem;
 
         .button-content {
-            padding: 0 0.4rem;
+            padding: 0 0.75rem;
         }
 
         .button-text {
-            font-size: 0.65rem;
+            font-size: 0.75rem;
         }
 
         &:hover {
-            min-width: 3.5rem;
+            min-width: 4.5rem;
         }
 
         svg {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
         }
     }
 }
