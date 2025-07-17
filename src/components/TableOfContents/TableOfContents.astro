@@ -85,6 +85,7 @@ import "./TableOfContents.less";
 <script>
     // 导入路由工具
     import { inRouter, outRouter } from "@/utils/updateRouter";
+import Comment from "../Comment/Comment.astro";
 
     // 存储滚动事件监听器引用
     let scrollHandler: (() => void) | null = null;
@@ -551,16 +552,35 @@ import "./TableOfContents.less";
 
         window.addEventListener("resize", handleResize);
     }
-
+    const mobileTocToggle = document.getElementById("vh-mobile-toc-button",);
+    const Back_Top = document.getElementById("vh-back-top");
+    const Comments_Toggle = document.getElementById("vh-comment-jump-button");
     // 打开移动端目录
     function openMobileToc() {
         const mobileTocOverlay = document.getElementById(
             "vh-mobile-toc-overlay",
         );
+        
         if (mobileTocOverlay) {
             mobileTocOverlay.classList.add("active");
             mobileTocOverlay.style.pointerEvents = "auto";
             document.body.style.overflow = "hidden"; // 防止背景滚动
+            if(mobileTocToggle) {
+                mobileTocToggle.style.visibility = "hidden";
+                const svg = mobileTocToggle.querySelector("svg");
+                if (svg) svg.style.visibility = "hidden";
+            }
+            if (Back_Top) {
+                Back_Top.style.visibility = "hidden";
+                const svg = Back_Top.querySelector("svg");
+                if (svg) svg.style.visibility = "hidden";
+            }
+            if(Comments_Toggle){
+                Comments_Toggle.style.visibility = "hidden";
+                const svg = Comments_Toggle.querySelector("svg");
+                if (svg) svg.style.visibility = "hidden";
+            }
+
         }
     }
 
@@ -573,6 +593,21 @@ import "./TableOfContents.less";
             mobileTocOverlay.classList.remove("active");
             mobileTocOverlay.style.pointerEvents = "none";
             document.body.style.overflow = ""; // 恢复背景滚动
+            if(mobileTocToggle) {
+                mobileTocToggle.style.visibility = "visible";
+                const svg = mobileTocToggle.querySelector("svg");
+                if (svg) svg.style.visibility = "visible";
+            }
+            if (Back_Top) {
+                Back_Top.style.visibility = "visible";
+                const svg = Back_Top.querySelector("svg");
+                if (svg) svg.style.visibility = "visible";
+            }
+            if(Comments_Toggle){
+                Comments_Toggle.style.visibility = "visible";
+                const svg = Comments_Toggle.querySelector("svg");
+                if (svg) svg.style.visibility = "visible";
+            }
         }
     }
 
