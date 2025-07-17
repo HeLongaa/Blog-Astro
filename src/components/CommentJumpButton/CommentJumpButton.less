@@ -128,6 +128,10 @@ html[data-theme="dark"] {
             .button-content {
                 padding: 0 0.75rem;
             }
+
+            .vh-comment-jump-button {
+                width: 4.5rem !important;
+            }
         }
 
         svg {
@@ -137,30 +141,26 @@ html[data-theme="dark"] {
     }
 }
 
+// @media screen and (max-width: 480px) {
+//     .vh-comment-jump-button {
+//         height: 2.6rem;
+//         min-width: 2.6rem;
 
+//         .button-content {
+//             padding: 0 0.75rem;
+//         }
 
-// 防止与回到顶部按钮重叠
-@media screen and (max-width: 480px) {
-    .vh-comment-jump-button {
-        bottom: 1rem; // 超小屏幕下保持间距
-        height: 2.6rem;
-        min-width: 2.6rem;
+//         .button-text {
+//             font-size: 0.75rem;
+//         }
 
-        .button-content {
-            padding: 0 0.75rem;
-        }
+//         &:hover {
+//             min-width: 4.5rem;
+//         }
 
-        .button-text {
-            font-size: 0.75rem;
-        }
-
-        &:hover {
-            min-width: 4.5rem;
-        }
-
-        svg {
-            width: 20px;
-            height: 20px;
-        }
-    }
-}
+//         svg {
+//             width: 20px;
+//             height: 20px;
+//         }
+//     }
+// }
