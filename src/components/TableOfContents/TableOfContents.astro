@@ -600,8 +600,20 @@ import "./TableOfContents.less";
                 mobileTocToggle.classList.add("visible");
             }
             if (backTop) {
-                backTop.classList.add("active");
+                // 恢复 z-index，但不强制显示按钮
                 backTop.style.zIndex = "9";
+
+                // 根据当前滚动位置决定是否显示回到顶部按钮
+                const scrollHeight = document.documentElement.scrollHeight;
+                const clientHeight = window.innerHeight;
+                const percentage =
+                    (window.scrollY / (scrollHeight - clientHeight)) * 100;
+
+                if (percentage > 5) {
+                    backTop.classList.add("active");
+                } else {
+                    backTop.classList.remove("active");
+                }
             }
             if (Comments_Toggle) {
                 Comments_Toggle.classList.add("visible");
