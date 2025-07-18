@@ -107,14 +107,17 @@ html[data-theme="dark"] {
     }
 
     .vh-mobile-toc-button {
-      &.visible {
+      transform: translateX(1rem);
+      transition: all 0.3s ease-in-out;
+
+      &.active {
         opacity: 1;
         transform: translateX(0);
         pointer-events: auto;
         display: flex;
       }
 
-      &.visible.button-content {
+      &.active.button-content {
         width: 2.6rem !important;
       }
     }

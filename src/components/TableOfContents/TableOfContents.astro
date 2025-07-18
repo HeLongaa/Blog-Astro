@@ -569,9 +569,11 @@ import "./TableOfContents.less";
             document.body.style.overflow = "hidden"; // 防止背景滚动
             if (mobileTocToggle) {
                 mobileTocToggle.classList.remove("visible");
+                mobileTocToggle.style.display = "none";
             }
             if (backTop) {
-                backTop.style.display = "none";
+                backTop.classList.remove("active");
+                backTop.style.zIndex = "-1";
             }
             if (Comments_Toggle) {
                 Comments_Toggle.classList.remove("visible");
@@ -595,7 +597,8 @@ import "./TableOfContents.less";
                 mobileTocToggle.classList.add("visible");
             }
             if (backTop) {
-                backTop.style.display = "flex";
+                backTop.classList.add("active");
+                backTop.style.zIndex = "9";
             }
             if (Comments_Toggle) {
                 Comments_Toggle.classList.add("visible");
