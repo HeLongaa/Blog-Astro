@@ -93,7 +93,7 @@ descr: Face life with hope.
 ```
 申请前请记得先添加本站
 <div style="text-align: center; margin: 10px 0;">
-  <button id="backup-links-btn" class="backup-links-btn" data-links-url="https://blog-api.040720.xyz/embed">
+  <button id="backup-links-btn" class="backup-links-btn" data-links-url="https://links-app-workers.1946815225.workers.dev/">
     🔗 申请友链
   </button>
 </div>

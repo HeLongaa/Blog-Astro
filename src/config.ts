@@ -118,7 +118,7 @@ export default {
     // 数据源类型：api | static
     api_source: "api",
     // api_source: "api",
-    api: 'https://blog-api.040720.xyz/json',
+    api: 'https://links-app-workers.1946815225.workers.dev/api/links?status=approved',
     // api_source: "static",
     data: [
       {
