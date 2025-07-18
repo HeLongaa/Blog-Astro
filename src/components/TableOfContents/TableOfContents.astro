@@ -507,12 +507,24 @@ import "./TableOfContents.less";
             mobileTocOverlay.style.pointerEvents = "auto";
             document.body.style.overflow = "hidden"; // 防止背景滚动
 
-            // 隐藏所有浮动按钮
+            // 为所有浮动按钮添加隐藏动画，带有层次感的延迟
             const floatingButtons = document.querySelectorAll(
                 ".vh-back-top, .vh-comment-jump-button, .vh-mobile-toc-button",
             );
-            floatingButtons.forEach((button) => {
-                (button as HTMLElement).style.zIndex = "-1";
+            floatingButtons.forEach((button, index) => {
+                const element = button as HTMLElement;
+                // 为不同按钮添加不同的延迟，创造层次感
+                setTimeout(() => {
+                    element.classList.add("toc-opening");
+                }, index * 50); // 每个按钮延迟50ms
+
+                // 延迟设置 z-index，让动画先播放
+                setTimeout(
+                    () => {
+                        element.style.zIndex = "-1";
+                    },
+                    400 + index * 50,
+                ); // 与最长动画时长一致
             });
         }
     }
@@ -527,12 +539,14 @@ import "./TableOfContents.less";
             mobileTocOverlay.style.pointerEvents = "none";
             document.body.style.overflow = ""; // 恢复背景滚动
 
-            // 恢复所有浮动按钮的 z-index
+            // 为所有浮动按钮添加显示动画，带有层次感的延迟
             const floatingButtons = document.querySelectorAll(
                 ".vh-back-top, .vh-comment-jump-button, .vh-mobile-toc-button",
             );
-            floatingButtons.forEach((button) => {
+            floatingButtons.forEach((button, index) => {
                 const element = button as HTMLElement;
+
+                // 先恢复 z-index
                 if (element.classList.contains("vh-back-top")) {
                     element.style.zIndex = "9";
                 } else if (
@@ -542,6 +556,21 @@ import "./TableOfContents.less";
                 } else if (element.classList.contains("vh-mobile-toc-button")) {
                     element.style.zIndex = "9999";
                 }
+
+                // 为不同按钮添加不同的延迟，创造层次感（逆序显示）
+                setTimeout(
+                    () => {
+                        // 移除隐藏动画类，添加显示动画类
+                        element.classList.remove("toc-opening");
+                        element.classList.add("toc-closing");
+
+                        // 动画完成后移除动画类
+                        setTimeout(() => {
+                            element.classList.remove("toc-closing");
+                        }, 500); // 与最长动画时长一致
+                    },
+                    (2 - index) * 50,
+                ); // 逆序延迟，最后隐藏的最先显示
             });
         }
     }

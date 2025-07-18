@@ -66,6 +66,34 @@
         flex-shrink: 0;
     }
 
+    // 目录打开时的隐藏动画
+    &.toc-opening {
+        opacity: 0 !important;
+        transform: translateX(2rem) scale(0.8) rotate(5deg) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1) !important;
+        filter: blur(2px) !important;
+    }
+
+    // 目录关闭时的显示动画
+    &.toc-closing {
+        opacity: 1 !important;
+        transform: translateX(0) scale(1) rotate(0deg) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        filter: blur(0px) !important;
+    }
+
+    // 确保动画期间按钮保持可见，但禁用交互
+    &.toc-opening,
+    &.toc-closing {
+        display: flex !important;
+        pointer-events: none !important;
+    }
+
+    // 动画完成后恢复交互
+    &.toc-closing {
+        animation: restore-pointer-events 0.1s ease-in-out 0.5s forwards;
+    }
+
     // 悬停效果
     &:hover {
         background-color: @button-primary-color;
