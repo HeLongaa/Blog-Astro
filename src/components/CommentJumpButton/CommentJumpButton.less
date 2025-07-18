@@ -1,7 +1,7 @@
 .vh-comment-jump-button {
     position: fixed;
     right: var(--vh-back-top);
-    bottom: 6rem; // 桌面端位于BackTop按钮下方
+    bottom: 6rem;
     height: 2.6rem;
     min-width: 2.6rem;
     border-radius: 2rem;
@@ -9,13 +9,13 @@
     background-color: var(--vh-white-color);
     color: #49B1F5;
     cursor: pointer;
-    display: none; // 默认隐藏
+    display: none;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transform: translateX(1rem);
     transition: all 0.3s ease-in-out;
-    z-index: 8; // 比回到顶部按钮低一层
+    z-index: 8;
     box-shadow: var(--vh-box-shadow);
     overflow: hidden;
     padding: 0;
@@ -107,7 +107,7 @@ html[data-theme="dark"] {
 // 平板端适配 - 768px~888px 区间，调整按钮顺序
 @media screen and (min-width: 769px) and (max-width: 888px) {
     .vh-comment-jump-button {
-        bottom: 3rem; // 在平板端位于目录按钮下方
+        bottom: 3rem;
     }
 }
 
@@ -115,7 +115,7 @@ html[data-theme="dark"] {
 @media screen and (max-width: 768px) {
     .vh-comment-jump-button {
         right: 1rem;
-        bottom: 3rem; // 移动端位于目录按钮下方
+        bottom: 3rem;
         height: 2.6rem;
         min-width: 2.6rem;
 
@@ -141,27 +141,3 @@ html[data-theme="dark"] {
         }
     }
 }
-
-// @media screen and (max-width: 480px) {
-//     .vh-comment-jump-button {
-//         height: 2.6rem;
-//         min-width: 2.6rem;
-
-//         .button-content {
-//             padding: 0 0.75rem;
-//         }
-
-//         .button-text {
-//             font-size: 0.75rem;
-//         }
-
-//         &:hover {
-//             min-width: 4.5rem;
-//         }
-
-//         svg {
-//             width: 20px;
-//             height: 20px;
-//         }
-//     }
-// }

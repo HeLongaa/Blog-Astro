@@ -98,15 +98,13 @@ html[data-theme="dark"] {
 @media screen and (max-width: 768px) {
   .vh-back-top {
     right: 1rem;
-    bottom: 9rem; // 移动端在最上方，保持3rem间距
+    bottom: 9rem;
     height: 2.6rem;
     min-width: 2.6rem;
 
     .button-text {
       font-size: 0.75rem;
     }
-
-    // 移除 .vh-mobile-toc-button.active 相关样式
 
     &:hover {
       min-width: 4.5rem;
@@ -122,47 +120,3 @@ html[data-theme="dark"] {
     }
   }
 }
-
-// 超小屏幕适配
-// @media screen and (max-width: 480px) {
-//   .vh-back-top {
-//     bottom: 7rem; // 保持与其他按钮的间距
-//     height: 2.6rem;
-//     min-width: 2.6rem;
-
-//     .button-content {
-//       padding: 0 0.75rem;
-//       width: 2.6rem !important;
-//     }
-
-//     .vh-mobile-toc-button .button-content {
-//       width: 2.6rem !important;
-//     }
-
-//     .button-text {
-//       font-size: 0.75rem;
-//       width: 2.6rem;
-//     }
-
-//     &:hover {
-//       min-width: 4.5rem;
-//     }
-
-//     svg {
-//       width: 20px;
-//       height: 20px;
-//     }
-//   }
-
-//   .vh-comment-jump-button visible.button-content {
-//     width: 2.6rem !important;
-//   }
-
-//   .vh-mobile-toc-button.visible {
-//     width: 2.6rem !important;
-//   }
-
-//   .vh-comment-jump-button .button-content {
-//     width: 2.6rem !important;
-//   }
-// }
