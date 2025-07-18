@@ -272,7 +272,6 @@
         opacity: 1;
         transform: translateX(0);
         pointer-events: auto;
-        display: flex !important;
     }
 
     // 悬停效果 - 仅在非触摸设备上启用
@@ -512,12 +511,9 @@
         min-width: 2.6rem;
 
         &.visible {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            opacity: 1 !important;
-            transform: translateX(0) !important;
-            pointer-events: auto !important;
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
         }
     }
 
@@ -561,12 +557,9 @@
 
         // 在移动端可以显示，但默认仍然隐藏，由 JavaScript 控制
         &.visible {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            opacity: 1 !important;
-            transform: translateX(0) !important;
-            pointer-events: auto !important;
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
         }
     }
 

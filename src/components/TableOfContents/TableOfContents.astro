@@ -487,6 +487,9 @@ import "./TableOfContents.less";
         const isArticlePage = document.querySelector(".vh-article-main");
         const hasHeadings = document.querySelector("#toc-navigation .toc-list");
 
+        // 确保按钮可以显示（类似其他按钮的处理方式）
+        mobileTocToggle.style.display = "flex";
+
         // 只有在文章页面且有目录内容，但侧边栏目录不容易访问时，才显示目录按钮
         if (isArticlePage && hasHeadings && !isSidebarTocEasilyAccessible()) {
             mobileTocToggle.classList.add("visible");
@@ -569,7 +572,7 @@ import "./TableOfContents.less";
             document.body.style.overflow = "hidden"; // 防止背景滚动
             if (mobileTocToggle) {
                 mobileTocToggle.classList.remove("visible");
-                mobileTocToggle.style.display = "none";
+                // 移除 display: none，交由 CSS 过渡动画控制
             }
             if (backTop) {
                 backTop.classList.remove("active");
