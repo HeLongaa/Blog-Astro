@@ -28,28 +28,6 @@ import "./TableOfContents.less";
     </div>
 </section>
 
-<!-- 移动端目录按钮 -->
-<button class="vh-mobile-toc-button" id="vh-mobile-toc-button" title="显示目录">
-    <div class="button-content">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="M3 6h18"></path>
-            <path d="M9 12h12"></path>
-            <path d="M9 18h12"></path>
-        </svg>
-        <span class="button-text">目录</span>
-    </div>
-</button>
-
 <!-- 移动端目录弹窗 -->
 <div class="vh-mobile-toc-overlay" id="vh-mobile-toc-overlay">
     <div class="vh-mobile-toc-content">
@@ -85,7 +63,6 @@ import "./TableOfContents.less";
 <script>
     // 导入路由工具
     import { inRouter, outRouter } from "@/utils/updateRouter";
-    import Comment from "../Comment/Comment.astro";
 
     // 存储滚动事件监听器引用
     let scrollHandler: (() => void) | null = null;
@@ -483,33 +460,9 @@ import "./TableOfContents.less";
             );
         };
 
-        // 显示移动端目录按钮的逻辑：当侧边栏目录不可见时显示按钮
-        const isArticlePage = document.querySelector(".vh-article-main");
-        const hasHeadings = document.querySelector("#toc-navigation .toc-list");
-
-        // 确保按钮可以显示（类似其他按钮的处理方式）
-        mobileTocToggle.style.display = "flex";
-
-        // 只有在文章页面且有目录内容，但侧边栏目录不容易访问时，才显示目录按钮
-        if (isArticlePage && hasHeadings && !isSidebarTocEasilyAccessible()) {
-            mobileTocToggle.classList.add("visible");
-        } else {
-            mobileTocToggle.classList.remove("visible");
-        }
-
-        // 使用 onclick 直接绑定事件，确保兼容性
-        mobileTocToggle.onclick = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openMobileToc();
-        };
-
-        // 同时绑定 touchstart 事件以支持移动设备
-        mobileTocToggle.ontouchstart = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openMobileToc();
-        };
+        // 将 isSidebarTocEasilyAccessible 函数暴露给全局，供统一按钮系统使用
+        (window as any).isSidebarTocEasilyAccessible =
+            isSidebarTocEasilyAccessible;
 
         // 关闭目录弹窗
         mobileTocClose.onclick = function (e) {
@@ -535,52 +488,32 @@ import "./TableOfContents.less";
         };
         document.addEventListener("keydown", handleEscKey);
 
-        // 监听窗口大小变化，动态显示/隐藏按钮
+        // 监听窗口大小变化，如果侧边栏目录变为容易访问，关闭移动端弹窗
         const handleResize = () => {
-            // 重新检查侧边栏目录是否容易访问
-            if (
-                isArticlePage &&
-                hasHeadings &&
-                !isSidebarTocEasilyAccessible()
-            ) {
-                mobileTocToggle.classList.add("visible");
-            } else {
-                mobileTocToggle.classList.remove("visible");
-                // 如果侧边栏目录变为容易访问，关闭移动端弹窗
-                if (isSidebarTocEasilyAccessible()) {
-                    closeMobileToc();
-                }
+            if (isSidebarTocEasilyAccessible()) {
+                closeMobileToc();
             }
         };
 
         window.addEventListener("resize", handleResize);
     }
-    const mobileTocToggle = document.getElementById("vh-mobile-toc-button");
-    const Back_Top = document.getElementById("vh-back-top");
-    const Comments_Toggle = document.getElementById("vh-comment-jump-button");
     // 打开移动端目录
     function openMobileToc() {
         const mobileTocOverlay = document.getElementById(
             "vh-mobile-toc-overlay",
         );
-        const backTop = document.querySelector(
-            ".vh-back-top",
-        ) as HTMLElement | null;
         if (mobileTocOverlay) {
             mobileTocOverlay.classList.add("active");
             mobileTocOverlay.style.pointerEvents = "auto";
             document.body.style.overflow = "hidden"; // 防止背景滚动
-            if (mobileTocToggle) {
-                mobileTocToggle.classList.remove("visible");
-                // 移除 display: none，交由 CSS 过渡动画控制
-            }
-            if (backTop) {
-                backTop.classList.remove("active");
-                backTop.style.zIndex = "-1";
-            }
-            if (Comments_Toggle) {
-                Comments_Toggle.classList.remove("visible");
-            }
+
+            // 隐藏所有浮动按钮
+            const floatingButtons = document.querySelectorAll(
+                ".vh-back-top, .vh-comment-jump-button, .vh-mobile-toc-button",
+            );
+            floatingButtons.forEach((button) => {
+                (button as HTMLElement).style.zIndex = "-1";
+            });
         }
     }
 
@@ -589,37 +522,32 @@ import "./TableOfContents.less";
         const mobileTocOverlay = document.getElementById(
             "vh-mobile-toc-overlay",
         );
-        const backTop = document.querySelector(
-            ".vh-back-top",
-        ) as HTMLElement | null;
         if (mobileTocOverlay) {
             mobileTocOverlay.classList.remove("active");
             mobileTocOverlay.style.pointerEvents = "none";
             document.body.style.overflow = ""; // 恢复背景滚动
-            if (mobileTocToggle) {
-                mobileTocToggle.classList.add("visible");
-            }
-            if (backTop) {
-                // 恢复 z-index，但不强制显示按钮
-                backTop.style.zIndex = "9";
 
-                // 根据当前滚动位置决定是否显示回到顶部按钮
-                const scrollHeight = document.documentElement.scrollHeight;
-                const clientHeight = window.innerHeight;
-                const percentage =
-                    (window.scrollY / (scrollHeight - clientHeight)) * 100;
-
-                if (percentage > 5) {
-                    backTop.classList.add("active");
-                } else {
-                    backTop.classList.remove("active");
+            // 恢复所有浮动按钮的 z-index
+            const floatingButtons = document.querySelectorAll(
+                ".vh-back-top, .vh-comment-jump-button, .vh-mobile-toc-button",
+            );
+            floatingButtons.forEach((button) => {
+                const element = button as HTMLElement;
+                if (element.classList.contains("vh-back-top")) {
+                    element.style.zIndex = "9";
+                } else if (
+                    element.classList.contains("vh-comment-jump-button")
+                ) {
+                    element.style.zIndex = "8";
+                } else if (element.classList.contains("vh-mobile-toc-button")) {
+                    element.style.zIndex = "9999";
                 }
-            }
-            if (Comments_Toggle) {
-                Comments_Toggle.classList.add("visible");
-            }
+            });
         }
     }
+
+    // 监听来自统一按钮系统的移动端目录打开事件
+    document.addEventListener("openMobileToc", openMobileToc);
 
     // 页面加载完成后生成目录
     if (document.readyState === "loading") {

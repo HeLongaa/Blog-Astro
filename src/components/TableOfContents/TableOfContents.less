@@ -221,107 +221,7 @@
     }
 }
 
-// 移动端目录按钮 - 默认在所有设备上隐藏
-.vh-mobile-toc-button {
-    position: fixed;
-    right: var(--vh-back-top, 1.5rem);
-    bottom: 6rem; // 位于评论按钮上方
-    height: 2.6rem;
-    min-width: 2.6rem;
-    border-radius: 2rem;
-    border: 1px solid #49B1F5;
-    background-color: var(--vh-white-color);
-    color: #49B1F5;
-    cursor: pointer;
-    display: none; // 默认隐藏
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateX(1rem);
-    transition: all 0.3s ease-in-out;
-    z-index: 9999; // 确保在最上层，比所有其他元素都高
-    box-shadow: var(--vh-box-shadow);
-    overflow: hidden;
-    padding: 0;
-
-    .button-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        padding: 0;
-        transition: all 0.3s ease-in-out;
-        white-space: nowrap;
-        height: 100%;
-        width: 100%;
-    }
-
-    // 文字默认隐藏
-    .button-text {
-        font-size: 0.75rem;
-        font-weight: 500;
-        opacity: 0;
-        width: 0;
-        margin-left: 0;
-        transition: all 0.3s ease-in-out;
-        overflow: hidden;
-    }
-
-    // 显示状态
-    &.visible {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
-    }
-
-    // 悬停效果 - 仅在非触摸设备上启用
-    @media (hover: hover) {
-        &:hover {
-            background-color: #49B1F5;
-            color: var(--vh-white-color);
-            min-width: 4.5rem !important;
-
-            .button-content {
-                gap: 0.375rem;
-                padding: 0 0.75rem;
-            }
-
-            .button-text {
-                opacity: 1;
-                width: auto;
-                margin-left: 0.4rem;
-            }
-
-            svg {
-                stroke: var(--vh-white-color);
-            }
-        }
-    }
-
-    // 激活状态
-    &:active {
-        transform: translateX(0) scale(0.95);
-    }
-
-    // 确保触摸设备上的点击事件
-    &:focus {
-        outline: none;
-    }
-
-    // 移动端触摸优化
-    @media (max-width: 888px) {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-        user-select: none;
-    }
-
-    svg {
-        width: 20px;
-        height: 20px;
-        flex-shrink: 0;
-        transition: stroke 0.3s ease-in-out;
-    }
-}
+// 移动端目录按钮样式现在在 FloatingButtons.less 中统一管理
 
 // 移动端目录弹窗
 .vh-mobile-toc-overlay {
@@ -504,19 +404,6 @@
 
 // 平板端适配 - 768px~888px 区间
 @media screen and (min-width: 769px) and (max-width: 888px) {
-    .vh-mobile-toc-button {
-        right: var(--vh-back-top, 1.5rem); // 与其他按钮对齐
-        bottom: 6rem; // 位于返回顶部按钮下方，评论按钮上方
-        height: 2.6rem;
-        min-width: 2.6rem;
-
-        &.visible {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-        }
-    }
-
     .vh-mobile-toc-overlay {
         display: block;
     }
@@ -529,77 +416,15 @@
     }
 }
 
-// 移动端适配 - 与其他按钮保持一致
+// 移动端适配
 @media screen and (max-width: 768px) {
-
-    .vh-mobile-toc-button {
-        right: 1rem;
-        bottom: 6rem; // 位于评论按钮上方，保持3rem间距
-        height: 2.6rem;
-        min-width: 2.6rem;
-
-        .button-text {
-            font-size: 0.75rem;
-        }
-
-        &:hover {
-            min-width: 4.5rem;
-
-            .button-content {
-                padding: 0 0.75rem;
-            }
-        }
-
-        svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        // 在移动端可以显示，但默认仍然隐藏，由 JavaScript 控制
-        &.visible {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-        }
-    }
-
     .vh-mobile-toc-overlay {
         display: block; // 在移动端显示目录弹窗
     }
 }
 
-// 超小屏幕适配
-@media screen and (max-width: 480px) {
-    .vh-mobile-toc-button {
-        height: 2.6rem;
-        min-width: 2.6rem;
-        width: 2.6rem;
-
-        .button-content {
-            padding: 0 0.75rem;
-        }
-
-        .button-text {
-            font-size: 0.75rem;
-        }
-
-        &:hover {
-            min-width: 5.35rem !important;
-        }
-
-        svg {
-            width: 20px;
-            height: 20px;
-        }
-    }
-}
-
-// 桌面端确保按钮隐藏
+// 桌面端确保弹窗隐藏
 @media screen and (min-width: 889px) {
-    .vh-mobile-toc-button {
-        display: none !important; // 桌面端强制隐藏
-    }
-
     .vh-mobile-toc-overlay {
         display: none !important; // 桌面端强制隐藏弹窗
     }
@@ -623,17 +448,7 @@
         }
     }
 
-    // 移动端目录按钮深色模式
-    .vh-mobile-toc-button {
-        background-color: var(--vh-white-color);
-        border-color: #49B1F5;
-        color: #49B1F5;
-
-        &:hover {
-            background-color: #49B1F5;
-            color: var(--vh-white-color);
-        }
-    }
+    // 移动端目录按钮深色模式现在在 FloatingButtons.less 中统一管理
 
     // 移动端目录弹窗深色模式
     .vh-mobile-toc-overlay {
