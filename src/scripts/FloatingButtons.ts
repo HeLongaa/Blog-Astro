@@ -259,21 +259,71 @@ class FloatingButtonManager {
 
         if (shouldShow !== button.isVisible) {
             button.isVisible = shouldShow;
-            button.element.classList.toggle(button.activeClass, shouldShow);
 
-            // 确保不可见的按钮完全禁用交互
             if (shouldShow) {
-                button.element.style.pointerEvents = 'auto';
-                button.element.style.display = 'flex';
-                button.element.removeAttribute('disabled');
-                button.element.setAttribute('aria-hidden', 'false');
+                // 显示按钮动画
+                this.showButtonWithAnimation(button);
             } else {
-                button.element.style.pointerEvents = 'none';
-                button.element.style.display = 'none';
-                button.element.setAttribute('disabled', 'true');
-                button.element.setAttribute('aria-hidden', 'true');
+                // 隐藏按钮动画
+                this.hideButtonWithAnimation(button);
             }
         }
+    }
+
+    // 带动画显示按钮
+    private showButtonWithAnimation(button: ButtonConfig) {
+        if (!button.element) return;
+
+        // 清除可能存在的隐藏动画类
+        button.element.classList.remove('hiding');
+
+        // 设置初始状态
+        button.element.style.display = 'flex';
+        button.element.removeAttribute('disabled');
+        button.element.setAttribute('aria-hidden', 'false');
+
+        // 添加活跃类和显示动画类
+        button.element.classList.add(button.activeClass);
+
+        // 使用 requestAnimationFrame 确保 DOM 更新后再添加动画类
+        requestAnimationFrame(() => {
+            if (button.element) {
+                button.element.classList.add('showing');
+
+                // 动画完成后清理
+                setTimeout(() => {
+                    if (button.element) {
+                        button.element.classList.remove('showing');
+                        button.element.style.pointerEvents = 'auto';
+                    }
+                }, 350); // 与CSS显示动画时长一致(350ms)
+            }
+        });
+    }
+
+    // 带动画隐藏按钮
+    private hideButtonWithAnimation(button: ButtonConfig) {
+        if (!button.element) return;
+
+        // 清除可能存在的显示动画类
+        button.element.classList.remove('showing');
+
+        // 移除活跃类
+        button.element.classList.remove(button.activeClass);
+
+        // 添加隐藏动画类
+        button.element.classList.add('hiding');
+        button.element.setAttribute('disabled', 'true');
+        button.element.setAttribute('aria-hidden', 'true');
+
+        // 动画完成后完全隐藏
+        setTimeout(() => {
+            if (button.element && button.element.classList.contains('hiding')) {
+                button.element.classList.remove('hiding');
+                button.element.style.display = 'none';
+                button.element.style.pointerEvents = 'none';
+            }
+        }, 250); // 与隐藏动画时长一致
     }
 
     // 清理所有按钮

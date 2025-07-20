@@ -82,16 +82,35 @@
         filter: blur(0px) !important;
     }
 
+    // 一般场景下的显示动画
+    &.showing {
+        opacity: 1 !important;
+        transform: translateX(0) scale(1) !important;
+        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) !important;
+        filter: blur(0px) !important;
+    }
+
+    // 一般场景下的隐藏动画
+    &.hiding {
+        opacity: 0 !important;
+        transform: translateX(1.5rem) scale(0.9) !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.6, 1) !important;
+        filter: blur(1px) !important;
+    }
+
     // 确保动画期间按钮保持可见，但禁用交互
     &.toc-opening,
-    &.toc-closing {
+    &.toc-closing,
+    &.showing,
+    &.hiding {
         display: flex !important;
         pointer-events: none !important;
     }
 
     // 动画完成后恢复交互
-    &.toc-closing {
-        animation: restore-pointer-events 0.1s ease-in-out 0.5s forwards;
+    &.toc-closing,
+    &.showing {
+        animation: restore-pointer-events 0.1s ease-in-out 0.35s forwards;
     }
 
     // 悬停效果
@@ -122,10 +141,14 @@
     z-index: 9;
 
     &.active {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
         display: flex;
+
+        // 只有在没有动画类时才直接设置样式
+        &:not(.showing):not(.hiding) {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
     }
 }
 
@@ -147,8 +170,15 @@
         display: none !important;
     }
 
-    // 当移动端目录按钮不可见且友链按钮也不可见时，评论按钮向上移动
-    // 这样可以避免按钮之间出现空白
+    // 当友链按钮不可见时，评论按钮向上移动，避免按钮之间出现空白
+    // 桌面端：当友链按钮不可见时，评论按钮移动到6rem位置
+    @media screen and (min-width: 889px) {
+        body:not(:has(.vh-links-jump-button.visible)) & {
+            bottom: 6rem !important;
+        }
+    }
+
+    // 移动端：当移动端目录按钮不可见且友链按钮也不可见时，评论按钮向上移动
     @media screen and (max-width: 888px) {
         body:not(:has(.vh-mobile-toc-button.visible)):not(:has(.vh-links-jump-button.visible)) & {
             bottom: 6rem !important;
@@ -313,5 +343,12 @@ html[data-theme="dark"] {
 @media screen and (max-width: 888px) {
     .vh-aside-item.toc {
         display: none !important;
+    }
+}
+
+// 动画定义
+@keyframes restore-pointer-events {
+    to {
+        pointer-events: auto;
     }
 }
