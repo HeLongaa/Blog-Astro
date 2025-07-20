@@ -228,7 +228,6 @@ class FriendLinksButtonManager {
       container.appendChild(button);
 
       this.initialized = true;
-      console.log('友链申请按钮初始化成功');
     } catch (error) {
       console.error('友链申请按钮初始化失败:', error);
     }

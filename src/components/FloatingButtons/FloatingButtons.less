@@ -147,10 +147,10 @@
         display: none !important;
     }
 
-    // 当移动端目录按钮不可见时，评论按钮保持在目录按钮的位置
+    // 当移动端目录按钮不可见且友链按钮也不可见时，评论按钮向上移动
     // 这样可以避免按钮之间出现空白
     @media screen and (max-width: 888px) {
-        body:not(:has(.vh-mobile-toc-button.visible)) & {
+        body:not(:has(.vh-mobile-toc-button.visible)):not(:has(.vh-links-jump-button.visible)) & {
             bottom: 6rem !important;
         }
     }

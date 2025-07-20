@@ -187,13 +187,10 @@ class FloatingButtonManager {
         this.buttons.forEach(button => {
             button.element = document.getElementById(button.id);
             if (button.element) {
-                // 确保按钮可以显示
-                button.element.style.display = "flex";
-
                 // 绑定点击事件
                 button.element.addEventListener('click', button.onClick);
 
-                // 初始检查可见性
+                // 初始检查可见性（这会设置正确的display状态）
                 this.updateButtonVisibility(button);
             }
         });
@@ -209,6 +206,22 @@ class FloatingButtonManager {
 
         // 添加滚动监听
         window.addEventListener('scroll', scrollHandler);
+
+        // 添加窗口大小变化监听，用于响应式按钮显示
+        const resizeHandler = throttle(() => {
+            this.buttons.forEach(button => {
+                if (button.element) {
+                    this.updateButtonVisibility(button);
+                }
+            });
+        }, 100); // 100ms节流，避免频繁触发
+
+        window.addEventListener('resize', resizeHandler);
+
+        // 存储resize处理函数以便清理
+        cleanupFunctions.push(() => {
+            window.removeEventListener('resize', resizeHandler);
+        });
 
         // 监听评论组件加载完成
         this.observeCommentLoading();
@@ -247,6 +260,19 @@ class FloatingButtonManager {
         if (shouldShow !== button.isVisible) {
             button.isVisible = shouldShow;
             button.element.classList.toggle(button.activeClass, shouldShow);
+
+            // 确保不可见的按钮完全禁用交互
+            if (shouldShow) {
+                button.element.style.pointerEvents = 'auto';
+                button.element.style.display = 'flex';
+                button.element.removeAttribute('disabled');
+                button.element.setAttribute('aria-hidden', 'false');
+            } else {
+                button.element.style.pointerEvents = 'none';
+                button.element.style.display = 'none';
+                button.element.setAttribute('disabled', 'true');
+                button.element.setAttribute('aria-hidden', 'true');
+            }
         }
     }
 
