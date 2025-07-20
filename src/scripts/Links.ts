@@ -299,19 +299,6 @@ export default async () => {
     }
   }
 }
-
-const jump = document.getElementById('links-show');
-if (jump) jump.onclick = function () {
-  const target = document.getElementById('friend-links-list');
-  if (target) {
-    const header = document.querySelector('.vh-main-header') as HTMLElement;
-    const headerHeight = header ? header.offsetHeight : 66;
-    const rect = target.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const top = rect.top + scrollTop - headerHeight - 10;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
-}
 // 在模块加载时自动初始化友链申请按钮
 if (typeof window !== 'undefined') {
   // 立即尝试初始化

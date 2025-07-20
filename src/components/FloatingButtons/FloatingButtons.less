@@ -132,7 +132,7 @@
 // 评论跳转按钮
 .vh-comment-jump-button {
     .floating-button-base();
-    bottom: 6rem;
+    bottom: 3rem;
     z-index: 8;
 
     &.visible {
@@ -153,6 +153,25 @@
         body:not(:has(.vh-mobile-toc-button.visible)) & {
             bottom: 6rem !important;
         }
+    }
+}
+
+// 友链列表跳转按钮
+.vh-links-jump-button {
+    .floating-button-base();
+    bottom: 6rem;
+    z-index: 7;
+
+    &.visible {
+        display: flex;
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+
+    // 只在有友链内容的页面显示
+    body:not(:has(.links-main)) & {
+        display: none !important;
     }
 }
 
@@ -199,6 +218,7 @@ html[data-theme="dark"] {
 
     .vh-back-top,
     .vh-comment-jump-button,
+    .vh-links-jump-button,
     .vh-mobile-toc-button {
         background-color: var(--vh-white-color);
         border-color: @button-primary-color;
@@ -213,6 +233,10 @@ html[data-theme="dark"] {
 
 // 平板端适配 - 768px~888px 区间
 @media screen and (min-width: 769px) and (max-width: 888px) {
+    .vh-links-jump-button {
+        bottom: 6rem;
+    }
+
     .vh-comment-jump-button {
         bottom: 3rem;
     }
@@ -228,6 +252,7 @@ html[data-theme="dark"] {
 
     .vh-back-top,
     .vh-comment-jump-button,
+    .vh-links-jump-button,
     .vh-mobile-toc-button {
         right: @mobile-right-position;
         height: @button-size;
@@ -253,6 +278,10 @@ html[data-theme="dark"] {
 
     .vh-back-top {
         bottom: 9rem;
+    }
+
+    .vh-links-jump-button {
+        bottom: 6rem;
     }
 
     .vh-comment-jump-button {

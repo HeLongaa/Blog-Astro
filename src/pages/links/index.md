@@ -10,12 +10,6 @@ type: "links"
 
 <link rel="stylesheet" type="text/css" href="https:////at.alicdn.com/t/c/font_4902778_qnbxgtmm4i9.css">
 
-<div style="text-align: center; margin: 10px 0;">
-  <button id="links-show" class="operate-button">
-    🔗 友链列表
-  </button>
-</div>
-
 1. ### 服务提供商
 
     <i class="fa-brands fa-cloudflare"></i> [CloudFlare](https://www.cloudflare.com/zh-cn/) - 为所有项目提供全球DNS服务。

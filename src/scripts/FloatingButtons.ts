@@ -1,4 +1,4 @@
-// 统一的浮动按钮管理系统
+// 统一的浮动按钮
 import { inRouter, outRouter } from "@/utils/updateRouter";
 import SITE_INFO from "@/config";
 
@@ -105,6 +105,43 @@ function createCommentJumpConfig(): ButtonConfig {
     };
 }
 
+// 友链列表按钮配置
+function createLinksJumpConfig(): ButtonConfig {
+    return {
+        id: 'vh-links-jump-button',
+        element: null,
+        isVisible: false,
+        activeClass: 'visible',
+        checkVisibility: () => {
+            // 检查是否有友链列表目标元素（更可靠的Links页面检测）
+            const linksListTarget = document.getElementById('friend-links-list');
+            if (!linksListTarget) return false;
+
+            // 检查是否有友链主要内容区域
+            const linksMain = document.querySelector('.links-main');
+            if (!linksMain) return false;
+
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const targetRect = linksListTarget.getBoundingClientRect();
+            const targetTop = targetRect.top + scrollTop;
+            const windowHeight = window.innerHeight;
+
+            return scrollTop + windowHeight < targetTop - 100;
+        },
+        onClick: () => {
+            const target = document.getElementById('friend-links-list');
+            if (target) {
+                const header = document.querySelector('.vh-main-header') as HTMLElement;
+                const headerHeight = header ? header.offsetHeight : 66;
+                const rect = target.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const top = rect.top + scrollTop - headerHeight - 10;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        }
+    };
+}
+
 // 移动端目录按钮配置
 function createMobileTocConfig(): ButtonConfig {
     return {
@@ -140,6 +177,7 @@ class FloatingButtonManager {
         this.buttons = [
             createBackTopConfig(),
             createCommentJumpConfig(),
+            createLinksJumpConfig(),
             createMobileTocConfig()
         ];
     }
