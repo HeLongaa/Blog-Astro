@@ -160,9 +160,13 @@
 
     &.visible {
         display: flex;
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
+
+        // 只有在没有动画类时才直接设置样式
+        &:not(.showing):not(.hiding) {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
     }
 
     // 没有评论时隐藏
@@ -194,9 +198,13 @@
 
     &.visible {
         display: flex;
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
+
+        // 只有在没有动画类时才直接设置样式
+        &:not(.showing):not(.hiding) {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
     }
 
     // 只在有友链内容的页面显示
@@ -212,9 +220,14 @@
     z-index: 9999;
 
     &.visible {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
+        display: flex;
+
+        // 只有在没有动画类时才直接设置样式
+        &:not(.showing):not(.hiding) {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
     }
 
     // 移动端触摸优化

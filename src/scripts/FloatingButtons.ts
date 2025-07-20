@@ -277,17 +277,20 @@ class FloatingButtonManager {
         // 清除可能存在的隐藏动画类
         button.element.classList.remove('hiding');
 
-        // 设置初始状态
+        // 设置初始状态 - 确保按钮从隐藏状态开始
         button.element.style.display = 'flex';
+        button.element.style.opacity = '0';
+        button.element.style.transform = 'translateX(1.5rem) scale(0.8)';
         button.element.removeAttribute('disabled');
         button.element.setAttribute('aria-hidden', 'false');
 
-        // 添加活跃类和显示动画类
+        // 先添加活跃类但不显示最终状态
         button.element.classList.add(button.activeClass);
 
-        // 使用 requestAnimationFrame 确保 DOM 更新后再添加动画类
+        // 使用 requestAnimationFrame 确保 DOM 更新后再开始动画
         requestAnimationFrame(() => {
             if (button.element) {
+                // 添加显示动画类
                 button.element.classList.add('showing');
 
                 // 动画完成后清理
@@ -295,6 +298,9 @@ class FloatingButtonManager {
                     if (button.element) {
                         button.element.classList.remove('showing');
                         button.element.style.pointerEvents = 'auto';
+                        // 清除内联样式，让CSS类控制最终状态
+                        button.element.style.opacity = '';
+                        button.element.style.transform = '';
                     }
                 }, 350); // 与CSS显示动画时长一致(350ms)
             }
