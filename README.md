@@ -9,7 +9,12 @@
 
 > 🚀 一个基于 Astro 构建的现代化个人博客主题，具有优雅的设计和丰富的功能
 
-[**🌐 在线预览**](https://blog.helong.online/) | [**📚 文档**](#功能特性) | [**🛠️ 部署指南**](#快速开始) | [**🔗 友链申请功能**](EMBED_LINKS_GUIDE.md)
+[**🌐 在线预览**](https://blog.helong.online/) | [**📚 文档**](#功能特性) | [**🛠️ 部署指南**](#快速开始) | [**🔗 友链申请功能**](https://github.com/HeLongaa/links-app-workers) | [**
+<span title="RSS订阅">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFA500" viewBox="0 0 24 24">
+    <path d="M6.18 17.82a2.18 2.18 0 1 1 0-4.36 2.18 2.18 0 0 1 0 4.36zm-3.18.18v-3a1 1 0 0 1 1-1c8.28 0 15 6.72 15 15a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1c0-6.08-4.92-11-11-11a1 1 0 0 1-1-1zm0-6v-3a1 1 0 0 1 1-1c12.15 0 22 9.85 22 22a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1c0-10.49-8.51-19-19-19a1 1 0 0 1-1-1z"/>
+  </svg>
+</span> RSS订阅功能**](https://github.com/HeLongaa/RSS-Subscription)
 
 ## 📋 项目介绍
 
@@ -54,9 +59,8 @@
 - ✅ 站点地图自动生成
 - ✅ SEO 优化配置
 - ✅ 图片懒加载
-- ✅ 返回顶部按钮
-- ✅ 评论区快捷跳转
-- ✅ 基于Github Issues 的友链管理
+- ✅ 基于 CloudFlare 的友链管理
+- ✅ 基于 CloudFlare 的RSS订阅
 
 ### 📊 数据分析
 - ✅ 文章统计信息
@@ -164,37 +168,11 @@ cover: "封面图片路径"
 - 📚 **知乎**: [想再见一面](https://www.zhihu.com/people/yu-luo-wu-sheng-73-99)
 - 📺 **哔哩哔哩**: [风吹枫悠落](https://space.bilibili.com/491035693)
 
-## 🔗 相关项目
-### 🌐 我的域名服务
-
-- **主域名**: [helong.online](https://helong.online)
-- **备用域名**: [040720.xyz](https://040720.xyz)
-
-### 🤖 AI 服务
-
-- [**大模型API服务**](https://api.helong.online/) - 基于 [New-API](https://github.com/QuantumNous/new-api) 的AI接口服务
-- [**OpenWebUI**](https://ai.helong.online/) - 基于 [OpenWebUI](https://openwebui.com/) 的AI对话界面
-- [**GeminiAPI**](https://gemini.040720.xyz/) - 基于 [Gemini-Balance](https://github.com/snailyp/gemini-balance) 的负载均衡服务
-
-### 🛠️ 开发工具
-
-- **Tailscale Derp** - Tailscale 异地组网 IPv4 中继节点
-- [**ZeroTier**](https://zerotier.helong.online/) - Zerotier 异地组网中继服务
-- **Docker 加速** - 部署在 Oracle 服务器的 Docker 加速镜像
-  - 域名格式：`*.040720.xyz`
-  
-  ![Docker加速服务](https://github.com/user-attachments/assets/aa1a31d8-a733-49db-8f84-d3581b740be7)
-
-### 📰 其他服务
-
-- [**新闻聚合站**](https://news.helong.online/) - 部署于 Cloudflare Pages
-- [**文件存储**](https://file.helong.online/) - 个人文件存储服务
-
 ## 🙏 致谢
 
 特别感谢以下项目和开发者：
 
-- **[vhAstro-Theme](https://github.com/uxiaohan/vhAstro-Theme)** - 本项目的基础框架，由 [@uxiaohan](https://github.com/uxiaohan) 开发
+- **[vhAstro-Theme](https://github.com/uxiaohan/vhAstro-Theme)** - 本项目的基础，由 [@uxiaohan](https://github.com/uxiaohan) 开发
 - **[Astro](https://astro.build/)** - 强大的静态站点生成器
 - 所有为开源社区贡献力量的开发者们
 
