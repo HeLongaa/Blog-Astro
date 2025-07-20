@@ -117,8 +117,10 @@ export default {
   Link_conf: {
     // 数据源类型：api | static
     api_source: "api",
-    // api_source: "api",
+    // 获取友链列表的 API
     api: 'https://links.helong.online/api/links?status=approved',
+    // 友链申请页面 URL
+    submit_url: 'https://links.helong.online',
     // api_source: "static",
     data: [
       {

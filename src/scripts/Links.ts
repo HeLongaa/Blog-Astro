@@ -2,15 +2,19 @@ import vh from 'vh-plugin'
 import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
 import { createErrorMessage, createWarningMessage, showMessage } from '@/utils/message'
+import SITE_INFO from "@/config";
+import "../styles/Operate_Button.less"
 
-const strictKeys = ['name', 'link', 'avatar', 'descr'] as const
-
+// 友链申请按钮配置接口
+interface LinkButtonConfig {
+  linksUrl: string;
+  buttonText: string;
+  buttonClass: string;
+  containerId: string;
+}
 // 虚拟化列表的配置
 const BATCH_SIZE = 20;  // 每批渲染的数量
 let renderTimer: number | null = null;
-
-// 缓存已加载的头像
-const avatarCache = new Map<string, string>();
 
 // 优化的 shuffleArray 函数，只在必要时执行
 const shuffleArray = <T>(array: T[]): T[] => {
@@ -103,7 +107,142 @@ const renderLinks = (data: any[]) => {
   renderBatch();
 };
 
-import SITE_INFO from "@/config";
+// 操作按钮管理
+class FriendLinksButtonManager {
+  private config: LinkButtonConfig;
+  private initialized: boolean = false;
+
+  constructor(apiUrl?: string) {
+    this.config = {
+      linksUrl: apiUrl || 'https://your-worker.your-subdomain.workers.dev',
+      buttonText: '🔗 申请友链',
+      buttonClass: 'operate-button',
+      containerId: 'link-button-container'
+    };
+  }
+  private createButton(): HTMLButtonElement {
+    const button = document.createElement('button');
+    button.id = 'backup-links-btn';
+    button.className = this.config.buttonClass;
+    button.setAttribute('data-links-url', this.config.linksUrl);
+    button.setAttribute('data-initialized', 'true');
+
+    button.innerHTML = `
+      <span class="icon">🔗</span>
+      <span class="text">${this.config.buttonText.replace('🔗 ', '')}</span>
+    `;
+
+    button.addEventListener('click', this.handleButtonClick.bind(this));
+    return button;
+  }
+
+  // 处理按钮点击事件
+  private handleButtonClick(event: Event): void {
+    const button = event.currentTarget as HTMLButtonElement;
+    const url = button.getAttribute('data-links-url');
+
+    if (!url) {
+      console.error('友链申请 URL 未配置');
+      this.showButtonMessage(button, '配置错误', 'error');
+      return;
+    }
+
+    // 添加加载状态
+    button.classList.add('loading');
+    button.disabled = true;
+
+    // 延迟打开窗口，显示加载效果
+    window.setTimeout(() => {
+      try {
+        const newWindow = window.open(
+          url,
+          '_blank',
+          'width=900,height=750,scrollbars=yes,resizable=yes,location=yes,menubar=no,toolbar=no'
+        );
+
+        if (newWindow) {
+          // 成功打开窗口
+          this.showButtonMessage(button, '已打开申请页面', 'success');
+
+          // 监听窗口关闭事件
+          const checkClosed = window.setInterval(() => {
+            if (newWindow.closed) {
+              window.clearInterval(checkClosed);
+              button.classList.remove('loading', 'success');
+              button.disabled = false;
+            }
+          }, 1000);
+
+        } else {
+          // 窗口被阻止
+          this.showButtonMessage(button, '请允许弹窗', 'error');
+        }
+      } catch (error) {
+        console.error('打开友链申请页面失败:', error);
+        this.showButtonMessage(button, '打开失败', 'error');
+      }
+    }, 500);
+  }
+
+  // 显示按钮状态消息
+  private showButtonMessage(button: HTMLButtonElement, message: string, type: 'success' | 'error'): void {
+    button.classList.remove('loading');
+    button.classList.add(type);
+
+    const originalText = button.querySelector('.text')?.textContent;
+    const textElement = button.querySelector('.text');
+
+    if (textElement) {
+      textElement.textContent = message;
+    }
+
+    // 2秒后恢复原状
+    window.setTimeout(() => {
+      button.classList.remove(type);
+      button.disabled = false;
+
+      if (textElement && originalText) {
+        textElement.textContent = originalText;
+      }
+    }, 2000);
+  }
+
+  // 初始化按钮
+  public init(): void {
+    if (this.initialized) return;
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.init());
+      return;
+    }
+
+    const container = document.getElementById(this.config.containerId);
+    if (!container) return;
+
+    const existingButton = document.getElementById('backup-links-btn');
+    if (existingButton) return;
+
+    try {
+      // 样式已通过 LESS 文件引入
+      const button = this.createButton();
+      container.appendChild(button);
+
+      this.initialized = true;
+      console.log('友链申请按钮初始化成功');
+    } catch (error) {
+      console.error('友链申请按钮初始化失败:', error);
+    }
+  }
+}
+
+// 创建全局实例，传入友链申请 URL
+const friendLinksButtonManager = new FriendLinksButtonManager(SITE_INFO.Link_conf.submit_url);
+
+// 导出初始化函数
+export function initFriendLinksButton(): void {
+  friendLinksButtonManager.init();
+}
+
 export default async () => {
   const { api_source, api, data } = SITE_INFO.Link_conf
 
@@ -159,4 +298,33 @@ export default async () => {
       ), true);
     }
   }
+}
+
+const jump = document.getElementById('links-show');
+if (jump) jump.onclick = function () {
+  const target = document.getElementById('friend-links-list');
+  if (target) {
+    const header = document.querySelector('.vh-main-header') as HTMLElement;
+    const headerHeight = header ? header.offsetHeight : 66;
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const top = rect.top + scrollTop - headerHeight - 10;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+// 在模块加载时自动初始化友链申请按钮
+if (typeof window !== 'undefined') {
+  // 立即尝试初始化
+  initFriendLinksButton();
+
+  // DOM 加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFriendLinksButton);
+  }
+
+  // Astro 页面加载事件
+  document.addEventListener('astro:page-load', initFriendLinksButton);
+
+  // 延迟初始化（确保所有元素都已加载）
+  window.setTimeout(initFriendLinksButton, 100);
 }

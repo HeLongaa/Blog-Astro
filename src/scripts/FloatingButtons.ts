@@ -1,5 +1,6 @@
 // 统一的浮动按钮管理系统
 import { inRouter, outRouter } from "@/utils/updateRouter";
+import SITE_INFO from "@/config";
 
 // 按钮配置接口
 interface ButtonConfig {
@@ -19,7 +20,7 @@ let cleanupFunctions: (() => void)[] = [];
 // 节流函数
 function throttle(func: Function, delay: number) {
     let ticking = false;
-    return function (...args: any[]) {
+    return function (this: any, ...args: any[]) {
         if (!ticking) {
             requestAnimationFrame(() => {
                 func.apply(this, args);
@@ -61,9 +62,20 @@ function createCommentJumpConfig(): ButtonConfig {
         isVisible: false,
         activeClass: 'visible',
         checkVisibility: () => {
+            const CommentARR: any = Object.keys(SITE_INFO.Comment);
+            const CommentItem = CommentARR.find((i: keyof typeof SITE_INFO.Comment) => SITE_INFO.Comment[i].enable);
+            if (!CommentItem) return false;
+
             const commentSection = document.querySelector(".vh-comment") ||
                 document.getElementById("comment-section");
             if (!commentSection) return false;
+
+            // 检查评论区域是否已经加载完成（不只是加载动画）
+            const hasGiscus = commentSection.querySelector('.giscus');
+            const hasLoadingOnly = commentSection.querySelector('.vh-space-loading') && !hasGiscus;
+
+            // 如果只有加载动画，说明评论还在加载中，暂时不显示按钮
+            if (hasLoadingOnly) return false;
 
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const commentRect = commentSection.getBoundingClientRect();
@@ -159,6 +171,33 @@ class FloatingButtonManager {
 
         // 添加滚动监听
         window.addEventListener('scroll', scrollHandler);
+
+        // 监听评论组件加载完成
+        this.observeCommentLoading();
+    }
+
+    // 监听评论组件加载完成
+    private observeCommentLoading() {
+        const commentSection = document.querySelector('.vh-comment');
+        if (!commentSection) return;
+
+        // 使用 MutationObserver 监听评论区域的变化
+        const observer = new MutationObserver(() => {
+            // 当评论区域内容发生变化时，重新检查按钮可见性
+            this.buttons.forEach(button => {
+                if (button.element && button.id === 'vh-comment-jump-button') {
+                    this.updateButtonVisibility(button);
+                }
+            });
+        });
+
+        observer.observe(commentSection, {
+            childList: true,
+            subtree: true
+        });
+
+        // 存储observer以便清理
+        cleanupFunctions.push(() => observer.disconnect());
     }
 
     // 更新单个按钮的可见性
@@ -220,6 +259,8 @@ export default () => {
     // 路由变化时重新初始化
     inRouter(() => {
         setTimeout(() => buttonManager?.init(), 100);
+        // 额外延迟检查，确保评论组件完全加载
+        setTimeout(() => buttonManager?.init(), 1000);
     });
 
     outRouter(() => {

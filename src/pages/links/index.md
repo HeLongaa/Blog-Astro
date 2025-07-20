@@ -11,23 +11,10 @@ type: "links"
 <link rel="stylesheet" type="text/css" href="https:////at.alicdn.com/t/c/font_4902778_qnbxgtmm4i9.css">
 
 <div style="text-align: center; margin: 10px 0;">
-  <button id="links-show" class="backup-links-btn">
+  <button id="links-show" class="operate-button">
     🔗 友链列表
   </button>
 </div>
-<script>
-  document.getElementById('links-show').onclick = function () {
-  const target = document.getElementById('friend-links-list');
-  if (target) {
-    const header = document.querySelector('.vh-main-header');
-    const headerHeight = header ? header.offsetHeight : 66;
-    const rect = target.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const top = rect.top + scrollTop - headerHeight - 10;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
-};
-</script>
 
 1. ### 服务提供商
 
@@ -92,46 +79,7 @@ avatar: https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88
 descr: Face life with hope.
 ```
 申请前请记得先添加本站
-<div style="text-align: center; margin: 10px 0;">
-  <button id="backup-links-btn" class="backup-links-btn" data-links-url="https://links-app-workers.1946815225.workers.dev/">
-    🔗 申请友链
-  </button>
-</div>
 
-<script is:inline>
-function initFriendLinksButton() {
-  const backupBtn = document.getElementById('backup-links-btn');
-  if (backupBtn && !backupBtn.hasAttribute('data-initialized')) {
-    backupBtn.setAttribute('data-initialized', 'true');
-    backupBtn.addEventListener('click', function() {
-      const url = this.getAttribute('data-links-url');
-      window.open(url, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
-    });
-  }
-}
-
-initFriendLinksButton();
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFriendLinksButton);
-} else {
-  initFriendLinksButton();
-}
-document.addEventListener('astro:page-load', initFriendLinksButton);
-setTimeout(initFriendLinksButton, 100);
-const observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    if (mutation.type === 'childList') {
-      initFriendLinksButton();
-    }
-  });
-});
-if (document.body) {
-  observer.observe(document.body, { childList: true, subtree: true });
-} else {
-  document.addEventListener('DOMContentLoaded', function() {
-    observer.observe(document.body, { childList: true, subtree: true });
-  });
-}
-</script>
+<div id="link-button-container" class="operate-button-container"></div>
 
 <h3 id="friend-links-list">4. 友链列表（随机刷新 ⚡️）</h3>

@@ -142,14 +142,17 @@
         pointer-events: auto;
     }
 
-    // 在文章页面以外隐藏
-    body:not(:has(.vh-article-main)) & {
-        display: none !important;
-    }
-
     // 没有评论时隐藏
     body:not(:has(.vh-comment)) & {
         display: none !important;
+    }
+
+    // 当移动端目录按钮不可见时，评论按钮保持在目录按钮的位置
+    // 这样可以避免按钮之间出现空白
+    @media screen and (max-width: 888px) {
+        body:not(:has(.vh-mobile-toc-button.visible)) & {
+            bottom: 6rem !important;
+        }
     }
 }
 
