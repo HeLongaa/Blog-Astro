@@ -19,10 +19,10 @@ section.vh-art-page {
     width: 2rem;
     height: 2rem;
     border-radius: 0.5rem;
-    background-color: var(--vh-white-color);
+    background-color: var(--vh-main-color);
     box-shadow: var(--vh-box-shadow);
     font-size: 0.875rem;
-    color: #99a9bf;
+    color: var(--vh-font-color);
     user-select: none;
     transition: background-color 0.18s ease-in-out;
     cursor: pointer;
@@ -38,7 +38,7 @@ section.vh-art-page {
     }
 
     &.active {
-      background-color: #8192AE;
+      background-color: var(--vh-main-color);
       cursor: default;
       pointer-events: none;
       color: var(--vh-white-color);
