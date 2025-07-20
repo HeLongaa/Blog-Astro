@@ -345,10 +345,14 @@ html[data-theme="dark"] {
     }
 }
 
-// 桌面端确保移动端目录按钮隐藏
+// 桌面端确保移动端目录按钮隐藏（但允许JavaScript动画）
 @media screen and (min-width: 889px) {
     .vh-mobile-toc-button {
-        display: none !important;
+        // 不使用 display: none !important，让JavaScript控制动画
+        // 只在没有动画类时才隐藏
+        &:not(.showing):not(.hiding) {
+            display: none !important;
+        }
     }
 }
 

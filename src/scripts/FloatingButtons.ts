@@ -209,11 +209,7 @@ class FloatingButtonManager {
 
         // 添加窗口大小变化监听，用于响应式按钮显示
         const resizeHandler = throttle(() => {
-            this.buttons.forEach(button => {
-                if (button.element) {
-                    this.updateButtonVisibility(button);
-                }
-            });
+            this.handleWindowResize();
         }, 100); // 100ms节流，避免频繁触发
 
         window.addEventListener('resize', resizeHandler);
@@ -314,6 +310,12 @@ class FloatingButtonManager {
         // 清除可能存在的显示动画类
         button.element.classList.remove('showing');
 
+        // 确保按钮当前是可见的，才执行隐藏动画
+        if (!button.element.classList.contains(button.activeClass)) {
+            // 如果按钮已经隐藏，直接返回
+            return;
+        }
+
         // 移除活跃类
         button.element.classList.remove(button.activeClass);
 
@@ -330,6 +332,36 @@ class FloatingButtonManager {
                 button.element.style.pointerEvents = 'none';
             }
         }, 250); // 与隐藏动画时长一致
+    }
+
+    // 处理窗口大小变化
+    private handleWindowResize() {
+        // 延迟一点时间，确保CSS媒体查询生效后再检查
+        setTimeout(() => {
+            // 特别处理移动端目录按钮，确保在桌面端正确隐藏
+            const mobileTocButton = this.buttons.find(b => b.id === 'vh-mobile-toc-button');
+            if (mobileTocButton && mobileTocButton.element) {
+                const shouldShow = mobileTocButton.checkVisibility();
+
+                // 如果按钮当前可见但应该隐藏（比如窗口变大到桌面端）
+                if (mobileTocButton.isVisible && !shouldShow) {
+                    mobileTocButton.isVisible = false;
+                    this.hideButtonWithAnimation(mobileTocButton);
+                }
+                // 如果按钮当前隐藏但应该显示（比如窗口变小到移动端）
+                else if (!mobileTocButton.isVisible && shouldShow) {
+                    mobileTocButton.isVisible = true;
+                    this.showButtonWithAnimation(mobileTocButton);
+                }
+            }
+
+            // 处理其他按钮
+            this.buttons.forEach(button => {
+                if (button.element && button.id !== 'vh-mobile-toc-button') {
+                    this.updateButtonVisibility(button);
+                }
+            });
+        }, 50); // 50ms延迟，确保CSS媒体查询生效
     }
 
     // 清理所有按钮
