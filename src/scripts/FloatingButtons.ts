@@ -170,12 +170,19 @@ function createMobileTocConfig(): ButtonConfig {
             // 这里会调用移动端目录的打开逻辑
             const event = new CustomEvent('openMobileToc');
             document.dispatchEvent(event);
+
+            // 目录打开后隐藏所有浮动按钮（包括目录按钮本身）
+            const floatingButtons = FloatingButtonManager.getInstance();
+            if (floatingButtons) {
+                floatingButtons.hideButtonsForToc();
+            }
         }
     };
 }
 
 // 按钮管理器
 class FloatingButtonManager {
+    private static instance: FloatingButtonManager | null = null;
     private buttons: ButtonConfig[] = [];
     private isGlobalInitialized: boolean = false; // 标记全局监听器是否已初始化
 
@@ -186,6 +193,16 @@ class FloatingButtonManager {
             createLinksJumpConfig(),
             createMobileTocConfig()
         ];
+    }
+
+    // 获取单例实例
+    static getInstance(): FloatingButtonManager | null {
+        return FloatingButtonManager.instance;
+    }
+
+    // 设置实例
+    static setInstance(instance: FloatingButtonManager) {
+        FloatingButtonManager.instance = instance;
     }
 
     // 初始化所有按钮
@@ -242,6 +259,17 @@ class FloatingButtonManager {
 
             // 监听评论组件加载完成
             this.observeCommentLoading();
+
+            // 监听目录关闭事件，恢复按钮显示
+            const tocCloseHandler = () => {
+                this.showButtonsAfterToc();
+            };
+            document.addEventListener('closeMobileToc', tocCloseHandler);
+
+            // 存储处理函数以便清理
+            cleanupFunctions.push(() => {
+                document.removeEventListener('closeMobileToc', tocCloseHandler);
+            });
 
             this.isGlobalInitialized = true;
         }
@@ -381,10 +409,12 @@ class FloatingButtonManager {
         }, 50); // 50ms延迟，确保CSS媒体查询生效
     }
 
-    // 目录打开时隐藏其他按钮
+    // 目录打开时隐藏所有按钮（包括目录按钮本身）
     hideButtonsForToc() {
         this.buttons.forEach(button => {
-            if (button.element && button.id !== 'vh-mobile-toc-button' && button.isVisible) {
+            if (button.element && button.isVisible) {
+                // 更新状态为隐藏
+                button.isVisible = false;
                 this.hideButtonWithAnimation(button, true); // 使用特殊的目录隐藏动画
             }
         });
@@ -393,8 +423,8 @@ class FloatingButtonManager {
     // 目录关闭时恢复按钮显示
     showButtonsAfterToc() {
         this.buttons.forEach(button => {
-            if (button.element && button.id !== 'vh-mobile-toc-button') {
-                // 重新检查按钮是否应该显示
+            if (button.element) {
+                // 重新检查所有按钮是否应该显示（包括目录按钮）
                 this.updateButtonVisibility(button);
             }
         });
@@ -450,6 +480,8 @@ export default () => {
 
     // 创建新的管理器实例
     buttonManager = new FloatingButtonManager();
+    // 设置静态实例，供其他地方访问
+    FloatingButtonManager.setInstance(buttonManager);
 
     // 页面加载完成后初始化
     if (document.readyState === "loading") {

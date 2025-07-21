@@ -539,56 +539,9 @@ import "./TableOfContents.less";
             mobileTocOverlay.style.pointerEvents = "none";
             document.body.style.overflow = ""; // 恢复背景滚动
 
-            // 为所有浮动按钮添加显示动画，带有层次感的延迟
-            const floatingButtons = document.querySelectorAll(
-                ".vh-back-top, .vh-comment-jump-button, .vh-mobile-toc-button",
-            );
-            floatingButtons.forEach((button, index) => {
-                const element = button as HTMLElement;
-
-                // 检查按钮在关闭目录前是否应该可见
-                let shouldBeVisible = false;
-
-                if (element.classList.contains("vh-back-top")) {
-                    // 检查滚动位置，决定回到顶部按钮是否应该显示
-                    const scrollHeight = document.documentElement.scrollHeight;
-                    const clientHeight = window.innerHeight;
-                    const percentage =
-                        (window.scrollY / (scrollHeight - clientHeight)) * 100;
-                    shouldBeVisible = percentage > 5;
-                    element.style.zIndex = "9";
-                } else if (
-                    element.classList.contains("vh-comment-jump-button")
-                ) {
-                    // 检查评论按钮是否应该显示
-                    shouldBeVisible = element.classList.contains("visible");
-                    element.style.zIndex = "8";
-                } else if (element.classList.contains("vh-mobile-toc-button")) {
-                    // 检查移动端目录按钮是否应该显示
-                    shouldBeVisible = element.classList.contains("visible");
-                    element.style.zIndex = "9";
-                }
-
-                // 只为应该可见的按钮添加显示动画
-                if (shouldBeVisible) {
-                    setTimeout(
-                        () => {
-                            // 移除隐藏动画类，添加显示动画类
-                            element.classList.remove("toc-opening");
-                            element.classList.add("toc-closing");
-
-                            // 动画完成后移除动画类
-                            setTimeout(() => {
-                                element.classList.remove("toc-closing");
-                            }, 500); // 与最长动画时长一致
-                        },
-                        (2 - index) * 50,
-                    ); // 逆序延迟，最后隐藏的最先显示
-                } else {
-                    // 对于不应该显示的按钮，直接移除动画类，保持隐藏状态
-                    element.classList.remove("toc-opening");
-                }
-            });
+            // 触发目录关闭事件，让统一按钮系统处理按钮显示
+            const event = new CustomEvent('closeMobileToc');
+            document.dispatchEvent(event);
         }
     }
 
