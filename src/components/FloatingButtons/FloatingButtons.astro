@@ -3,98 +3,108 @@
 import "./FloatingButtons.less";
 ---
 
-<!-- 回到顶部按钮 -->
-<button class="vh-back-top" id="vh-back-top" title="回到顶部">
-    <div class="button-content">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="m6 15l6-6l6 6"></path>
-        </svg>
-        <span class="button-text">顶部</span>
-    </div>
-</button>
+<!-- 统一的浮动按钮容器 -->
+<div class="vh-floating-buttons-container" id="vh-floating-buttons-container">
+    <!-- 回到顶部按钮 - 第1位 -->
+    <button class="vh-floating-button vh-back-top" id="vh-back-top" title="回到顶部" data-button-type="back-top">
+        <div class="button-content">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="m6 15l6-6l6 6"></path>
+            </svg>
+            <span class="button-text">顶部</span>
+        </div>
+    </button>
 
-<!-- 评论跳转按钮 -->
-<button
-    class="vh-comment-jump-button"
-    id="vh-comment-jump-button"
-    title="跳转到评论区"
->
-    <div class="button-content">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path
-                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-            ></path>
-        </svg>
-        <span class="button-text">评论</span>
-    </div>
-</button>
+    <!-- 移动端目录按钮 - 第2位 -->
+    <button
+        class="vh-floating-button vh-mobile-toc-button"
+        id="vh-mobile-toc-button"
+        title="显示目录"
+        data-button-type="toc"
+    >
+        <div class="button-content">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M3 6h18"></path>
+                <path d="M9 12h12"></path>
+                <path d="M9 18h12"></path>
+            </svg>
+            <span class="button-text">目录</span>
+        </div>
+    </button>
 
-<!-- 友链列表跳转按钮 -->
-<button
-    class="vh-links-jump-button"
-    id="vh-links-jump-button"
-    title="跳转到友链列表"
->
-    <div class="button-content">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-        </svg>
-        <span class="button-text">友链</span>
-    </div>
-</button>
+    <!-- 友链列表跳转按钮 - 第3位 -->
+    <button
+        class="vh-floating-button vh-links-jump-button"
+        id="vh-links-jump-button"
+        title="跳转到友链列表"
+        data-button-type="links"
+    >
+        <div class="button-content">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span class="button-text">友链</span>
+        </div>
+    </button>
 
-<!-- 移动端目录按钮 -->
-<button class="vh-mobile-toc-button" id="vh-mobile-toc-button" title="显示目录">
-    <div class="button-content">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        >
-            <path d="M3 6h18"></path>
-            <path d="M9 12h12"></path>
-            <path d="M9 18h12"></path>
-        </svg>
-        <span class="button-text">目录</span>
-    </div>
-</button>
+    <!-- 评论跳转按钮 - 第4位 -->
+    <button
+        class="vh-floating-button vh-comment-jump-button"
+        id="vh-comment-jump-button"
+        title="跳转到评论区"
+        data-button-type="comment"
+    >
+        <div class="button-content">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path
+                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                ></path>
+            </svg>
+            <span class="button-text">评论</span>
+        </div>
+    </button>
+</div>
 
 <script>
     import FloatingButtonsInit from "@/scripts/FloatingButtons";

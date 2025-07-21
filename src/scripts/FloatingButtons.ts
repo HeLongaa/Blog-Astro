@@ -7,9 +7,10 @@ interface ButtonConfig {
     id: string;
     element: HTMLElement | null;
     isVisible: boolean;
-    activeClass: string;
+    buttonType: string; // 按钮类型，用于data-button-type属性
     checkVisibility: () => boolean;
     onClick: () => void;
+    isInitialized: boolean; // 标记是否已经初始化过
     cleanup?: () => void;
 }
 
@@ -44,7 +45,8 @@ function createBackTopConfig(): ButtonConfig {
         id: 'vh-back-top',
         element: null,
         isVisible: false,
-        activeClass: 'active',
+        buttonType: 'back-top',
+        isInitialized: false,
         checkVisibility: () => getScrollPercentage() > 5,
         onClick: () => {
             (window as any).vhlenis && (window as any).vhlenis.stop();
@@ -60,7 +62,8 @@ function createCommentJumpConfig(): ButtonConfig {
         id: 'vh-comment-jump-button',
         element: null,
         isVisible: false,
-        activeClass: 'visible',
+        buttonType: 'comment',
+        isInitialized: false,
         checkVisibility: () => {
             const CommentARR: any = Object.keys(SITE_INFO.Comment);
             const CommentItem = CommentARR.find((i: keyof typeof SITE_INFO.Comment) => SITE_INFO.Comment[i].enable);
@@ -111,7 +114,8 @@ function createLinksJumpConfig(): ButtonConfig {
         id: 'vh-links-jump-button',
         element: null,
         isVisible: false,
-        activeClass: 'visible',
+        buttonType: 'links',
+        isInitialized: false,
         checkVisibility: () => {
             // 检查是否有友链列表目标元素（更可靠的Links页面检测）
             const linksListTarget = document.getElementById('friend-links-list');
@@ -148,7 +152,8 @@ function createMobileTocConfig(): ButtonConfig {
         id: 'vh-mobile-toc-button',
         element: null,
         isVisible: false,
-        activeClass: 'visible',
+        buttonType: 'toc',
+        isInitialized: false,
         checkVisibility: () => {
             const isArticlePage = document.querySelector(".vh-article-main");
             const hasHeadings = document.querySelector("#toc-navigation .toc-list");
@@ -172,6 +177,7 @@ function createMobileTocConfig(): ButtonConfig {
 // 按钮管理器
 class FloatingButtonManager {
     private buttons: ButtonConfig[] = [];
+    private isGlobalInitialized: boolean = false; // 标记全局监听器是否已初始化
 
     constructor() {
         this.buttons = [
@@ -187,40 +193,58 @@ class FloatingButtonManager {
         this.buttons.forEach(button => {
             button.element = document.getElementById(button.id);
             if (button.element) {
-                // 绑定点击事件
-                button.element.addEventListener('click', button.onClick);
+                // 只在第一次初始化时绑定点击事件
+                if (!button.isInitialized) {
+                    button.element.addEventListener('click', button.onClick);
+                    button.isInitialized = true;
+                }
+
+                // 设置初始状态 - 所有按钮默认隐藏
+                button.element.style.display = 'none';
+                button.element.style.opacity = '0';
+                button.element.style.transform = 'translateX(100px)';
+                // 清除任何可能存在的宽度内联样式
+                button.element.style.removeProperty('min-width');
+                button.element.style.removeProperty('width');
+                button.element.classList.remove('vh-show', 'vh-hide', 'vh-toc-hide', 'vh-visible');
+                button.isVisible = false;
 
                 // 初始检查可见性（这会设置正确的display状态）
                 this.updateButtonVisibility(button);
             }
         });
 
-        // 创建节流的滚动处理函数
-        scrollHandler = throttle(() => {
-            this.buttons.forEach(button => {
-                if (button.element) {
-                    this.updateButtonVisibility(button);
-                }
+        // 只在第一次初始化时创建全局监听器
+        if (!this.isGlobalInitialized) {
+            // 创建节流的滚动处理函数
+            scrollHandler = throttle(() => {
+                this.buttons.forEach(button => {
+                    if (button.element) {
+                        this.updateButtonVisibility(button);
+                    }
+                });
+            }, 16); // 约60fps
+
+            // 添加滚动监听
+            window.addEventListener('scroll', scrollHandler);
+
+            // 添加窗口大小变化监听，用于响应式按钮显示
+            const resizeHandler = throttle(() => {
+                this.handleWindowResize();
+            }, 100); // 100ms节流，避免频繁触发
+
+            window.addEventListener('resize', resizeHandler);
+
+            // 存储resize处理函数以便清理
+            cleanupFunctions.push(() => {
+                window.removeEventListener('resize', resizeHandler);
             });
-        }, 16); // 约60fps
 
-        // 添加滚动监听
-        window.addEventListener('scroll', scrollHandler);
+            // 监听评论组件加载完成
+            this.observeCommentLoading();
 
-        // 添加窗口大小变化监听，用于响应式按钮显示
-        const resizeHandler = throttle(() => {
-            this.handleWindowResize();
-        }, 100); // 100ms节流，避免频繁触发
-
-        window.addEventListener('resize', resizeHandler);
-
-        // 存储resize处理函数以便清理
-        cleanupFunctions.push(() => {
-            window.removeEventListener('resize', resizeHandler);
-        });
-
-        // 监听评论组件加载完成
-        this.observeCommentLoading();
+            this.isGlobalInitialized = true;
+        }
     }
 
     // 监听评论组件加载完成
@@ -271,67 +295,60 @@ class FloatingButtonManager {
         if (!button.element) return;
 
         // 清除可能存在的隐藏动画类
-        button.element.classList.remove('hiding');
+        button.element.classList.remove('vh-hide', 'vh-toc-hide');
 
-        // 设置初始状态 - 确保按钮从隐藏状态开始
+        // 设置初始状态
         button.element.style.display = 'flex';
-        button.element.style.opacity = '0';
-        button.element.style.transform = 'translateX(1.5rem) scale(0.8)';
         button.element.removeAttribute('disabled');
         button.element.setAttribute('aria-hidden', 'false');
-
-        // 先添加活跃类但不显示最终状态
-        button.element.classList.add(button.activeClass);
 
         // 使用 requestAnimationFrame 确保 DOM 更新后再开始动画
         requestAnimationFrame(() => {
             if (button.element) {
                 // 添加显示动画类
-                button.element.classList.add('showing');
+                button.element.classList.add('vh-show');
 
-                // 动画完成后清理
+                // 动画完成后清理动画类，并设置最终状态
                 setTimeout(() => {
-                    if (button.element) {
-                        button.element.classList.remove('showing');
-                        button.element.style.pointerEvents = 'auto';
-                        // 清除内联样式，让CSS类控制最终状态
-                        button.element.style.opacity = '';
-                        button.element.style.transform = '';
+                    if (button.element && button.element.classList.contains('vh-show')) {
+                        button.element.classList.remove('vh-show');
+                        // 添加可见状态类，移除所有内联样式让CSS控制
+                        button.element.classList.add('vh-visible');
+                        button.element.style.removeProperty('display');
+                        button.element.style.removeProperty('opacity');
+                        button.element.style.removeProperty('transform');
+                        button.element.style.removeProperty('pointer-events');
+                        button.element.style.removeProperty('min-width');
+                        button.element.style.removeProperty('width');
                     }
-                }, 350); // 与CSS显示动画时长一致(350ms)
+                }, 400); // 与CSS显示动画时长一致(400ms)
             }
         });
     }
 
     // 带动画隐藏按钮
-    private hideButtonWithAnimation(button: ButtonConfig) {
+    private hideButtonWithAnimation(button: ButtonConfig, isTocHiding = false) {
         if (!button.element) return;
 
-        // 清除可能存在的显示动画类
-        button.element.classList.remove('showing');
+        // 清除可能存在的显示动画类和可见状态类
+        button.element.classList.remove('vh-show', 'vh-visible');
 
-        // 确保按钮当前是可见的，才执行隐藏动画
-        if (!button.element.classList.contains(button.activeClass)) {
-            // 如果按钮已经隐藏，直接返回
-            return;
-        }
-
-        // 移除活跃类
-        button.element.classList.remove(button.activeClass);
+        // 选择隐藏动画类型
+        const hideClass = isTocHiding ? 'vh-toc-hide' : 'vh-hide';
 
         // 添加隐藏动画类
-        button.element.classList.add('hiding');
+        button.element.classList.add(hideClass);
         button.element.setAttribute('disabled', 'true');
         button.element.setAttribute('aria-hidden', 'true');
 
         // 动画完成后完全隐藏
+        const animationDuration = isTocHiding ? 250 : 300;
         setTimeout(() => {
-            if (button.element && button.element.classList.contains('hiding')) {
-                button.element.classList.remove('hiding');
+            if (button.element && button.element.classList.contains(hideClass)) {
+                button.element.classList.remove(hideClass);
                 button.element.style.display = 'none';
-                button.element.style.pointerEvents = 'none';
             }
-        }, 250); // 与隐藏动画时长一致
+        }, animationDuration);
     }
 
     // 处理窗口大小变化
@@ -364,6 +381,34 @@ class FloatingButtonManager {
         }, 50); // 50ms延迟，确保CSS媒体查询生效
     }
 
+    // 目录打开时隐藏其他按钮
+    hideButtonsForToc() {
+        this.buttons.forEach(button => {
+            if (button.element && button.id !== 'vh-mobile-toc-button' && button.isVisible) {
+                this.hideButtonWithAnimation(button, true); // 使用特殊的目录隐藏动画
+            }
+        });
+    }
+
+    // 目录关闭时恢复按钮显示
+    showButtonsAfterToc() {
+        this.buttons.forEach(button => {
+            if (button.element && button.id !== 'vh-mobile-toc-button') {
+                // 重新检查按钮是否应该显示
+                this.updateButtonVisibility(button);
+            }
+        });
+    }
+
+    // 公共方法：更新所有按钮的可见性
+    updateAllButtonsVisibility() {
+        this.buttons.forEach(button => {
+            if (button.element) {
+                this.updateButtonVisibility(button);
+            }
+        });
+    }
+
     // 清理所有按钮
     cleanup() {
         // 移除滚动监听
@@ -380,11 +425,16 @@ class FloatingButtonManager {
             if (button.cleanup) {
                 button.cleanup();
             }
+            // 重置初始化标志
+            button.isInitialized = false;
         });
 
         // 执行其他清理函数
         cleanupFunctions.forEach(cleanup => cleanup());
         cleanupFunctions = [];
+
+        // 重置全局初始化标志
+        this.isGlobalInitialized = false;
     }
 }
 
@@ -410,9 +460,12 @@ export default () => {
 
     // 路由变化时重新初始化
     inRouter(() => {
+        // 初始化按钮
         setTimeout(() => buttonManager?.init(), 100);
-        // 额外延迟检查，确保评论组件完全加载
-        setTimeout(() => buttonManager?.init(), 1000);
+        // 额外延迟检查，确保评论组件完全加载（只更新可见性，不重新初始化）
+        setTimeout(() => {
+            buttonManager?.updateAllButtonsVisibility();
+        }, 1000);
     });
 
     outRouter(() => {
@@ -422,3 +475,7 @@ export default () => {
 
 // 导出管理器以供其他模块使用
 export { buttonManager };
+
+// 导出目录相关的控制函数，供目录组件使用
+export const hideButtonsForToc = () => buttonManager?.hideButtonsForToc();
+export const showButtonsAfterToc = () => buttonManager?.showButtonsAfterToc();
