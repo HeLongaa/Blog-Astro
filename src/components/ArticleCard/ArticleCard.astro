@@ -1,4 +1,5 @@
 ---
+// --- Frontmatter ---
 import { getDescription, fmtTime } from "@/utils";
 const { post } = Astro.props;
 // 获取文章的摘要
@@ -6,12 +7,17 @@ const description = getDescription(post);
 // 获取封面图
 import getCover from "@/utils/getCover";
 const ARTICLE_COVER: string = await getCover(post.data.cover);
-// 文章Item组件样式
+// 引入组件样式
 import "./ArticleCard.less";
 ---
 
+{/*
+  我们为整个 <article> 元素设置 data-href 属性，用于文章页跳转。
+  同时，分类和标签恢复为 <a> 链接，指向各自的页面。
+*/}
 <article
-	class={`vh-article-item vh-animation vh-animation-init vh-article-link${post.data.top ? " active" : ""}`}
+	class={`vh-article-item vh-animation vh-animation-init${post.data.top ? " active" : ""}`}
+	data-href={`/article/${post.data.id}`}
 >
 	<section class="vh-article-banner">
 		<img
@@ -22,20 +28,51 @@ import "./ArticleCard.less";
 	</section>
 	<header>
 		<h3>
-			<a
-				class={`vh-article-cat vh-cat-${post.data.categories}`}
-				href={`/categories/${post.data.categories}`}
-				>{post.data.categories}</a
-			><time>{fmtTime(post.data.date)}</time>
+			<a 
+        class={`vh-article-cat vh-cat-${post.data.categories}`} 
+        href={`/categories/${post.data.categories}`}
+      >
+        {post.data.categories}
+      </a>
+			<time>{fmtTime(post.data.date)}</time>
 		</h3>
-		<h1 class="title">
-			<a class="vh-ellipsis" href={`/article/${post.data.id}`}
-				>{post.data.title}</a
-			>
+		<h1 class="title vh-ellipsis line-1">
+			{post.data.title}
 		</h1>
 	</header>
 	<h2 class="vh-article-excerpt vh-ellipsis line-2">{description}</h2>
 	<h4 class="vh-article-taglist vh-ellipsis">
+		{/* 标签也恢复为链接 */}
 		{post.data.tags.map((tag: string) => <a href={`/tag/${tag}`}>{tag}</a>)}
 	</h4>
 </article>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const articleCards = document.querySelectorAll('.vh-article-item');
+
+		articleCards.forEach(card => {
+			// 为整个卡片添加点击事件监听
+			card.addEventListener('click', function(this: HTMLElement) {
+				const destination = this.getAttribute('data-href');
+				if (destination) {
+					window.location.href = destination;
+				}
+			});
+
+			// 找到卡片内部所有的链接元素（分类和标签）
+			const innerLinks = card.querySelectorAll('a');
+
+			// 为内部链接添加单独的点击事件监听
+			innerLinks.forEach(link => {
+				link.addEventListener('click', function(event) {
+					// 这是关键一步：阻止事件冒泡。
+					// 当点击分类或标签链接时，这个函数会阻止点击事件
+					// 继续向上传递到父级的 <article> 元素。
+					// 这样，就只会执行链接自身的跳转，而不会触发卡片的跳转。
+					event.stopPropagation();
+				});
+			});
+		});
+	});
+</script>

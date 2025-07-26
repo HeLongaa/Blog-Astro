@@ -14,6 +14,7 @@
     min-width: 0;
     height: max-content;
     overflow: hidden;
+    padding:.506rem;
 
     &>.vh-article-item {
       position: relative;
@@ -27,12 +28,27 @@
       border-radius: 1rem;
       background-color: var(--vh-white-color);
       overflow: hidden;
+      user-select: none;
+      pointer-events: auto;
+      cursor: pointer;
 
+      * {
+        pointer-events: none;
+      }
+
+      // 标签需要可以点击
+      .vh-article-taglist * {
+        pointer-events: auto;
+      }
+
+      // 添加整体卡片悬浮效果
       &:hover {
-        &>.vh-article-banner {
-          &>img {
-            transform: scale(1.08);
-          }
+        transform: scale(1.002);
+        border-color: var(--vh-main-color);
+        box-shadow: 0 0 20px rgba(73, 177, 245, 0.4), 0 20px 20px rgba(0, 0, 0, 0.15);
+        
+        > header > .title {
+          color: var(--vh-main-color) !important;
         }
       }
 
@@ -177,6 +193,7 @@
           width: 100%;
           height: max-content;
           overflow: hidden;
+          font-size: .96rem;
 
           &>a {
             font-size: 1.06rem;
@@ -215,8 +232,7 @@
           box-sizing: border-box;
           margin-right: 0.88rem;
           color: var(--vh-font);
-          font-size: 0.688rem;
-          font-weight: 400;
+          font-size: 0.788rem;
           transition: color 0.18s;
 
           &:hover {
