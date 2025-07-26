@@ -1,6 +1,6 @@
 export default {
   // 网站标题
-  Title: 'HeLong’s Blog',
+  Title: '硅基漫游指南',
   // 网站地址
   Site: 'https://blog.helong.online',
   // 网站副标题
@@ -50,7 +50,6 @@ export default {
   Navs: [
     // 仅支持 SVG 且 SVG 需放在 public/assets/images/svg/ 目录下，填入文件名即可 <不需要文件后缀名>（封装了 SVG 组件 为了极致压缩 SVG）
     // 建议使用 https://tabler.io/icons 直接下载 SVG
-    { text: 'HomePage', link: 'https://helong.online', icon: 'Nav_user', newWindow: true },
     { text: 'Archive', link: '/archives', icon: 'Nav_archives' },
     { text: 'Dynamic', link: '/talking', icon: 'Nav_talking' },
     { text: 'Rss', link: '/friends', icon: 'Nav_rss' },

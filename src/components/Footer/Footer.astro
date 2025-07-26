@@ -5,54 +5,85 @@ import "./Footer.less";
 
 <footer class="vh-footer">
 	<main>
-		<p>
-			<!-- <a
-				href="https://status.helong.online/status/main"
-				target="_blank"
-				rel="noopener noreferrer"
-				><img
-					src="https://status.helong.online/api/badge/3/status"
-					alt="所有服务"
-				/></a
-			> -->
-			<a
-				href="https://umami.helong.online/share/mJS6bN50eKJQYC4f/blog.helong.online"
-				target="_blank"
-				rel="noopener noreferrer"
-				><img
-					alt="analytics"
-					src="https://img.shields.io/badge/access-Analytics-blue"
-				/></a
-			>
-			<a
-				href="https://astro.build/"
-				target="_blank"
-				rel="noopener noreferrer"
-				><img alt="Astro" src="/assets/images/footer/astro.svg" /></a
-			><a
-				href="https://github.com/uxiaohan/vhAstro-Theme"
-				target="_blank"
-				rel="noopener noreferrer"
-				><img
-					alt="vhAstro-Theme"
-					src="/assets/images/footer/theme.svg"
-				/><a href="/rss.xml" target="_blank"
-					><img alt="rss" src="/assets/images/footer/rss.svg" /></a
-				>
-			</a>
-		</p>
-		<p>
-			<!-- <a href="https://beian.miit.gov.cn/" target="_blank"
-					>陇ICP备2024006356号</a
-				> -->
-			<div class="icp">
-				© 2025 HeLong<a
-					href="http://beian.miit.gov.cn/"
-					target="_blank"
-				>
-					陇ICP备2024006356号-2
+		<div class="footer-content">
+			<div class="footer-column">
+				<h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+						<path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105"/>
+						<path d="M16 15c-2.21 1.333 -5.792 1.333 -8 0"/>
+					</svg>
+					关于本站
+				</h3>
+				<div class="footer-item">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle;">
+						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+					</svg>
+					<a href="/status">站点变更</a>
+				</div>
+				<div class="footer-item">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle;">
+						<circle cx="12" cy="12" r="3"/>
+						<path d="M12 1v6m0 6v6"/>
+						<path d="m21 12-6-6-6 6-6-6"/>
+					</svg>
+					<a href="/status">在线状态</a>
+				</div>
+				<div class="footer-item">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle;">
+						<path d="M4 11a9 9 0 0 1 9 9"/>
+						<path d="M4 4a16 16 0 0 1 16 16"/>
+						<circle cx="5" cy="19" r="1"/>
+					</svg>
+					<a href="/rss.xml">订阅本站</a>
+				</div>
+			</div>
+			
+			<div class="footer-column">
+				<h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+						<path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+						<path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/>
+					</svg>
+					相关说明
+				</h3>
+				<a href="/privacy" class="footer-item footer-link">
+					<span class="tag-gray">硅基漫游指南</span>
+					<span class="tag-red">隐私声明</span>
+				</a>
+				<a href="/disclaimer" class="footer-item footer-link">
+					<span class="tag-gray">硅基漫游指南</span>
+					<span class="tag-blue">免责声明</span>
 				</a>
 			</div>
-		</p>
+			
+			<div class="footer-column">
+				<h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+						<path d="M9 12l2 2 4 -4"/>
+						<path d="M21 12c-1 0 -3 -1 -3 -3s2 -3 3 -3 3 1 3 3 -2 3 -3 3"/>
+						<path d="M3 12c1 0 3 -1 3 -3s-2 -3 -3 -3 -3 1 -3 3 2 3 3 3"/>
+						<path d="M12 3c0 1 -1 3 -3 3s-3 -2 -3 -3 1 -3 3 -3 3 2 3 3"/>
+						<path d="M12 21c0 -1 1 -3 3 -3s3 2 3 3 -1 3 -3 3 -3 -2 -3 -3"/>
+					</svg>
+					备案信息
+				</h3>
+				
+				<a href="https://beian.miit.gov.cn/#/Integrated/index" class="footer-item footer-link">
+					<span class="tag-gray">陇 ICP备</span>
+					<span class="tag-orange">2024006356号-2</span>
+				</a>
+				
+				<div class="footer-item">
+					<span class="tag-gray">© 2025</span>  
+					<span class="tag-green">HeLong</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-bottom">
+			<p>本站由 HeLong 使用 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline; vertical-align: middle; margin-right: 4px;"><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg><a href="https://github.com/HeLongaa/Blog-Astro">vhAstro-Theme</a> 主题创建。</p>
+			<p>本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。完整转载请注明来自 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline; vertical-align: middle; margin-right: 4px;"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19 8.71l-5.333 -4.148a2.666 2.666 0 0 0 -3.274 0l-5.334 4.148a2.665 2.665 0 0 0 -1.029 2.105v7.2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-7.2c0 -.823 -.38 -1.6 -1.03 -2.105"/><path d="M16 15c-2.21 1.333 -5.792 1.333 -8 0"/></svg><a href="/">硅基漫游指南</a>。</p>
+			</p>
+		</div>
 	</main>
 </footer>
