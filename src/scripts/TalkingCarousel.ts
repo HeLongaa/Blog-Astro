@@ -15,11 +15,44 @@ const DATA_SOURCE = {
     // API 数据处理
     async api(url: string): Promise<TalkingItem[] | null> {
         try {
-            const data = await $GET(url);
-            return Array.isArray(data) ? data : null;
+            const response = await $GET(url);
+            // 处理包装在 data 字段中的数据
+            const data = response.data || response;
+            if (!Array.isArray(data)) return null;
+            
+            // 转换数据格式并解析 Markdown
+            return data.map(item => ({
+                date: new Date(item.date).toISOString(),
+                tags: item.tags || [],
+                content: this.parseMarkdown(item.content || '')
+            }));
         } catch {
             return null;
         }
+    },
+
+    // 简单的 Markdown 解析函数
+    parseMarkdown(content: string): string {
+        return content
+            // 处理换行符
+            .replace(/\r\n/g, '\n')
+            .replace(/\r/g, '\n')
+            // 处理图片 ![alt](url) - 轮播中显示为小图标+文件名
+            .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+                const filename = alt || url.split('/').pop() || '图片';
+                return `<span class="image-indicator">🖼️ ${filename}</span>`;
+            })
+            // 处理链接 [text](url)
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener nofollow">$1</a>')
+            // 处理粗体 **text**
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            // 处理斜体 *text*
+            .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+            // 处理代码 `code`
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            // 处理换行
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>')
     },
 
     // RSS 数据处理
@@ -181,14 +214,52 @@ class TalkingCarousel {
     }
 
     private cleanContent(content: string): string {
-        // 移除HTML标签，保留纯文本
-        const div = document.createElement('div');
-        div.innerHTML = content;
-        // 移除图片和其他不需要的元素
-        div.querySelectorAll('img, .vh-img-flex, script, style').forEach(el => el.remove());
-        // 获取纯文本并限制长度
-        const text = div.textContent || div.innerText || '';
-        return text.length > 80 ? text.substring(0, 80) + '...' : text;
+        // 移除 Markdown 标题语法
+        content = content
+            // 移除标题语法 # ## ### 等
+            .replace(/^#{1,6}\s+/gm, '')
+            // 移除代码块
+            .replace(/```[\s\S]*?```/g, '')
+            // 移除行内代码
+            .replace(/`([^`]+)`/g, '$1')
+            // 移除图片语法，替换为简单图标
+            .replace(/!\[([^\]]*)\]\([^)]+\)/g, '🖼️')
+            // 移除图片指示器HTML标签，替换为简单图标
+            .replace(/<span class="image-indicator">🖼️\s*([^<]*)<\/span>/g, '🖼️')
+            // 移除链接，保留文本
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+            // 移除粗体语法
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            // 移除斜体语法
+            .replace(/\*([^*]+)\*/g, '$1')
+            // 移除删除线语法
+            .replace(/~~([^~]+)~~/g, '$1')
+            // 移除分割线
+            .replace(/^---+$/gm, '')
+            // 移除引用语法
+            .replace(/^>\s*/gm, '')
+            // 移除列表语法
+            .replace(/^[-*+]\s+/gm, '')
+            .replace(/^\d+\.\s+/gm, '')
+            // 移除任务列表语法
+            .replace(/^-\s+\[([ x])\]\s+/gm, '')
+            // 移除表格分隔符
+            .replace(/\|/g, ' ')
+            // 移除数学公式
+            .replace(/\$\$[\s\S]*?\$\$/g, '')
+            .replace(/\$([^$]+)\$/g, '$1')
+            // 移除HTML标签
+            .replace(/<[^>]*>/g, '')
+            // 标准化换行符并转换为空格
+            .replace(/\r\n/g, '\n')
+            .replace(/\r/g, '\n')
+            .replace(/\n+/g, ' ')
+            // 移除多余空格
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        // 限制长度
+        return content.length > 80 ? content.substring(0, 80) + '...' : content;
     }
 
     private renderError() {

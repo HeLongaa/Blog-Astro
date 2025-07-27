@@ -289,6 +289,170 @@
               font-size: 0.875rem;
               font-weight: 500;
 
+              // Markdown 样式
+              h1, h2, h3, h4, h5, h6 {
+                margin: 1rem 0 0.5rem 0;
+                font-weight: 600;
+                line-height: 1.4;
+                display: inline-block;
+                box-sizing: border-box;
+                width: 100%;
+                max-width: 100%;
+                word-break: break-all;
+                
+                // 确保 # 前缀显示
+                &::before {
+                  padding-right: 0.56rem;
+                  content: "#";
+                  color: var(--vh-font-28);
+                  transition: color 0.18s ease-in-out;
+                }
+
+                &:hover {
+                  &::before {
+                    color: var(--vh-main-color-88);
+                  }
+                }
+              }
+
+              h1 { 
+                font-size: 1.5rem;
+                margin: 0 0 1rem 0;
+                padding-bottom: 0.5rem;
+                
+                &::before {
+                  display: none; // H1 不显示 #
+                }
+              }
+              h2 { 
+                font-size: 1.3rem;
+                margin: 1.5rem 0 0.5rem 0;
+              }
+              h3 { font-size: 1.1rem; }
+              h4 { font-size: 1rem; }
+              h5 { font-size: 0.9rem; }
+              h6 { font-size: 0.8rem; }
+
+              hr {
+                margin: 1rem 0;
+                border: none;
+                border-top: 1px solid var(--vh-font-16);
+              }
+
+              blockquote {
+                margin: 0.5rem 0;
+                padding: 0.5rem 1rem;
+                border-left: 3px solid var(--vh-main-color);
+                background-color: var(--vh-font-6);
+                border-radius: 0.25rem;
+              }
+
+              ul, ol {
+                margin: 0.5rem 0;
+                padding-left: 1.5rem;
+              }
+
+              li {
+                margin: 0.25rem 0;
+                
+                &.task-done {
+                  color: var(--vh-font-66);
+                  text-decoration: line-through;
+                }
+                
+                &.task-todo {
+                  color: var(--vh-font-88);
+                }
+              }
+
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 0.5rem 0;
+                
+                td {
+                  padding: 0.5rem;
+                  border: 1px solid var(--vh-font-16);
+                }
+              }
+
+              pre {
+                margin: 0.5rem 0;
+                padding: 1rem;
+                background-color: var(--vh-font-6);
+                border-radius: 0.25rem;
+                overflow-x: auto;
+                
+                code {
+                  background: none;
+                  padding: 0;
+                }
+              }
+
+              code {
+                padding: 0.2rem 0.4rem;
+                background-color: var(--vh-font-6);
+                border-radius: 0.2rem;
+                font-family: 'Courier New', monospace;
+                font-size: 0.85em;
+              }
+
+              .footnote {
+                font-size: 0.8rem;
+                color: var(--vh-font-66);
+                margin-top: 1rem;
+                padding-top: 0.5rem;
+                border-top: 1px solid var(--vh-font-16);
+              }
+
+              // 图片网格布局 - 桌面端
+              .vh-img-grid {
+                display: grid;
+                gap: 0.5rem;
+                margin: 0.75rem 0;
+                border-radius: var(--vh-main-radius);
+                overflow: hidden;
+
+                // 单张图片样式
+                &.single {
+                  grid-template-columns: 1fr;
+                  max-width: 300px;
+
+                  .vh-img-item {
+                    aspect-ratio: 4/3;
+                    border-radius: 0.25rem;
+                  }
+                }
+
+                // 多张图片样式 - 桌面端每行3张
+                &.multiple {
+                  grid-template-columns: repeat(3, 1fr);
+
+                  // 2张图片时特殊处理
+                  &:has(.vh-img-item:nth-child(2):last-child) {
+                    grid-template-columns: repeat(2, 1fr);
+                  }
+                }
+
+                .vh-img-item {
+                  position: relative;
+                  aspect-ratio: 1;
+                  overflow: hidden;
+                  border-radius: 0.25rem;
+
+                  img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.3s ease;
+
+                    &:hover {
+                      transform: scale(1.05);
+                    }
+                  }
+                }
+              }
+
               img {
                 width: 98%;
                 height: auto;
@@ -318,25 +482,6 @@
                 &>img {
                   height: 100%;
                   object-fit: cover;
-                }
-              }
-
-              // 说说定位样式
-              &>.geographical-location {
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                gap: 0.2rem;
-                font-style: normal;
-                font-size: 14px;
-                color: var(--vh-success);
-
-                &::before {
-                  content: '';
-                  width: 14px;
-                  height: 14px;
-                  background: url('/public/assets/images/local.svg') no-repeat;
-                  background-size: contain;
                 }
               }
             }
@@ -386,7 +531,6 @@
     .vh-tools-main {
       &>main {
         &.main {
-
           // 友情链接
           &.links-main {
             grid-template-columns: repeat(2, 1fr);
@@ -398,8 +542,76 @@
               padding: 1.06rem 0.88rem;
 
               &>.main {
+                // 图片网格布局
+                .vh-img-grid {
+                  display: grid;
+                  gap: 0.5rem;
+                  margin: 0.75rem 0;
+                  border-radius: var(--vh-main-radius);
+                  overflow: hidden;
+
+                  // 单张图片样式
+                  &.single {
+                    grid-template-columns: 1fr;
+                    max-width: 300px;
+
+                    .vh-img-item {
+                      aspect-ratio: 4/3;
+                    }
+                  }
+
+                  // 多张图片样式 - 桌面端每行3张
+                  &.multiple {
+                    grid-template-columns: repeat(3, 1fr);
+                  }
+
+                  .vh-img-item {
+                    position: relative;
+                    aspect-ratio: 1;
+                    overflow: hidden;
+                    border-radius: 0.25rem;
+
+                    img {
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                      transition: transform 0.3s ease;
+
+                      &:hover {
+                        transform: scale(1.05);
+                      }
+                    }
+                  }
+                }
+
                 &>.vh-img-flex {
                   grid-template-columns: repeat(auto-fit, minmax(46%, 1fr));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1088px) {
+    .vh-tools-main {
+      &>main {
+        &.main {
+          // 动态
+          &.talking-main {
+            &>article {
+              &>.main {
+                .vh-img-grid {
+                  // 平板端：每行2张
+                  &.multiple {
+                    grid-template-columns: repeat(2, 1fr);
+                  }
+
+                  &.single {
+                    grid-template-columns: 1fr;
+                  }
                 }
               }
             }
@@ -415,6 +627,25 @@
         &.main {
           &.links-main {
             grid-template-columns: repeat(1, 1fr);
+          }
+
+          &.talking-main {
+            &>article {
+              &>.main {
+                .vh-img-grid {
+                  gap: 0.25rem;
+
+                  // 移动端：每行2张
+                  &.multiple {
+                    grid-template-columns: repeat(2, 1fr);
+                  }
+
+                  &.single {
+                    grid-template-columns: 1fr;
+                  }
+                }
+              }
+            }
           }
         }
       }

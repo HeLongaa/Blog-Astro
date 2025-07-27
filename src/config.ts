@@ -127,10 +127,10 @@ export default {
   // 说说配置
   Talking_conf: {
     // 数据源类型：api | memos_rss | static
-    api_source: "memos_rss",
+    api_source: "api",
 
     // 当api_source=api时生效
-    api: "",
+    api: "http://localhost:8787/api/posts",
 
     // 当api_source=rss时生效，使用Memos的RSS订阅
     memos_rss_url: "https://s.helong.online/u/HeLong/rss.xml",
