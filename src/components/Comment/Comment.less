@@ -7,7 +7,7 @@
   background-color: var(--vh-white-color);
   box-shadow: var(--vh-box-shadow);
   overflow: hidden;
-
+  --waline-theme-color:var(--vh-main-color)!important;
   // 评论样式
   .twikoo {
     font-size: 0.88rem;
@@ -60,7 +60,7 @@
 
 
         a {
-          color: var(--vh-font-56);
+          color: var(--waline-color);
           box-shadow: inset 0 -.12rem var(--vh-main-color);
           transition: box-shadow .2s ease-in-out, color .2s ease-in-out;
 
@@ -326,6 +326,81 @@
     --waline-avatar-radius: 0.58rem;
     font-size: 0.88rem;
 
+    // 暗色模式变量
+    html[data-theme="dark"] & {
+      --waline-bg-color: var(--vh-white-color);
+      --waline-bg-color-light: var(--vh-font-6);
+      --waline-bg-color-hover: var(--vh-font-16);
+      --waline-border-color: var(--vh-font-16);
+      --waline-disable-bg-color: var(--vh-font-6);
+      --waline-disable-color: var(--vh-font-28);
+      --waline-bq-color: var(--vh-font-88);
+      --waline-info-bg-color: var(--vh-font-6);
+      --waline-info-color: var(--vh-font-88);
+      --waline-badge-color: var(--vh-main-color);
+      --waline-badge-font-size: 0.75rem;
+      --waline-text-color: #ffffff;
+
+      .wl-comment {
+        .wl-panel {
+          background-color: var(--vh-white-color);
+          border-color: var(--vh-font-16);
+
+          .wl-header {
+            label {
+              color: #ffffff;
+              background-color: var(--vh-font-6);
+            }
+          }
+
+          .wl-input {
+            background-color: var(--vh-white-color);
+            border-color: var(--vh-font-16);
+            color: #ffffff;
+
+            &:focus {
+              border-color: var(--vh-main-color);
+            }
+          }
+        }
+      }
+
+      .wl-cards {
+        .wl-card-item {
+          .wl-card {
+            background-color: var(--vh-white-color);
+            border-color: var(--vh-font-16);
+
+            .wl-head {
+              .wl-nick {
+                color: #ffffff;
+              }
+
+              .wl-badge {
+                color: var(--vh-main-color);
+                border-color: var(--vh-main-color);
+              }
+            }
+
+            .wl-content {
+              p {
+                color: #ffffff;
+              }
+
+              a {
+                color: var(--vh-font-56);
+              }
+            }
+
+            .wl-quote {
+              background-color: var(--vh-font-6);
+              border-left-color: var(--vh-main-color-38);
+            }
+          }
+        }
+      }
+    }
+
     .wl-comment {
       .wl-panel {
         .wl-header {
@@ -454,6 +529,84 @@
 
     code {
       font-size: 0.68rem;
+    }
+  }
+}
+
+// 暗色模式适配
+html[data-theme="dark"] {
+  .vh-comment div[data-waline] {
+    --waline-bg-color: var(--vh-white-color);
+    --waline-bg-color-light: var(--vh-font-6);
+    --waline-bg-color-hover: var(--vh-font-16);
+    --waline-border-color: var(--vh-font-16);
+    --waline-disable-bg-color: var(--vh-font-6);
+    --waline-disable-color: var(--vh-font-28);
+    --waline-bq-color: var(--vh-font-88);
+    --waline-info-bg-color: var(--vh-font-6);
+    --waline-info-color: var(--vh-font-88);
+    --waline-badge-color: var(--vh-main-color);
+    --waline-badge-font-size: 0.75rem;
+    --waline-text-color: #ffffff !important;
+    --waline-color: #ffffff !important;
+
+    .wl-comment {
+      .wl-panel {
+        background-color: var(--vh-white-color) !important;
+        border-color: var(--vh-font-16) !important;
+
+        .wl-header {
+          label {
+            color: #ffffff !important;
+            background-color: var(--vh-font-6) !important;
+          }
+        }
+
+        .wl-input {
+          background-color: var(--vh-white-color) !important;
+          border-color: var(--vh-font-16) !important;
+          color: #ffffff !important;
+
+          &:focus {
+            border-color: var(--vh-main-color) !important;
+          }
+        }
+      }
+    }
+
+    .wl-cards {
+      .wl-card-item {
+        .wl-card {
+          background-color: var(--vh-white-color) !important;
+          border-color: var(--vh-font-16) !important;
+
+          .wl-head {
+            .wl-nick {
+              color: #ffffff !important;
+            }
+
+            .wl-badge {
+              color: var(--vh-main-color) !important;
+              border-color: var(--vh-main-color) !important;
+            }
+          }
+
+          .wl-content {
+            p {
+              color: #ffffff !important;
+            }
+
+            a {
+              color: var(--vh-font-56) !important;
+            }
+          }
+
+          .wl-quote {
+            background-color: var(--vh-font-6) !important;
+            border-left-color: var(--vh-main-color-38) !important;
+          }
+        }
+      }
     }
   }
 }
