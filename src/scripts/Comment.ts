@@ -1,58 +1,37 @@
 import SITE_INFO from "@/config";
+import { LoadScript } from "@/utils/index";
+declare const twikoo: any;
 
-// Giscus 评论
-const GiscusFn = async (commentDOM: string) => {
-  const container = document.querySelector(commentDOM)!;
-  container.innerHTML = '<section class="vh-space-loading"><span></span><span></span><span></span></section>';
+// Twikoo 评论
+const TwikooFn = async (commentDOM: string) => {
+  document.querySelector(commentDOM)!.innerHTML = '<section class="vh-space-loading"><span></span><span></span><span></span></section>'
+  await LoadScript("https://registry.npmmirror.com/twikoo/1.6.41/files/dist/twikoo.all.min.js");
+  twikoo.init({ envId: SITE_INFO.Comment.Twikoo.envId, el: commentDOM, onCommentLoaded: () => setTimeout(() => document.querySelectorAll('.vh-comment a[href="#"]').forEach(link => link.removeAttribute('href'))) })
+}
 
-  // 创建 giscus 容器
-  const giscusContainer = document.createElement('div');
-  giscusContainer.className = 'giscus';
-
-  // 创建 giscus 脚本
-  const script = document.createElement('script');
-  script.src = 'https://giscus.app/client.js';
-  script.setAttribute('data-repo', SITE_INFO.Comment.Giscus.repo);
-  script.setAttribute('data-repo-id', SITE_INFO.Comment.Giscus.repoId);
-  script.setAttribute('data-category', SITE_INFO.Comment.Giscus.category);
-  script.setAttribute('data-category-id', SITE_INFO.Comment.Giscus.categoryId);
-  script.setAttribute('data-mapping', SITE_INFO.Comment.Giscus.mapping);
-  script.setAttribute('data-strict', SITE_INFO.Comment.Giscus.strict);
-  script.setAttribute('data-reactions-enabled', SITE_INFO.Comment.Giscus.reactionsEnabled);
-  script.setAttribute('data-emit-metadata', SITE_INFO.Comment.Giscus.emitMetadata);
-  script.setAttribute('data-input-position', SITE_INFO.Comment.Giscus.inputPosition);
-  script.setAttribute('defaultCommentOrder', SITE_INFO.Comment.Giscus.defaultCommentOrder || 'newest');
-  // 根据当前主题设置 Giscus 主题
-  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-  script.setAttribute('data-theme', currentTheme === 'dark' ? 'dark' : 'light');
-
-  script.setAttribute('data-lang', SITE_INFO.Comment.Giscus.lang);
-  script.setAttribute('data-loading', SITE_INFO.Comment.Giscus.loading);
-  script.setAttribute('crossorigin', 'anonymous');
-  script.async = true;
-
-  // 清空容器并添加 giscus
-  container.innerHTML = '';
-  container.appendChild(giscusContainer);
-  giscusContainer.appendChild(script);
-
-  // 存储giscus实例信息以便主题切换
-  if (!(window as any).vhGiscusInstances) {
-    (window as any).vhGiscusInstances = [];
-  }
-  (window as any).vhGiscusInstances.push({
-    container: giscusContainer,
-    updateTheme: (theme: string) => {
-      const iframe = giscusContainer.querySelector('iframe.giscus-frame') as HTMLIFrameElement;
-      if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage({
-          giscus: {
-            setConfig: {
-              theme: theme === 'dark' ? 'dark' : 'light'
-            }
-          }
-        }, 'https://giscus.app');
-      }
+// Waline 评论
+const WalineFn = async (commentDOM: string, walineInit: any) => {
+  import('@waline/client/waline.css');
+  import('@waline/client/waline-meta.css');
+  const { init } = await import('@waline/client');
+  walineInit = init({
+    el: commentDOM, path: window.location.pathname.replace(/\/$/, ''), serverURL: SITE_INFO.Comment.Waline.serverURL,
+    emoji: ['https://registry.npmmirror.com/@waline/emojis/1.3.0/files/alus', 'https://registry.npmmirror.com/@waline/emojis/1.3.0/files/bilibili', 'https://registry.npmmirror.com/@waline/emojis/1.3.0/files/bmoji', 'https://registry.npmmirror.com/@waline/emojis/1.3.0/files/qq', 'https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba', 'https://registry.npmmirror.com/@waline/emojis/1.3.0/files/weibo', 'https://registry.npmmirror.com/@waline/emojis/1.3.0/files/soul-emoji'],
+    reaction: [
+      "https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba/tieba_agree.png",
+      "https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba/tieba_look_down.png",
+      "https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba/tieba_sunglasses.png",
+      "https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba/tieba_pick_nose.png",
+      "https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba/tieba_awkward.png",
+      "https://registry.npmmirror.com/@waline/emojis/1.3.0/files/tieba/tieba_sleep.png",
+    ],
+    requiredMeta: ['nick', 'mail'],
+    imageUploader: async (file: any) => {
+      const body = new FormData();
+      body.append('file', file);
+      const res = await fetch("https://wp-cdn.4ce.cn/upload", { method: "POST", body });
+      const resJson = await res.json();
+      return resJson.data.link.replace('i.imgur.com', 'wp-cdn.4ce.cn/v2');
     }
   });
 }
@@ -65,15 +44,14 @@ const checkComment = () => {
 }
 
 // 初始化评论插件
-const commentInit = async (key: string) => {
+const commentInit = async (key: string, walineInit: any) => {
   // 评论 DOM 
   const commentDOM = '.vh-comment>section'
   if (!document.querySelector(commentDOM)) return;
-
-  // 只保留 Giscus 评论系统
-  if (key === 'Giscus') {
-    GiscusFn(commentDOM);
-  }
+  // 评论列表
+  const CommentList: any = { TwikooFn, WalineFn };
+  // 初始化评论
+  CommentList[`${key}Fn`](commentDOM, walineInit);
 }
 
 export { checkComment, commentInit }

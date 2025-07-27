@@ -88,21 +88,15 @@ export default {
   // 博客音乐组件解析接口
   vhMusicApi: 'https://vh-api.4ce.cn/blog/meting',  // 评论组件
   Comment: {
-    Giscus: {
+    // Twikoo 评论
+    Twikoo: {
+      enable: false,
+      envId: ''
+    },
+    // Waline 评论
+    Waline: {
       enable: true,
-      repo: 'HeLongaa/Blog-Astro',
-      repoId: 'R_kgDOOm0XIg',
-      category: 'Announcements',
-      categoryId: 'DIC_kwDOOm0XIs4Cs68u',
-      mapping: 'pathname',
-      strict: '0',
-      reactionsEnabled: '1',
-      emitMetadata: '0',
-      inputPosition: 'top',
-      theme: 'preferred_color_scheme',
-      lang: 'zh-CN',
-      loading: 'lazy',
-      defaultCommentOrder: 'newest'
+      serverURL: 'https://comment.helong.online'
     }
   },
   statistics: {

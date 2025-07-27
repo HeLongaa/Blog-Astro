@@ -28,6 +28,7 @@
     "@playform/compress": "^0.1.9",
     "@types/dplayer": "^1.25.5",
     "@types/nprogress": "^0.2.3",
+    "@waline/client": "^3.6.0",
     "cheerio": "^1.1.0",
     "dayjs": "^1.11.13",
     "less": "^4.4.0",
