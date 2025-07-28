@@ -1,3 +1,22 @@
+// 首页文章卡片点击事件绑定（全局入口脚本）
+function initArticleCardEvents() {
+  const articleCards = document.querySelectorAll('.vh-article-item');
+  articleCards.forEach(card => {
+    const innerLinks = card.querySelectorAll('a');
+    card.addEventListener('click', function(event) {
+      const destination = card.getAttribute('data-href');
+      if (destination) window.location.href = destination;
+    });
+    innerLinks.forEach(link => {
+      link.addEventListener('click', function(event) {
+        event.stopPropagation();
+      });
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initArticleCardEvents);
+document.addEventListener('swup:contentReplaced', initArticleCardEvents);
 import { inRouter, outRouter } from "@/utils/updateRouter";
 // Banner 打字效果
 import TypeWriteInit from "@/scripts/TypeWrite";
@@ -88,6 +107,8 @@ const indexInit = async (only: boolean = true) => {
   initMobileSidebar();
   // 初始化主题 - 始终执行主题初始化，确保主题一致性
   initTheme();
+  // 首页文章卡片点击事件绑定
+  initArticleCardEvents();
 };
 
 

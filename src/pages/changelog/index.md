@@ -9,6 +9,17 @@ comment: false
 
 <div class="changelog-timeline">
   <div class="timeline-item">
+      <div class="timeline-date">2025-07-29</div>
+      <div class="timeline-content">
+        <h3>🫣 bug 修复</h3>
+        <ul> 
+          <li>修复首页无法点击的bug</li>
+          <li>修复页脚在部分宽度设备下的bug</li>
+          <li>博客图片存储调整</li>
+        </ul>
+      </div>
+    </div>
+  <div class="timeline-item">
     <div class="timeline-date">2025-07-25</div>
     <div class="timeline-content">
       <h3>🎨 页面样式优化</h3>
