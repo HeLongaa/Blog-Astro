@@ -171,7 +171,7 @@ export default {
   },
   IPFS_POINT: 
   [
-    'https://https://ipfs.040720.xyz',
+    'https://ipfs.040720.xyz',
     'https://ipfs.crossbell.io'
   ]
 }

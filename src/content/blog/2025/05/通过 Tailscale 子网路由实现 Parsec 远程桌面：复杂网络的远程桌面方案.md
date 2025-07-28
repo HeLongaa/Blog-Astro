@@ -4,7 +4,7 @@ categories: 工具
 tags: ['网络','效率','Tailscale','Parsec','远程桌面']
 id: "17d947ae2f52bd8b"
 date: 2025-05-19 09:48:25
-cover: "https://https://ipfs.040720.xyz/ipfs/QmbPBUcYujkvAUatjKP2oygJ6WraVDfek9MKKHQS9RW5oG"
+cover: "https://oss.helong.online/f50090358b4b5486cec2d8a897d26221fe2cebad2547067e448c7ff072c6362e.png"
 ---
 
 :::note
@@ -13,7 +13,8 @@ cover: "https://https://ipfs.040720.xyz/ipfs/QmbPBUcYujkvAUatjKP2oygJ6WraVDfek9M
 
 ## 背景知识：为什么需要子网路由？
 
-![Tail](https://https://ipfs.040720.xyz/ipfs/QmQYfjKpeXG8ktqwQEt9vwUaEGzDSZCGqwH6mwrpiRFazF)
+![picture 0](https://oss.helong.online/26f42a41c7f1a06bb99b7f5dda00619acb97eb736ba9c1387ada190e65abcf35.png)  
+
 ### Parsec 的网络困境
 Parsec 作为低延迟串流工具，其通信机制依赖直接 IP 连接。但在以下场景会失效：
 - **双 NAT 环境**（如：校园网 → 路由器 → 主机）
@@ -65,7 +66,7 @@ sudo tailscale up --advertise-routes=10.115.0.0/16 --advertise-exit-node --reset
 2. 找到设备点击 **... → Edit route settings**
 3. 勾选 `10.115.0.0/16` 并 Approve
 
-![Tailscale](https://https://ipfs.040720.xyz/ipfs/QmWXjmctCBv4jYn87hzyQSjgCiDrq9WLi4DH6K6aJ4ttKX)
+![picture 1](https://oss.helong.online/2e79c62e7f4f38ddef41346d67b5ff350ccd206ea3133e7c06f28aef81f0708f.png)  
 
 ---
 
@@ -95,7 +96,8 @@ ip route | grep "10.115"
 ### 第三步：Parsec 连接验证
 
 #### 1. 双端登录同一账户
-![Parsec](https://https://ipfs.040720.xyz/ipfs/QmVUWpKnxyixxsSwYXgYqvae3BDMWyaXkZ9cEL8W3AEued)
+
+![picture 2](https://oss.helong.online/bcec84c39398f4aee9b5534bb3328ee2818459b809f0db09990a73a485f3a841.png)  
 
 #### 2. 发起内网直连
 - 在控制端的 Parsec 主机列表中选择设备
