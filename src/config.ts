@@ -168,5 +168,10 @@ export default {
     enable: false,
     serverApi: '',
     paramsName: 'url'
-  }
+  },
+  IPFS_POINT: 
+  [
+    'https://ipfs.helong.online',
+    'https://ipfs.crossbell.io'
+  ]
 }

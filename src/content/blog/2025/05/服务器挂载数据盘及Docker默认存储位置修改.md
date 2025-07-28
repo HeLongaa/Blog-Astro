@@ -4,7 +4,7 @@ categories: 开发运维
 tags: ['Server','Docker']
 id: "ac77cbdb1ec1768e"
 date: 2025-05-09 03:55:25
-cover: "https://img.helong.online/pictures/2025/05/20/682b7e5caa372.png"
+cover: "https://ipfs.helong.online/ipfs/QmPvAffENey5n72cXfVgAeCYtQ6osju41DDHh6Ew3RiF5t"
 ---
 
 :::note
@@ -14,13 +14,13 @@ docker技术日益普遍，我的项目大多数都使用docker运行，这极�
 ### 挂载数据盘
 
 1. `df -h`查看磁盘情况
-![1](https://img.helong.online/pictures/2025/05/20/682b7e59bb605.png)
+![1](https://ipfs.helong.online/ipfs/QmVGV9TZ1pFiR8eVHgbiaDEkWc62tpQZZQia7SM5jATSKf)
 
 若只有一个磁盘/dev/vda1，说明数据盘没有挂载。
 
 2. `fdisk -l`
 
-![2](https://img.helong.online/pictures/2025/05/20/682b7e5ce24ed.png)
+![2](https://ipfs.helong.online/ipfs/Qmazmn8mRKiGcMC2JYKUrSGXR83Q96cQUpzEUsn2UiVFqM)
 
 如果发现上面输出结果中没有类似 Disk /dev/vdb:的部分，说明没有数据盘，下面的挂载操作没有意义，可以直接跳到下一部分。
 
@@ -38,11 +38,11 @@ docker技术日益普遍，我的项目大多数都使用docker运行，这极�
 
 `blkid`查询磁盘UUID
 
-![3](https://img.helong.online/pictures/2025/05/20/682b7e5a0d819.png)
+![3](https://ipfs.helong.online/ipfs/QmWojMF6C5TXU5nDx7FyUTjuXG9Voi7aZ6Qyicr2zVGawh)
 
 修改/etc/fstab文件 `vim /etc/fstab`
 
-![4](https://img.helong.online/pictures/2025/05/20/682b7e5b3e423.png)
+![4](https://ipfs.helong.online/ipfs/QmYx8TQg9MNbGSsDahaTnqncbzGdvbH9dtHkohhQhKudQZ)
 
 添加`UUID=2b2f2aea-4153-4f32-a0ba-8258c849929f /mnt/data ext4 defaults 0 2`
 
@@ -84,7 +84,7 @@ docker技术日益普遍，我的项目大多数都使用docker运行，这极�
 
 通过`docker info`查看Docker信息
 
-![5](https://img.helong.online/pictures/2025/05/20/682b7e5a81c22.png)
+![5](https://ipfs.helong.online/ipfs/QmQNY2yBZJtpzfqsvQFrfKngUQF1Hfjj6xQ8EfDPQymKPV)
 
 ` Docker Root Dir: /mnt/data/docker`
 
