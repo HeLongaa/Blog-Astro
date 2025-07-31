@@ -43,6 +43,9 @@ const initTheme = () => {
         // 更新 Giscus 评论的主题
         updateGiscusTheme(theme);
 
+        // 更新 Artalk 评论的主题
+        updateArtalkTheme(theme);
+
         // 更新按钮图标
         updateActiveState(theme);
     };
@@ -60,6 +63,24 @@ const initTheme = () => {
             }
         } catch (error) {
             console.error('Error updating Giscus theme:', error);
+        }
+    };
+
+    // 更新 Artalk 评论的主题
+    const updateArtalkTheme = (theme: string) => {
+        try {
+            // 通过MutationObserver机制，主题变化会自动触发Artalk主题更新
+            // 这里可以添加额外的逻辑，比如直接调用Artalk实例的方法
+            const artalkInstances = (window as any).artalkInstances;
+            if (artalkInstances && Array.isArray(artalkInstances)) {
+                artalkInstances.forEach((instance: any) => {
+                    if (instance && typeof instance.setDarkMode === 'function') {
+                        instance.setDarkMode(theme === 'dark');
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error updating Artalk theme:', error);
         }
     };
 

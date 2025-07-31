@@ -4,7 +4,7 @@ categories: 分类
 tags: ['标签']
 id: "f61c9567097c4ff9"
 date: 2025-07-29 06:05:35
-cover: "https://oss.helong.online/15af6b437871afc52cb145fbbb647d197109fefa7a2a42e1b8c499f2670054cf.png"
+cover: "https://oss.helong.online/bucket-IMG/15af6b437871afc52cb145fbbb647d197109fefa7a2a42e1b8c499f2670054cf.png"
 ---
 
 :::note
@@ -33,20 +33,20 @@ Cloudflare作为全球领先的边缘网络平台，提供三大核心价值：�
 
 EdgeOne 作为专为中国市场优化的全球加速服务，通过本土化节点布局和智能路由技术，为国内用户提供极速访问体验。其在国内部署的高质量边缘节点有效规避跨境网络延迟，配合智能缓存策略，使资源加载速度提升40%以上，实现"全球加速，本地体验"。
 
-![Cloudflare 访问速度](https://oss.helong.online/79b970e7da137aa915090b96262674c4f1e97946f59823c1f0f8d209ed6e4fb4.png)  
+![Cloudflare 访问速度](https://oss.helong.online/bucket-IMG/79b970e7da137aa915090b96262674c4f1e97946f59823c1f0f8d209ed6e4fb4.png)  
 
-![通过EdgeOne加速后的访问速度](https://oss.helong.online/133533bc2328918298e47ae25f1dfbf126118bc42ea677a75b93d6acd8539eb9.png)  
+![通过EdgeOne加速后的访问速度](https://oss.helong.online/bucket-IMG/133533bc2328918298e47ae25f1dfbf126118bc42ea677a75b93d6acd8539eb9.png)  
 
 ## 1. 创建储存桶
 
 1. 登录 Oracle 控制台，选择 Object Storage（对象存储） 服务
 2. 创建新的存储桶
 
-![创建存储桶-1](https://oss.helong.online/b93979b844e5079cdf5b3431c42a826c6ec0fac1c292318c2fafe6638d44a9f5.png)
+![创建存储桶-1](https://oss.helong.online/bucket-IMG/b93979b844e5079cdf5b3431c42a826c6ec0fac1c292318c2fafe6638d44a9f5.png)
 
 储存桶名称任意
 
-![创建存储桶-2](https://oss.helong.online/2db69a0f590d2c9563973971178f27c454c9be86cb39b7fe9db7f4f4193cf67c.png)  
+![创建存储桶-2](https://oss.helong.online/bucket-IMG/2db69a0f590d2c9563973971178f27c454c9be86cb39b7fe9db7f4f4193cf67c.png)  
 
 3. 设置访问权限为私有
 
@@ -56,7 +56,7 @@ EdgeOne 作为专为中国市场优化的全球加速服务，通过本土化节
 
 通过控制面板-右上角用户头像-我的概要信息-安全-下滑创建客户密钥
 
-![创建访问密钥](https://oss.helong.online/ace511c30c59142100626b3fa5330477cb41155fdbc924bf16598fb38ce50e40.png)  
+![创建访问密钥](https://oss.helong.online/bucket-IMG/ace511c30c59142100626b3fa5330477cb41155fdbc924bf16598fb38ce50e40.png)  
 
 记录 Secret key 和 Access key ID
 
@@ -75,13 +75,13 @@ S3_URL #客户端得到的 URL 为 https://<名称空间>.compat.objectstorage.<
 
 进入创建的存储桶，选择预授权URL
 
-![创建预授权URL](https://oss.helong.online/0cb7840a4a8819e63ee14f719962dd192493cfc9b599023450d6d136b9bca0d2.png)  
+![创建预授权URL](https://oss.helong.online/bucket-IMG/0cb7840a4a8819e63ee14f719962dd192493cfc9b599023450d6d136b9bca0d2.png)  
  
 创建并设置过期时间。
 
 至此，存储桶已经创建完成，可以进行下一步。
 
-## 2. Cloudflare Workers 以及缓存设置
+## 2. Cloudflare Workers 以及缓存设置(适用于域名无备案无法使用EdgeOne国内节点的情况)
 
 :::note
 此部分内容参考：[平凡的路-博客](https://ogr.xyz/p/oracle-object-storage/#cloudflare-workers) 相关内容，所有引用的文本都可以在原有博客查找相关信息，如有侵权请联系删除。
@@ -99,7 +99,7 @@ S3_URL #客户端得到的 URL 为 https://<名称空间>.compat.objectstorage.<
 
 ### 1. 创建 Workers 插入以下代码：
 
-::btn[点击按钮获取代码]{link="https://oss.helong.online/index.js" type="message"}
+::btn[点击按钮获取代码]{link="https://oss.helong.online/bucket-IMG/index.js" type="message"}
 
 替换`OOS_BUCKET_PREAUTH_URL` 为你为存储桶创建的预先验证的请求 URL
 
@@ -107,38 +107,49 @@ S3_URL #客户端得到的 URL 为 https://<名称空间>.compat.objectstorage.<
 
 添加 Workers 路由`oss.[domain]/*`，作用是：将 oss.[domain] 的所有流量转发到 Workers。
 
-![创建Workers - 1](https://oss.helong.online/653aacf9e2915d1ad735765b77ef871ed56000e87610a8a3404c59d75f3d4dca.png)  
+![创建Workers - 1](https://oss.helong.online/bucket-IMG/653aacf9e2915d1ad735765b77ef871ed56000e87610a8a3404c59d75f3d4dca.png)  
 
 ### 2. 缓存设置
 
 主页进入域名
 
-![缓存设置 - 1](https://oss.helong.online/3aa24c60a20e2c576a2cce770bd463c8ae800f63bb0ad8f15caa6facf914d108.png)  
+![缓存设置 - 1](https://oss.helong.online/bucket-IMG/3aa24c60a20e2c576a2cce770bd463c8ae800f63bb0ad8f15caa6facf914d108.png)  
 
 点击创建规则
 
-![缓存设置 - 2](https://oss.helong.online/b946cf2f3d72528b3077ffb3feff33eece3fb23287a0fd73ffff1768813a5fb6.png)  
+![缓存设置 - 2](https://oss.helong.online/bucket-IMG/b946cf2f3d72528b3077ffb3feff33eece3fb23287a0fd73ffff1768813a5fb6.png)  
 
 创建缓存规则
 
-![缓存设置 - 3](https://oss.helong.online/dcc24dd94e3d2fd5a0488edf5877e01e2b4b43ae991b5dfda72e1301980b5b30.png)  
+![缓存设置 - 3](https://oss.helong.online/bucket-IMG/dcc24dd94e3d2fd5a0488edf5877e01e2b4b43ae991b5dfda72e1301980b5b30.png)  
 
 创建“缓存 Everything”规则
 
-![缓存设置 - 4](https://oss.helong.online/88bd51d446d0e6d8dc1b3331300331c7920b7bf178ed36406fb02e6debaec73f.png)  
+![缓存设置 - 4](https://oss.helong.online/bucket-IMG/88bd51d446d0e6d8dc1b3331300331c7920b7bf178ed36406fb02e6debaec73f.png)  
 
 匹配值填写`oss.[domain]/*`
 
 至此，已经可以使用 oss.[domain] 访问 Oracle 对象存储了，但是为了国内加速，建议使用 EdgeOne 进行加速。
 
-## 3. EdgeOne 加速
+## 3. 使用 EdgeOne 加速访问（如果域名有备案，EdgeOne 可以开启全球可用区，国内首选）
 
 1. 登录 EdgeOne 控制台，选择加速域名
 2. 点击域名服务 --> 域名管理 --> 添加域名
 3. 填写加速域名 oss.[主要域名]
-4. 配置如下：
+4. 选择对象存储源站
 
-![EdgeOne设置](https://oss.helong.online/ab1513311855a8616fb984f13810c5588559416aedca5f34a508a420d8dafe12.png)  
+![图 15](https://oss.helong.online/bucket-IMG/a13de5fe5165a5f6b08421eccdb5908f6c2b239610c5227d98365ddb67d7cd7a.png)  
+
+5. 源站类型选择 s3 兼容，需要填写的内容如下：
+
+![图 16](https://oss.helong.online/bucket-IMG/33e982516f2dd14501b7d2671361ed65d54fb9d097daf343b663bc643e023a5c.png)  
+
+- 源站地址：`命名空间.compat.objectstorage.区域代码.oraclecloud.com`
+- 鉴权版本**必须选择** AWS signature v4 
+> 以下项目在 Oracle 对象存储不受支持：虚拟主机式访问以及 AWS 签名版本 2 (SigV2)
+- 地域、Access Key ID 以及 Secret Access Key 为控制台获取的相关信息。
+
+图片访问路径为：https://oss.[domain]/{Bucket-Name}/{img-key}
 
 6. 保存设置
 7. 配置SSL证书
@@ -146,4 +157,4 @@ S3_URL #客户端得到的 URL 为 https://<名称空间>.compat.objectstorage.<
 
 Enjoy!
 
-![picture 14](https://oss.helong.online/899dc16262bdcff1d0c4b347b0c7479f72d47fa4fa89094e01957c007d0c52b6.png)  
+![picture 14](https://oss.helong.online/bucket-IMG/899dc16262bdcff1d0c4b347b0c7479f72d47fa4fa89094e01957c007d0c52b6.png)  

@@ -97,6 +97,13 @@ export default {
     Waline: {
       enable: true,
       serverURL: 'https://comment.helong.online'
+    },
+    // Artalk 评论
+    Artalk: {
+      enable: false,
+      // server: 'https://artalk.helong.online',
+      server:'https://pydwlhxr.eu-central-1.clawcloudrun.com',
+      site: '硅基漫游指南'
     }
   },
   statistics: {
