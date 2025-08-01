@@ -359,7 +359,7 @@ const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
     const talkingDOM = document.querySelector('.talking-main') as HTMLElement
     if (talkingDOM) {
       showMessage(talkingDOM, createErrorMessage(
-        '无法获取说说数据，请稍后重试或检查网络连接',
+        '无法获取说说数据，请确保talks.helong.online可以正常访问',
         '数据加载失败'
       ));
     }

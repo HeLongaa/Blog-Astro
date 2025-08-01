@@ -22,7 +22,7 @@ const FriendsInit = async (data: any) => {
 		const friendsDOM = document.querySelector('.friends-main') as HTMLElement
 		if (friendsDOM) {
 			showMessage(friendsDOM, createErrorMessage(
-				'无法获取朋友们的最新动态，请稍后重试',
+				'无法获取最新动态，请确保rss-api.040720.xyz可以正常访问',
 				'朋友动态加载失败'
 			), true);
 		}

@@ -7,5 +7,5 @@ type: "talking"
 ---
 
 :::note{type="import"}
-Here is where I record my life.
+本服务由HeLong部署于Cloudflare Workers
 :::
