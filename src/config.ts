@@ -157,7 +157,7 @@ export default {
   Friends_conf: {
     // API 接口请求优先，数据格式保持和 data 一致
     api: 'https://rss-api.040720.xyz/api/rss/public',
-    get_auth_avatar: 'https://get-site-img.helong.online',
+    get_auth_avatar: 'https://cn.cravatar.com/favicon/api/index.php',
     // api 为空则使用 data 静态数据
     data: [
       {

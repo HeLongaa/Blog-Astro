@@ -14,7 +14,7 @@ const FriendsInit = async (data: any) => {
 		if (typeof data === 'string') {
 			res = await $GET(api);
 		}
-		friendsDOM.innerHTML = res.map((i: any) => `<article><a href="${i.link}" target="_blank" rel="noopener nofollow"><header><h2>${i.title}</h2></header><p class="vh-ellipsis line-2">${i.content}</p><footer><span><img src="${get_auth_avatar}/favicon?url=${i.link.split('//')[1].split('/')[0]}&size=64" /><em class="vh-ellipsis">${i.author}</em></span><time>${fmtDate(i.date, false)}前</time></footer></a></article>`).join('');
+		friendsDOM.innerHTML = res.map((i: any) => `<article><a href="${i.link}" target="_blank" rel="noopener nofollow"><header><h2>${i.title}</h2></header><p class="vh-ellipsis line-2">${i.content}</p><footer><span><img src="${get_auth_avatar}?url=${i.link.split('//')[1].split('/')[0]}&size=64" /><em class="vh-ellipsis">${i.author}</em></span><time>${fmtDate(i.date, false)}前</time></footer></a></article>`).join('');
 		// 图片懒加载
 		vhLzImgInit();
 	} catch (error) {
