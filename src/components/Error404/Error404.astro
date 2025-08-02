@@ -1,0 +1,633 @@
+---
+const { title = "404", description = "Page not found" } = Astro.props;
+// 页面 Info
+import SITE_CONFIG from "../../config";
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>404 - {SITE_CONFIG.Title}</title>
+	<meta name="description" content={description} />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+<body>
+	<!-- Website Logo -->
+	<div class="vh-404-logo">
+		<img src="/favicon.png" alt="Website Logo" />
+		<span class="vh-404-site-name">{SITE_CONFIG.Title}</span>
+	</div>
+	
+	<section class="vh-404-page">
+		<div class="vh-404-container">
+			<div class="vh-404-illustration">
+				<!-- UFO -->
+				<div class="ufo">
+					<div class="ufo-top"></div>
+					<div class="ufo-bottom"></div>
+					<div class="ufo-lights">
+						<div class="light"></div>
+						<div class="light"></div>
+						<div class="light"></div>
+						<div class="light"></div>
+						<div class="light"></div>
+					</div>
+				</div>
+				
+				<!-- Beam -->
+				<div class="beam"></div>
+				
+				<!-- Rocket -->
+				<div class="rocket">
+					<div class="rocket-body"></div>
+					<div class="rocket-tip"></div>
+					<div class="rocket-fins">
+						<div class="fin fin-left"></div>
+						<div class="fin fin-right"></div>
+					</div>
+					<div class="rocket-fire"></div>
+				</div>
+				
+				<!-- Astronaut -->
+				<div class="astronaut">
+					<div class="astronaut-head"></div>
+					<div class="astronaut-body"></div>
+					<div class="astronaut-arms">
+						<div class="arm arm-left"></div>
+						<div class="arm arm-right"></div>
+					</div>
+					<div class="astronaut-legs">
+						<div class="leg leg-left"></div>
+						<div class="leg leg-right"></div>
+					</div>
+				</div>
+				
+				<!-- Ground -->
+				<div class="ground"></div>
+			</div>
+			
+			<div class="vh-404-content">
+				<h1 class="vh-404-title">404</h1>
+				<h2 class="vh-404-subtitle">Page not found</h2>
+				<p class="vh-404-description">The page you are looking for does not exist or has been removed.</p>
+				<div class="vh-404-buttons">
+					<a href="/" class="vh-404-button">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+						</svg>
+						返回首页
+					</a>
+					<button onclick="history.back()" class="vh-404-button vh-404-button-white">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2z"/>
+						</svg>
+						返回上一页
+					</button>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
+
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+	overflow: hidden;
+}
+
+.vh-404-logo {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 16px 8px 8px;
+	border-radius: 30px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	transition: all 0.3s ease;
+	background: white;
+	border: 2px solid rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
+}
+
+.vh-404-logo:hover {
+	transform: scale(1.05);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.vh-404-logo img {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.vh-404-site-name {
+	font-size: 16px;
+	font-weight: 600;
+	color: #2c3e50;
+	white-space: nowrap;
+	letter-spacing: 0.5px;
+}
+
+.vh-404-page {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f8f9fa;
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+.vh-404-container {
+	display: flex;
+	align-items: center;
+	gap: 4rem;
+	max-width: 1200px;
+	width: 100%;
+	padding: 2rem;
+	height: 100%;
+}
+
+.vh-404-illustration {
+	flex: 1;
+	position: relative;
+	height: 500px;
+	max-width: 600px;
+}
+
+/* UFO Styles */
+.ufo {
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	transform: translateX(-50%);
+	animation: float 3s ease-in-out infinite;
+}
+
+.ufo-top {
+	width: 120px;
+	height: 60px;
+	background: #2c3e50;
+	border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+	position: relative;
+	z-index: 2;
+}
+
+.ufo-bottom {
+	width: 160px;
+	height: 20px;
+	background: #34495e;
+	border-radius: 50%;
+	position: relative;
+	top: -10px;
+	left: -20px;
+	z-index: 1;
+}
+
+.ufo-lights {
+	position: absolute;
+	top: 40px;
+	left: -20px;
+	display: flex;
+	gap: 8px;
+	z-index: 3;
+}
+
+.light {
+	width: 8px;
+	height: 8px;
+	background: #f39c12;
+	border-radius: 50%;
+	animation: blink 1.5s ease-in-out infinite alternate;
+}
+
+.light:nth-child(2) { animation-delay: 0.3s; }
+.light:nth-child(3) { animation-delay: 0.6s; }
+.light:nth-child(4) { animation-delay: 0.9s; }
+.light:nth-child(5) { animation-delay: 1.2s; }
+
+/* Beam */
+.beam {
+	position: absolute;
+	top: 120px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 2px;
+	height: 200px;
+	background: linear-gradient(to bottom, rgba(243, 156, 18, 0.8), transparent);
+	animation: beam-pulse 2s ease-in-out infinite;
+}
+
+.beam::before,
+.beam::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(243, 156, 18, 0.3);
+}
+
+.beam::before {
+	top: 0;
+	width: 20px;
+	height: 100px;
+	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.beam::after {
+	bottom: 0;
+	width: 60px;
+	height: 50px;
+	clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+}
+
+/* Rocket */
+.rocket {
+	position: absolute;
+	bottom: 80px;
+	right: 100px;
+	animation: rocket-float 4s ease-in-out infinite;
+}
+
+.rocket-body {
+	width: 20px;
+	height: 60px;
+	background: #e74c3c;
+	border-radius: 10px 10px 0 0;
+	position: relative;
+}
+
+.rocket-tip {
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 20px solid #c0392b;
+	position: relative;
+	left: 0;
+	top: -20px;
+}
+
+.rocket-fins {
+	position: absolute;
+	bottom: 0;
+}
+
+.fin {
+	width: 0;
+	height: 0;
+	position: absolute;
+	bottom: 0;
+}
+
+.fin-left {
+	border-right: 8px solid #c0392b;
+	border-top: 15px solid transparent;
+	left: -8px;
+}
+
+.fin-right {
+	border-left: 8px solid #c0392b;
+	border-top: 15px solid transparent;
+	right: -8px;
+}
+
+.rocket-fire {
+	width: 12px;
+	height: 20px;
+	background: linear-gradient(to bottom, #f39c12, #e67e22);
+	border-radius: 0 0 50% 50%;
+	position: relative;
+	left: 4px;
+	top: -4px;
+	animation: fire-flicker 0.2s ease-in-out infinite alternate;
+}
+
+/* Astronaut */
+.astronaut {
+	position: absolute;
+	bottom: 120px;
+	left: 80px;
+	animation: astronaut-bounce 2s ease-in-out infinite;
+}
+
+.astronaut-head {
+	width: 30px;
+	height: 30px;
+	background: #ecf0f1;
+	border-radius: 50%;
+	border: 2px solid #bdc3c7;
+	position: relative;
+}
+
+.astronaut-head::before {
+	content: '';
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	width: 6px;
+	height: 6px;
+	background: #2c3e50;
+	border-radius: 50%;
+}
+
+.astronaut-head::after {
+	content: '';
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 6px;
+	height: 6px;
+	background: #2c3e50;
+	border-radius: 50%;
+}
+
+.astronaut-body {
+	width: 25px;
+	height: 35px;
+	background: #95a5a6;
+	border-radius: 5px;
+	position: relative;
+	top: -5px;
+	left: 2.5px;
+}
+
+.astronaut-arms {
+	position: absolute;
+	top: 20px;
+}
+
+.arm {
+	width: 4px;
+	height: 20px;
+	background: #95a5a6;
+	border-radius: 2px;
+	position: absolute;
+}
+
+.arm-left {
+	left: -6px;
+	transform: rotate(-20deg);
+}
+
+.arm-right {
+	right: -6px;
+	transform: rotate(20deg);
+}
+
+.astronaut-legs {
+	position: absolute;
+	top: 45px;
+}
+
+.leg {
+	width: 4px;
+	height: 20px;
+	background: #95a5a6;
+	border-radius: 2px;
+	position: absolute;
+}
+
+.leg-left {
+	left: 6px;
+}
+
+.leg-right {
+	right: 6px;
+}
+
+/* Ground */
+.ground {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	background: #2c3e50;
+	border-radius: 50% 50% 0 0 / 20px 20px 0 0;
+}
+
+/* Content */
+.vh-404-content {
+	flex: 1;
+	text-align: center;
+	color: #2c3e50;
+}
+
+.vh-404-title {
+	font-size: 8rem;
+	font-weight: 900;
+	margin: 0;
+	background: linear-gradient(45deg, #667eea, #764ba2);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vh-404-subtitle {
+	font-size: 2rem;
+	margin: 1rem 0;
+	color: #495057;
+	font-weight: 600;
+}
+
+.vh-404-description {
+	font-size: 1.1rem;
+	margin: 2rem 0;
+	color: #6c757d;
+	line-height: 1.6;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.vh-404-buttons {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.vh-404-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 30px;
+	background: linear-gradient(45deg, #667eea, #764ba2);
+	color: white;
+	text-decoration: none;
+	border-radius: 25px;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+	border: none;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 1rem;
+}
+
+.vh-404-button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.vh-404-button-white {
+	background: white;
+	color: #2c3e50;
+	border: 2px solid #dee2e6;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.vh-404-button-white:hover {
+	background: #f8f9fa;
+	border-color: #adb5bd;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Animations */
+@keyframes float {
+	0%, 100% { transform: translateX(-50%) translateY(0); }
+	50% { transform: translateX(-50%) translateY(-20px); }
+}
+
+@keyframes blink {
+	0% { opacity: 1; }
+	100% { opacity: 0.3; }
+}
+
+@keyframes beam-pulse {
+	0%, 100% { opacity: 0.6; }
+	50% { opacity: 1; }
+}
+
+@keyframes rocket-float {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	25% { transform: translateY(-10px) rotate(2deg); }
+	75% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+@keyframes fire-flicker {
+	0% { transform: scaleY(1); }
+	100% { transform: scaleY(1.2); }
+}
+
+@keyframes astronaut-bounce {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-10px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.vh-404-logo {
+		top: 15px;
+		left: 15px;
+		padding: 6px 12px 6px 6px;
+		gap: 8px;
+	}
+	
+	.vh-404-logo img {
+		width: 32px;
+		height: 32px;
+	}
+	
+	.vh-404-site-name {
+		font-size: 14px;
+	}
+	
+	.vh-404-container {
+		flex-direction: column;
+		gap: 2rem;
+		justify-content: center;
+		align-items: center;
+		padding: 20rem 1rem 2rem 1rem;
+		min-height: calc(100vh - 80px);
+	}
+	
+	.vh-404-illustration {
+		display: none;
+	}
+	
+	.vh-404-content {
+		order: 1;
+		width: 100%;
+		max-width: 400px;
+	}
+	
+	.vh-404-title {
+		font-size: 4rem;
+	}
+	
+	.vh-404-subtitle {
+		font-size: 1.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.vh-404-logo {
+		padding: 4px 8px 4px 4px;
+		gap: 6px;
+	}
+	
+	.vh-404-logo img {
+		width: 28px;
+		height: 28px;
+	}
+	
+	.vh-404-site-name {
+		font-size: 12px;
+		max-width: 120px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.vh-404-page {
+		padding: 0;
+	}
+	
+	.vh-404-container {
+		padding: 3rem 1rem 2rem 1rem;
+		min-height: calc(100vh - 60px);
+	}
+	
+	.vh-404-title {
+		font-size: 3rem;
+	}
+	
+	.vh-404-subtitle {
+		font-size: 1.2rem;
+	}
+	
+	.vh-404-description {
+		font-size: 1rem;
+	}
+	
+	.vh-404-buttons {
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.vh-404-button {
+		width: 100%;
+		max-width: 200px;
+	}
+}
+</style>
