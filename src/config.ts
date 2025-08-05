@@ -50,11 +50,11 @@ export default {
   Navs: [
     // 仅支持 SVG 且 SVG 需放在 public/assets/images/svg/ 目录下，填入文件名即可 <不需要文件后缀名>（封装了 SVG 组件 为了极致压缩 SVG）
     // 建议使用 https://tabler.io/icons 直接下载 SVG
-    { text: 'Archive', link: '/archives', icon: 'Nav_archives' },
-    { text: 'Dynamic', link: '/talking', icon: 'Nav_talking' },
-    { text: 'Rss', link: '/friends', icon: 'Nav_rss' },
-    { text: 'Links', link: '/links', icon: 'Nav_friends' },
-    { text: 'About', link: '/about', icon: 'Nav_about' },
+    { text: 'Archive', link: '/archives', icon: 'Nav_archives',newWindow: false },
+    { text: 'Dynamic', link: '/talking', icon: 'Nav_talking',newWindow: false },
+    { text: 'Rss', link: '/friends', icon: 'Nav_rss',newWindow: false },
+    { text: 'Links', link: '/links', icon: 'Nav_friends',newWindow: false },
+    { text: 'About', link: '/about', icon: 'Nav_about',newWindow: false },
   ],
   // 侧边栏个人网站
   WebSites: [
