@@ -1,7 +1,7 @@
 ---
 title: "通过EdgeOne实现Oracle对象存储的全球加速"
-categories: 分类
-tags: ['标签']
+categories: 开发运维
+tags: ['EdgeOne']
 id: "f61c9567097c4ff9"
 date: 2025-07-29 06:05:35
 cover: "https://oss.helong.online/bucket-IMG/15af6b437871afc52cb145fbbb647d197109fefa7a2a42e1b8c499f2670054cf.png"
