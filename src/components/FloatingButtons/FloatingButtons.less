@@ -129,28 +129,25 @@
         pointer-events: auto !important;
     }
 
-    // 统一的隐藏动画 - 所有按钮都水平向右滑出
-    &.vh-hide {
+    // 统一的隐藏动画 - 所有按钮都水平向右滑出，包含高度和边距过渡
+    &.vh-hide,
+    &.vh-toc-hide {
         opacity: 0 !important;
         transform: translateX(100px) !important; // 统一向右滑出
         height: 0 !important; // 高度变为0
         margin-bottom: 0 !important; // 间距变为0
         margin-top: 0 !important;
         overflow: hidden !important; // 隐藏内容
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1) !important;
         pointer-events: none !important;
     }
 
-    // 目录打开时的隐藏动画 - 也使用水平向右滑出
+    // 区分不同隐藏动画的时长
+    &.vh-hide {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1) !important;
+    }
+
     &.vh-toc-hide {
-        opacity: 0 !important;
-        transform: translateX(100px) !important; // 改为统一的水平向右滑出
-        height: 0 !important; // 高度变为0
-        margin-bottom: 0 !important; // 间距变为0
-        margin-top: 0 !important;
-        overflow: hidden !important; // 隐藏内容
         transition: all 0.25s cubic-bezier(0.4, 0, 0.6, 1) !important;
-        pointer-events: none !important;
     }
 
     // 动画执行期间保持显示状态（但不使用display:none）
@@ -172,8 +169,6 @@
         transform: translateX(100px) !important; // 统一向右位置
     }
 
-
-
     // 激活状态
     &:active {
         transform: translateX(0) scale(0.95);
@@ -190,134 +185,76 @@
     order: 1;
 }
 
-// 独立的悬浮效果 - 使用CSS变量控制宽度
-.vh-floating-buttons-container .vh-back-top.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
-    --button-width: 5.35rem;
-    background-color: @button-primary-color !important;
-    color: #fff !important;
-    transform: translateX(0) scale(1.02) !important;
-    box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
-
-    .button-content {
-        gap: @button-hover-gap !important;
-        padding: 0 @button-hover-padding !important;
+// 各个按钮的特定样式和显示逻辑
+.vh-floating-buttons-container {
+    .vh-back-top {
+        order: 1; // 回到顶部按钮在最上方
     }
 
-    .button-text {
-        opacity: 1 !important;
-        width: auto !important;
-        margin-left: @button-hover-gap !important;
-    }
-}
+    .vh-mobile-toc-button {
+        order: 2; // 移动端目录按钮在第二位
 
-.vh-floating-buttons-container .vh-mobile-toc-button {
-    // 移动端目录按钮在第二位
-    order: 2;
+        // 移动端触摸优化
+        @media (max-width: 888px) {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+        }
 
-    // 移动端触摸优化
-    @media (max-width: 888px) {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-        user-select: none;
+        // 桌面端隐藏移动端目录按钮
+        @media screen and (min-width: 889px) {
+            display: none !important;
+        }
     }
 
-    // 桌面端隐藏移动端目录按钮
-    @media screen and (min-width: 889px) {
-        display: none !important;
-    }
-}
+    .vh-links-jump-button {
+        order: 3; // 友链按钮在第三位
 
-// 独立的悬浮效果 - 目录按钮在所有屏幕下都使用 5.35rem
-.vh-floating-buttons-container .vh-mobile-toc-button.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
-    --button-width: 5.35rem;
-    background-color: @button-primary-color !important;
-    color: #fff !important;
-    transform: translateX(0) scale(1.02) !important;
-    box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
-
-    .button-content {
-        gap: @button-hover-gap !important;
-        padding: 0 @button-hover-padding !important;
+        // 只在有友链内容的页面显示
+        body:not(:has(.links-main)) & {
+            display: none !important;
+        }
     }
 
-    .button-text {
-        opacity: 1 !important;
-        width: auto !important;
-        margin-left: @button-hover-gap !important;
-    }
-}
+    .vh-comment-jump-button {
+        order: 4; // 评论按钮在最下方
 
-.vh-floating-buttons-container .vh-links-jump-button {
-    // 友链按钮在第三位
-    order: 3;
-
-    // 只在有友链内容的页面显示
-    body:not(:has(.links-main)) & {
-        display: none !important;
-    }
-}
-
-// 独立的悬浮效果
-.vh-floating-buttons-container .vh-links-jump-button.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
-    --button-width: 5.35rem;
-    background-color: @button-primary-color !important;
-    color: #fff !important;
-    transform: translateX(0) scale(1.02) !important;
-    box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
-
-    .button-content {
-        gap: @button-hover-gap !important;
-        padding: 0 @button-hover-padding !important;
+        // 没有评论时不显示
+        body:not(:has(.vh-comment)) & {
+            display: none !important;
+        }
     }
 
-    .button-text {
-        opacity: 1 !important;
-        width: auto !important;
-        margin-left: @button-hover-gap !important;
-    }
-}
+    // 统一的悬浮效果 - 所有按钮共用
+    .vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
+        --button-width: 5.35rem;
+        background-color: @button-primary-color !important;
+        color: #fff !important;
+        transform: translateX(0) scale(1.02) !important;
+        box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
 
-.vh-floating-buttons-container .vh-comment-jump-button {
-    // 评论按钮在最下方
-    order: 4;
+        .button-content {
+            gap: @button-hover-gap !important;
+            padding: 0 @button-hover-padding !important;
+        }
 
-    // 没有评论时不显示
-    body:not(:has(.vh-comment)) & {
-        display: none !important;
-    }
-}
-
-// 独立的悬浮效果
-.vh-floating-buttons-container .vh-comment-jump-button.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
-    --button-width: 5.35rem;
-    background-color: @button-primary-color !important;
-    color: #fff !important;
-    transform: translateX(0) scale(1.02) !important;
-    box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
-
-    .button-content {
-        gap: @button-hover-gap !important;
-        padding: 0 @button-hover-padding !important;
-    }
-
-    .button-text {
-        opacity: 1 !important;  
-        width: auto !important;
-        margin-left: @button-hover-gap !important;
+        .button-text {
+            opacity: 1 !important;
+            width: auto !important;
+            margin-left: @button-hover-gap !important;
+        }
     }
 }
 
 // 暗色模式适配
-html[data-theme="dark"] {
-    .vh-floating-button {
-        background-color: var(--vh-white-color);
-        border-color: @button-primary-color;
-        color: @button-primary-color;
+html[data-theme="dark"] .vh-floating-button {
+    background-color: var(--vh-white-color);
+    border-color: @button-primary-color;
+    color: @button-primary-color;
 
-        &:hover {
-            background-color: @button-primary-color;
-            color: var(--vh-white-color);
-        }
+    &:hover {
+        background-color: @button-primary-color;
+        color: var(--vh-white-color);
     }
 }
 
@@ -336,8 +273,6 @@ html[data-theme="dark"] {
         }
     }
 }
-
-
 
 // 平板端和移动端都隐藏侧边栏目录
 @media screen and (max-width: 888px) {
