@@ -81,26 +81,32 @@ import Layout from "@/layouts/Layout/Layout.astro";
         }
     }
 
-    .vh-categories-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 2rem;
-        width: 100%;
-        
-        /* 确保在不同屏幕宽度下的合理布局 */
-        @media screen and (max-width: 1200px) {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+    section.vh-categories-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+        gap: 2rem !important;
+        width: 100% !important;
+    }
+    
+    /* 响应式网格布局 - 确保在所有屏幕尺寸下正确显示 */
+    @media screen and (max-width: 1200px) {
+        section.vh-categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+            gap: 1.5rem !important;
         }
-        
-        @media screen and (max-width: 900px) {
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.25rem;
+    }
+    
+    @media screen and (max-width: 900px) {
+        section.vh-categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+            gap: 1.25rem !important;
         }
-        
-        @media screen and (max-width: 700px) {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+    }
+    
+    @media screen and (max-width: 700px) {
+        section.vh-categories-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
         }
     }
 
