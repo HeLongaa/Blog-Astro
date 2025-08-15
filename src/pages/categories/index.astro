@@ -88,6 +88,14 @@ import Layout from "@/layouts/Layout/Layout.astro";
         width: 100% !important;
     }
     
+    /* 确保基础样式始终应用 */
+    .vh-categories-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+        width: 100% !important;
+        gap: 2rem !important;
+    }
+    
     /* 响应式网格布局 - 确保在所有屏幕尺寸下正确显示 */
     @media screen and (max-width: 1200px) {
         section.vh-categories-grid {
