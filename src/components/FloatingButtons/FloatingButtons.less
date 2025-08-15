@@ -25,7 +25,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end; // 按钮右对齐
-    gap: @button-spacing;
+    gap: 0; // 移除gap，改用margin控制间距，这样可以有平滑的过渡动画
     z-index: 9;
     pointer-events: none; // 容器本身不接收事件，让按钮接收
     width: 5.35rem; // 固定容器宽度为最大按钮宽度
@@ -37,15 +37,25 @@
 
     // 为按钮位置变化添加平滑动画
     .vh-floating-button {
-        transition-property: opacity, transform, background-color, color, box-shadow, width, min-width, max-width;
+        // 添加底部间距，代替gap
+        margin-bottom: @button-spacing;
+        
+        // 基础过渡动画，包含高度和间距的变化
+        // 特别注意：为所有可能影响布局的属性添加过渡
+        transition-property: opacity, transform, background-color, color, box-shadow, width, min-width, max-width, height, margin-bottom, margin-top;
         transition-duration: 0.3s;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
-        // 当按钮显示/隐藏时，其他按钮位置变化的动画
-        &:not(.vh-hide):not(.vh-show) {
-            transition-property: opacity, transform, background-color, color, box-shadow, width, min-width, max-width, margin;
-            transition-duration: 0.3s, 0.3s, 0.3s, 0.3s, 0.3s, 0.3s, 0.3s, 0.3s, 0.4s;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        // 最后一个按钮不需要底部间距
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        // 当按钮不在动画状态时，为布局变化添加更长的过渡时间
+        // 这确保了当其他按钮显示/隐藏时，剩余按钮的位置变化有平滑动画
+        &:not(.vh-hide):not(.vh-show):not(.vh-toc-hide):not(.vh-completely-hidden) {
+            transition-duration: 0.4s; // 稍长的过渡时间，让位置变化更明显
+            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); // 更平滑的缓动函数
         }
     }
 }
@@ -110,36 +120,56 @@
         pointer-events: auto;
     }
 
-    // 统一的显示动画 - 从右侧滑入
+    // 统一的显示动画 - 从右侧滑入，稍微延迟以等待其他按钮位置调整
     &.vh-show {
         display: flex !important;
         opacity: 1 !important;
         transform: translateX(0) !important;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) 0.1s !important; // 添加0.1s延迟
         pointer-events: auto !important;
     }
 
-    // 统一的隐藏动画 - 向右侧滑出
+    // 统一的隐藏动画 - 所有按钮都水平向右滑出
     &.vh-hide {
         opacity: 0 !important;
-        transform: translateX(100px) !important;
+        transform: translateX(100px) !important; // 统一向右滑出
+        height: 0 !important; // 高度变为0
+        margin-bottom: 0 !important; // 间距变为0
+        margin-top: 0 !important;
+        overflow: hidden !important; // 隐藏内容
         transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1) !important;
         pointer-events: none !important;
     }
 
-    // 特殊的目录打开时隐藏动画
+    // 目录打开时的隐藏动画 - 也使用水平向右滑出
     &.vh-toc-hide {
         opacity: 0 !important;
-        transform: translateX(50px) scale(0.9) !important;
+        transform: translateX(100px) !important; // 改为统一的水平向右滑出
+        height: 0 !important; // 高度变为0
+        margin-bottom: 0 !important; // 间距变为0
+        margin-top: 0 !important;
+        overflow: hidden !important; // 隐藏内容
         transition: all 0.25s cubic-bezier(0.4, 0, 0.6, 1) !important;
         pointer-events: none !important;
     }
 
-    // 动画执行期间保持显示状态
+    // 动画执行期间保持显示状态（但不使用display:none）
     &.vh-show,
     &.vh-hide,
     &.vh-toc-hide {
         display: flex !important;
+    }
+
+    // 完全隐藏状态 - 用于替代display:none，也使用统一的水平向右位置
+    &.vh-completely-hidden {
+        display: flex !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+        overflow: hidden !important;
+        pointer-events: none !important;
+        transform: translateX(100px) !important; // 统一向右位置
     }
 
 
@@ -164,7 +194,7 @@
 .vh-floating-buttons-container .vh-back-top.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
     --button-width: 5.35rem;
     background-color: @button-primary-color !important;
-    color: var(--vh-white-color) !important;
+    color: #fff !important;
     transform: translateX(0) scale(1.02) !important;
     box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
 
@@ -201,7 +231,7 @@
 .vh-floating-buttons-container .vh-mobile-toc-button.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
     --button-width: 5.35rem;
     background-color: @button-primary-color !important;
-    color: var(--vh-white-color) !important;
+    color: #fff !important;
     transform: translateX(0) scale(1.02) !important;
     box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
 
@@ -231,7 +261,7 @@
 .vh-floating-buttons-container .vh-links-jump-button.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
     --button-width: 5.35rem;
     background-color: @button-primary-color !important;
-    color: var(--vh-white-color) !important;
+    color: #fff !important;
     transform: translateX(0) scale(1.02) !important;
     box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
 
@@ -261,7 +291,7 @@
 .vh-floating-buttons-container .vh-comment-jump-button.vh-floating-button:hover:not(.vh-hide):not(.vh-toc-hide) {
     --button-width: 5.35rem;
     background-color: @button-primary-color !important;
-    color: var(--vh-white-color) !important;
+    color: #fff !important;
     transform: translateX(0) scale(1.02) !important;
     box-shadow: 0 4px 12px rgba(73, 177, 245, 0.3) !important;
 
@@ -271,7 +301,7 @@
     }
 
     .button-text {
-        opacity: 1 !important;
+        opacity: 1 !important;  
         width: auto !important;
         margin-left: @button-hover-gap !important;
     }

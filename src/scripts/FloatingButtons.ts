@@ -216,10 +216,8 @@ class FloatingButtonManager {
                     button.isInitialized = true;
                 }
 
-                // 设置初始状态 - 所有按钮默认隐藏
-                button.element.style.display = 'none';
-                button.element.style.opacity = '0';
-                button.element.style.transform = 'translateX(100px)';
+                // 设置初始状态 - 所有按钮默认隐藏，使用完全隐藏状态
+                button.element.classList.add('vh-completely-hidden');
                 // 清除任何可能存在的宽度内联样式
                 button.element.style.removeProperty('min-width');
                 button.element.style.removeProperty('width');
@@ -322,8 +320,8 @@ class FloatingButtonManager {
     private showButtonWithAnimation(button: ButtonConfig) {
         if (!button.element) return;
 
-        // 清除可能存在的隐藏动画类
-        button.element.classList.remove('vh-hide', 'vh-toc-hide');
+        // 清除可能存在的隐藏动画类和完全隐藏状态
+        button.element.classList.remove('vh-hide', 'vh-toc-hide', 'vh-completely-hidden');
 
         // 设置初始状态
         button.element.style.display = 'flex';
@@ -349,7 +347,7 @@ class FloatingButtonManager {
                         button.element.style.removeProperty('min-width');
                         button.element.style.removeProperty('width');
                     }
-                }, 400); // 与CSS显示动画时长一致(400ms)
+                }, 500); // 增加到500ms，匹配CSS的400ms动画+100ms延迟
             }
         });
     }
@@ -369,12 +367,16 @@ class FloatingButtonManager {
         button.element.setAttribute('disabled', 'true');
         button.element.setAttribute('aria-hidden', 'true');
 
-        // 动画完成后完全隐藏
+        // 不再使用display:none，让CSS的height和margin动画处理完整的隐藏效果
+        // 只在动画完成后清理动画类，但保持元素在DOM中（通过CSS height:0隐藏）
         const animationDuration = isTocHiding ? 250 : 300;
         setTimeout(() => {
             if (button.element && button.element.classList.contains(hideClass)) {
                 button.element.classList.remove(hideClass);
-                button.element.style.display = 'none';
+                // 添加一个完全隐藏的状态类，而不使用display:none
+                if (!button.element.classList.contains('vh-visible') && !button.element.classList.contains('vh-show')) {
+                    button.element.classList.add('vh-completely-hidden');
+                }
             }
         }, animationDuration);
     }
