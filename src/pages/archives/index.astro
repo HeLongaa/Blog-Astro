@@ -15,6 +15,81 @@ import Archive from "@/components/Archive/Archive.astro";
 
 <Layout title="文章" description={Description} activeNav="archives">
 	<section class="vh-container">
+		<!-- 分类和标签跳转按钮 -->
+		<section class="vh-nav-buttons-section vh-animation vh-animation-init">
+			<div class="nav-buttons-container">
+				<a href="/categories/" class="nav-button categories-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z"></path>
+					</svg>
+					<span>文章分类</span>
+				</a>
+				<a href="/tag/" class="nav-button tags-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+						<line x1="7" y1="7" x2="7.01" y2="7"></line>
+					</svg>
+					<span>文章标签</span>
+				</a>
+			</div>
+		</section>
 		<Archive articleList={articleList} />
 	</section>
 </Layout>
+
+<style lang="less">
+.vh-nav-buttons-section {
+	margin-bottom: 2rem;
+
+	.nav-buttons-container {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+
+		@media (max-width: 768px) {
+			gap: 0.75rem;
+		}
+	}
+
+	.nav-button {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		background: var(--vh-white-color);
+		border: 1px solid var(--vh-border-color);
+		border-radius: 25px;
+		text-decoration: none;
+		color: var(--vh-font-color);
+		font-size: 1rem;
+		font-weight: 500;
+		box-shadow: var(--vh-box-shadow);
+		z-index: 1;
+		transition: all 0.3s ease;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			transition: all 0.3s ease;
+		}
+
+		// 更柔和的hover效果
+		&:hover {
+			background: var(--vh-main-color);
+			color: var(--vh-white-color);
+			border-color: var(--vh-main-color);
+			transform: translateY(-1px);
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+			svg {
+				transform: scale(1.05);
+			}
+		}
+
+		@media (max-width: 768px) {
+			padding: 0.6rem 1.2rem;
+			font-size: 0.9rem;
+		}
+	}
+}
+</style>

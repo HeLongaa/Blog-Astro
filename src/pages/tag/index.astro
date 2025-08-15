@@ -26,7 +26,13 @@ import Layout from "@/layouts/Layout/Layout.astro";
 <Layout title="所有标签" description={Description} activeNav="tag">
     <main class="vh-tag-main">
         <section class="vh-tag-header">
-            <h1>🏷️ 标签云</h1>
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+                标签云
+            </h1>
             <p>共 {tagList.length} 个标签</p>
         </section>
         <section class="vh-tag-cloud">
@@ -60,6 +66,10 @@ import Layout from "@/layouts/Layout/Layout.astro";
         text-align: center;
         margin-bottom: 2.5rem;
         h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
             font-size: 2.2rem;
             color: var(--vh-font-color);
             margin-bottom: 0.5rem;

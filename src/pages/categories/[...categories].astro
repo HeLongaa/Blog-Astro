@@ -27,9 +27,19 @@ import Archive from "@/components/Archive/Archive.astro";
 >
 	<div class="vh-category-page">
 		<div class="vh-category-breadcrumb">
-			<a href="/categories">📂 所有分类</a>
+			<a href="/categories">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z"></path>
+				</svg>
+				所有分类
+			</a>
 			<span class="separator">›</span>
-			<span class="current">📁 {categories}</span>
+			<span class="current">
+				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z"></path>
+				</svg>
+				{categories}
+			</span>
 		</div>
 		<Archive articleList={articleList} />
 	</div>
@@ -49,9 +59,16 @@ import Archive from "@/components/Archive/Archive.astro";
 		font-size: 0.9rem;
 
 		a {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
 			color: var(--vh-main-color);
 			text-decoration: none;
 			transition: color 0.2s ease-in-out;
+
+			svg {
+				transition: color 0.2s ease-in-out;
+			}
 
 			&:hover {
 				color: var(--vh-main-color-88);
@@ -64,6 +81,9 @@ import Archive from "@/components/Archive/Archive.astro";
 		}
 
 		.current {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
 			color: var(--vh-font-color);
 			font-weight: 500;
 		}

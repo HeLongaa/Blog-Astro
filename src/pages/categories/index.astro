@@ -14,7 +14,12 @@ import Layout from "@/layouts/Layout/Layout.astro";
 <Layout title="所有分类" description={Description} activeNav="categories">
     <main class="vh-categories-main">
         <section class="vh-categories-header">
-            <h1>📂 文章分类</h1>
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z"></path>
+                </svg>
+                文章分类
+            </h1>
             <p>共 {categoriesList.length} 个分类</p>
         </section>
 
@@ -26,7 +31,11 @@ import Layout from "@/layouts/Layout/Layout.astro";
                         class="vh-category-card"
                         title={`查看 ${category.name} 分类下的文章`}
                     >
-                        <div class="category-icon">📁</div>
+                        <div class="category-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z"></path>
+                            </svg>
+                        </div>
                         <div class="category-info">
                             <h3>{category.name}</h3>
                             <span class="category-count">
@@ -55,6 +64,10 @@ import Layout from "@/layouts/Layout/Layout.astro";
         margin-bottom: 3rem;
 
         h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
             font-size: 2.5rem;
             color: var(--vh-font-color);
             margin-bottom: 0.5rem;
