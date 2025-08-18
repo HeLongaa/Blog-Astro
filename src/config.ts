@@ -10,7 +10,7 @@ export default {
   // 网站作者
   Author: 'HeLong',
   // 作者头像
-  Avatar: 'https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png',
+  Avatar: 'https://avatars.githubusercontent.com/u/71657914?v=4',
   // 网站座右铭
   Motto: 'Face life with hope.',
   // Cover 网站缩略图

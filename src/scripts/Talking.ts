@@ -342,7 +342,7 @@ const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
       .map((i: any) => `
         <article>
           <header>
-            <img data-vh-lz-src="https://img.helong.online/pictures/2025/05/20/682b7e5c110ae.png" />
+            <img data-vh-lz-src="https://avatars.githubusercontent.com/u/71657914?v=4" />
             <p class="info">
               <span>HeLong</span>
               <time>${fmtDate(i.date)}前</time>
