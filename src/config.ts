@@ -52,6 +52,7 @@ export default {
     // 建议使用 https://tabler.io/icons 直接下载 SVG
     { text: '文章', link: '/archives', icon: 'Nav_archives',newWindow: false },
     { text: '说说', link: '/talking', icon: 'Nav_talking',newWindow: false },
+    { text: '工具', link: '/tools', icon: 'Nav_tools',newWindow: false },
     { text: '动态', link: '/friends', icon: 'Nav_rss',newWindow: false },
     { text: '友链', link: '/links', icon: 'Nav_friends',newWindow: false },
     { text: '关于', link: '/about', icon: 'Nav_about',newWindow: false },
