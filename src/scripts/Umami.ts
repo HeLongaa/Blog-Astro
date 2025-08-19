@@ -8,7 +8,7 @@ export default async () => {
     await LoadUmami(
       `${statistics.Umami.server}/script.js`,
       [
-        // 🔥 关键点：将 defer 放在 attrs 数组的首位
+        // 将 defer 放在 attrs 数组的首位
         { k: "defer", v: true },
         { k: "data-website-id", v: statistics.Umami.siteId }
       ]
