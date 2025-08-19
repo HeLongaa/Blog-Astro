@@ -108,7 +108,7 @@ export default {
   },
   statistics: {
     Umami: {
-      enable: true,
+      enable: false,
       server: 'https://umami.helong.online',
       siteId: '50e99b76-4bfd-4f44-9378-4ca270e1ca9c'
     },
