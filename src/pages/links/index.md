@@ -67,9 +67,9 @@ type: "links"
 :::
 
 ```yaml
-name: HeLong's Blog
+name: 硅基漫游指南
 url: https://blog.helong.online/
-avatar: https://avatars.githubusercontent.com/u/71657914?v=4?v=3&s=88
+avatar: https://blog.helong.online/favicon.png
 descr: Face life with hope.
 ```
 申请前请记得先添加本站
