@@ -147,41 +147,73 @@ class FriendLinksButtonManager {
       return;
     }
 
+    // 检查是否已经显示表单
+    const existingForm = document.getElementById('friend-links-form-container');
+    if (existingForm) {
+      // 如果表单已存在，则隐藏/显示切换
+      if (existingForm.style.display === 'none') {
+        existingForm.style.display = 'block';
+        this.updateButtonText(button, '🔗 收起申请表单');
+      } else {
+        existingForm.style.display = 'none';
+        this.updateButtonText(button, '🔗 申请友链');
+      }
+      return;
+    }
+
     // 添加加载状态
     button.classList.add('loading');
     button.disabled = true;
+    this.updateButtonText(button, '加载中...');
 
-    // 延迟打开窗口，显示加载效果
+    // 延迟创建表单，显示加载效果
     window.setTimeout(() => {
       try {
-        const newWindow = window.open(
-          url,
-          '_blank',
-          'width=900,height=750,scrollbars=yes,resizable=yes,location=yes,menubar=no,toolbar=no'
-        );
-
-        if (newWindow) {
-          // 成功打开窗口
-          this.showButtonMessage(button, '已打开申请页面', 'success');
-
-          // 监听窗口关闭事件
-          const checkClosed = window.setInterval(() => {
-            if (newWindow.closed) {
-              window.clearInterval(checkClosed);
-              button.classList.remove('loading', 'success');
-              button.disabled = false;
-            }
-          }, 1000);
-
-        } else {
-          // 窗口被阻止
-          this.showButtonMessage(button, '请允许弹窗', 'error');
-        }
+        this.createEmbeddedForm(button, url);
+        this.showButtonMessage(button, '表单已加载', 'success');
       } catch (error) {
-        console.error('打开友链申请页面失败:', error);
-        this.showButtonMessage(button, '打开失败', 'error');
+        console.error('加载友链申请表单失败:', error);
+        this.showButtonMessage(button, '加载失败', 'error');
       }
     }, 500);
+  }
+
+  // 创建嵌入式表单
+  private createEmbeddedForm(button: HTMLButtonElement, url: string): void {
+    // 创建表单容器
+    const formContainer = document.createElement('div');
+    formContainer.id = 'friend-links-form-container';
+    formContainer.className = 'friend-links-form-container';
+    
+    // 创建iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.className = 'friend-links-form-iframe';
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('scrolling', 'auto');
+    
+    formContainer.appendChild(iframe);
+    
+    // 将表单插入到按钮容器后面
+    const buttonContainer = button.parentElement;
+    if (buttonContainer && buttonContainer.parentElement) {
+      buttonContainer.parentElement.insertBefore(formContainer, buttonContainer.nextSibling);
+    }
+    
+    // 更新按钮文本
+    this.updateButtonText(button, '🔗 收起申请表单');
+    
+    // 移除加载状态
+    button.classList.remove('loading');
+    button.disabled = false;
+  }
+
+  // 更新按钮文本
+  private updateButtonText(button: HTMLButtonElement, text: string): void {
+    const textElement = button.querySelector('.text');
+    if (textElement) {
+      textElement.textContent = text.replace('🔗 ', '');
+    }
   }
 
   // 显示按钮状态消息

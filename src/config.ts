@@ -70,7 +70,7 @@ export default {
     // 是否展示说说轮播
     TalkingCarouselShow: true,
     // 是否展示分类
-    CategoriesShow: true,
+    CategoriesShow: false,
     // 是否展示标签
     TagsShow: false,
     // 是否展示推荐文章
@@ -118,9 +118,9 @@ export default {
     // 数据源类型：api | static
     api_source: "api",
     // 获取友链列表的 API
-    api: 'https://links.helong.online/api/links?status=approved',
+    api: 'https://friend-link.helong.online/links-list',
     // 友链申请页面 URL
-    submit_url: 'https://links.helong.online',
+    submit_url: 'https://n8n-trcqhocy.ap-northeast-1.clawcloudrun.com/form/9bb44bfc-db7f-43db-9ed7-4b0072bc2710',
     // api_source: "static",
     data: [
       {
