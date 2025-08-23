@@ -1,5 +1,9 @@
 /* 友链图标样式 */
 .friends-main {
+  /* 确保容器已正确定位，优化动画渲染 */
+  position: relative;
+  perspective: 1000px; /* 添加透视效果，使动画更有层次感 */
+  
   article {
     footer {
       span {
@@ -17,6 +21,7 @@
           background-color: #f5f5f5; /* 为透明图标提供背景 */
           padding: 2px; /* 内边距，让图标不贴边 */
           transition: all 0.3s ease; /* 平滑过渡效果 */
+          will-change: transform; /* 提高动画性能 */
           
           /* 确保SVG占位图标保持合适大小 */
           &[src$=".svg"] {

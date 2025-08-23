@@ -4,6 +4,7 @@ h1: "🎴 朋友的新动态"
 desc: "收集的文章~"
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "friends"
+comment: false
 ---
 
 :::note{type="info"}

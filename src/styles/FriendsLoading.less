@@ -1,0 +1,72 @@
+/* 朋友页面加载样式 */
+.friends-loading {
+  text-align: center;
+  padding: 20px 0;
+  margin: 10px 0;
+  color: var(--vh-c-text-2);
+  
+  .loading-dots {
+    display: inline-block;
+    
+    span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: currentColor;
+      opacity: 0.6;
+      margin: 0 3px;
+      animation: loadingDot 1.4s infinite ease-in-out both;
+      
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+    }
+  }
+}
+
+@keyframes loadingDot {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 朋友卡片动画效果 */
+@keyframes friendCardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 为朋友页面内的文章卡片添加动画 */
+.friends-main article {
+  animation: friendCardFadeIn 0.4s ease-out forwards;
+  opacity: 0;
+  
+  /* 添加阶梯式延迟，使卡片按顺序显示 */
+  &:nth-child(1) { animation-delay: 0.05s; }
+  &:nth-child(2) { animation-delay: 0.1s; }
+  &:nth-child(3) { animation-delay: 0.15s; }
+  &:nth-child(4) { animation-delay: 0.2s; }
+  &:nth-child(5) { animation-delay: 0.25s; }
+  &:nth-child(6) { animation-delay: 0.3s; }
+  &:nth-child(7) { animation-delay: 0.35s; }
+  &:nth-child(8) { animation-delay: 0.4s; }
+  &:nth-child(9) { animation-delay: 0.45s; }
+  &:nth-child(10) { animation-delay: 0.5s; }
+  &:nth-child(n+11) { animation-delay: 0.5s; }
+}
