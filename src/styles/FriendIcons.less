@@ -1,0 +1,36 @@
+/* 友链图标样式 */
+.friends-main {
+  article {
+    footer {
+      span {
+        /* 调整图标容器样式 */
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        
+        /* 友链图标样式 */
+        img.friend-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 6px;
+          object-fit: contain; /* 确保图标适应容器但不变形 */
+          background-color: #f5f5f5; /* 为透明图标提供背景 */
+          padding: 2px; /* 内边距，让图标不贴边 */
+          transition: all 0.3s ease; /* 平滑过渡效果 */
+          
+          /* 确保SVG占位图标保持合适大小 */
+          &[src$=".svg"] {
+            background-color: transparent;
+            padding: 0;
+          }
+        }
+        
+        /* 图标鼠标悬停效果 */
+        img.friend-icon:hover {
+          transform: scale(1.1); /* 轻微放大 */
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 添加轻微阴影 */
+        }
+      }
+    }
+  }
+}

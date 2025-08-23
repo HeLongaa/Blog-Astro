@@ -148,7 +148,6 @@ export default {
   Friends_conf: {
     // API 接口请求优先，数据格式保持和 data 一致
     api: 'https://blog-api.helong.online/n8n-file-data/rss_data',
-    get_auth_avatar: 'https://cn.cravatar.com/favicon/api/index.php',
     // api 为空则使用 data 静态数据
     data: [
       {

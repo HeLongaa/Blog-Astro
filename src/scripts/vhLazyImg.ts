@@ -8,7 +8,12 @@ export default () => {
     // 是否包含data-vh-lz-src
     if (!i.hasAttribute("data-vh-lz-src")) {
       i.setAttribute("data-vh-lz-src", i.getAttribute("src"));
-      i.setAttribute("src", '/assets/images/lazy-loading.webp');
+      // 对于朋友图标，使用特殊的SVG占位图
+      if (i.classList.contains('friend-icon')) {
+        i.setAttribute("src", '/assets/images/website-icon-placeholder.svg');
+      } else {
+        i.setAttribute("src", '/assets/images/lazy-loading.webp');
+      }
     }
   });
   if (lazyLoadStatus) return lazyLoadStatus.update();
