@@ -1,6 +1,6 @@
 // 页面组件
 import vh from 'vh-plugin'
-import { fmtDate } from '@/utils'
+import { fmtDate, formatDateTime } from '@/utils'
 import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
 import SITE_INFO from "@/config"
@@ -230,76 +230,34 @@ const processInlineMarkdown = (text: string): string => {
     .replace(/`([^`]+)`/g, '<code>$1</code>');
 }
 
-const DATA_SOURCE = {
-  // API 数据处理
-  async api(url: string) {
-    try {
-      const response = await $GET(url)
-      // 处理包装在 data 字段中的数据
-      const data = response.data || response;
-      if (!Array.isArray(data)) return null;
+// 获取说说数据
+const getTalkingData = async (config: typeof SITE_INFO.Talking_conf) => {
+  try {
+    // 优先使用API
+    if (config.api) {
+      const response = await $GET(config.api)
+      const data = Array.isArray(response) ? response : (response?.data || [])
       
-      // 转换数据格式并解析 Markdown
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error('API返回数据格式错误')
+      }
+      
+      // 处理数据
       return data.map(item => ({
         date: new Date(item.date).toISOString(),
         tags: item.tags || [],
-        content: parseMarkdown(item.content || '')
-      }));
-    } catch {
-      return null
+        content: parseMarkdown(item.content || ''),
+        img: item.img || null,
+        is_top: item.is_top || item.tags?.includes('置顶') || false
+      }))
     }
-  },
-  // RSS 数据处理
-  async rss(url: string) {
-    try {
-      const response = await fetch(url)
-      const xml = await response.text()
-      const doc = new DOMParser().parseFromString(xml, 'text/xml')
-      return Array.from(doc.querySelectorAll('item')).map(item => {
-        const pubDate = item.querySelector('pubDate')?.textContent || ''
-        const description = item.querySelector('description')?.textContent || ''
-        // 提取标签
-        const div = document.createElement('div')
-        div.innerHTML = description
-        const tags = Array.from(div.querySelectorAll('span'))
-          .filter(span => span.textContent?.startsWith('#'))
-          .map(span => {
-            const tag = span.textContent?.slice(1).trim()
-            span.remove()
-            return tag
-          })
-          .filter(Boolean)
-        // 优化后的图片提取逻辑
-        const imageUrls = new Set<string>([
-          ...Array.from(item.querySelectorAll('enclosure'))
-            .filter(enc => enc.getAttribute('type')?.startsWith('image/'))
-            .map(enc => enc.getAttribute('url') || ''),
-          ...Array.from(div.querySelectorAll('img'))
-            .map(img => img.src || '')
-        ].filter(Boolean))
-        div.querySelectorAll('img').forEach(img => img.remove())
-        return {
-          date: new Date(pubDate).toISOString(),
-          tags,
-          content: `${div.innerHTML.replace(/<\/?span[^>]*>/g, '')}${imageUrls.size > 0
-            ? `<p class="vh-img-flex">${Array.from(imageUrls).map(img => `
-                  <img 
-                    data-vh-lz-src="${img}" 
-                    alt="动态图片" 
-                    loading="lazy"
-                  >`).join('')
-            }</p>`
-            : ''
-            }`
-        }
-      })
-    } catch {
-      return null
-    }
-  },
-  // 静态数据
-  static(data: any) {
-    return data
+    
+    // 回退到静态数据
+    return config.data || []
+  } catch (error) {
+    console.error('获取说说数据失败:', error)
+    // 返回静态数据作为备选
+    return config.data || []
   }
 }
 
@@ -308,58 +266,65 @@ const TalkingInit = async (config: typeof SITE_INFO.Talking_conf) => {
   if (!talkingDOM) return
 
   try {
-    // 获取数据源
-    let finalData = null
-    switch (config.api_source) {
-      case 'api':
-        finalData = await DATA_SOURCE.api(config.api)
-        break
-      case 'memos_rss':
-        finalData = await DATA_SOURCE.rss(config.cors_url + "?remoteUrl=" + config.memos_rss_url)
-        break
-      case 'static':
-        finalData = DATA_SOURCE.static(config.data)
-        break
-      default:
-        throw new Error('未知数据源类型')
-    }
-
-    if (!finalData || !finalData.length) {
+    // 获取数据
+    const talkingData = await getTalkingData(config)
+    
+    if (!talkingData || talkingData.length === 0) {
       throw new Error('数据加载失败')
     }
 
     // 渲染内容
-    talkingDOM.innerHTML = finalData
-      // 过滤 Link 
-      .filter((i: any) => !i.tags?.includes('Link'))
-      .filter((i: any) => !i.tags?.includes('link'))
-      // 新增置顶排序逻辑
+    talkingDOM.innerHTML = talkingData
+      // 根据置顶状态排序
       .sort((a: any, b: any) => {
-        const aPinned = a.tags?.includes('置顶') ? 1 : 0
-        const bPinned = b.tags?.includes('置顶') ? 1 : 0
-        return bPinned - aPinned // 置顶内容排前
+        return (b.is_top ? 1 : 0) - (a.is_top ? 1 : 0)
       })
-      .map((i: any) => `
-        <article>
-          <header>
-            <img data-vh-lz-src="https://avatars.githubusercontent.com/u/71657914?v=4" />
-            <p class="info">
-              <span>HeLong</span>
-              <time>${fmtDate(i.date)}前</time>
-            </p>
-          </header>
-          <section class="main">${i.content}</section>
-          <footer>${i.tags.map((tag: any) => `<span>${tag}</span>`).join('')}</footer>
-        </article>
-      `).join('')
+      .map((item: any) => {
+        // 构建图片HTML
+        const imgHTML = item.img ? 
+          `<div class="vh-img-grid single"><div class="vh-img-item"><img data-vh-lz-src="${item.img}" alt="说说配图" loading="lazy" /></div></div>` : '';
+        
+        // 构建标签HTML - 置顶标签显示红色
+        const tagsHTML = (item.tags || []).map((tag: string) => 
+          `<span class="${tag === '置顶' ? 'tag-top' : ''}">${tag}</span>`
+        ).join('');
+        
+        return `
+          <article>
+            <header>
+              <img data-vh-lz-src="https://avatars.githubusercontent.com/u/71657914?v=4" />
+              <p class="info">
+                <span>HeLong</span>
+                <time>${formatDateTime(item.date)}</time>
+              </p>
+            </header>
+            <section class="main">
+              ${item.content}
+              ${imgHTML}
+            </section>
+            <footer>${tagsHTML}</footer>
+          </article>
+        `;
+      }).join('')
+      
+    // 添加置顶标签的样式
+    const style = document.createElement('style')
+    style.textContent = `
+      .talking-main article footer span.tag-top {
+        color: #fff !important;
+        background-color: var(--vh-main-color) !important;
+      }
+    `
+    document.head.appendChild(style)
 
+    // 初始化图片懒加载
     vhLzImgInit()
   } catch (error) {
     console.error('数据加载异常:', error)
     const talkingDOM = document.querySelector('.talking-main') as HTMLElement
     if (talkingDOM) {
       showMessage(talkingDOM, createErrorMessage(
-        '无法获取说说数据，请确保talks.helong.online可以正常访问',
+        '无法获取说说数据，请检查网络连接或稍后重试',
         '数据加载失败'
       ));
     }

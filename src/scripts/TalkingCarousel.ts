@@ -1,5 +1,5 @@
 // 说说轮播组件脚本
-import { fmtDate } from '@/utils';
+import { fmtDate, formatDateTime } from '@/utils';
 import { $GET } from '@/utils';
 import SITE_INFO from "@/config";
 import { createErrorMessage, showMessage } from '@/utils/message';
@@ -8,93 +8,68 @@ interface TalkingItem {
     date: string;
     tags: string[];
     content: string;
+    img?: string | null;
+    is_top?: boolean;
 }
 
-// 数据源处理
-const DATA_SOURCE = {
-    // API 数据处理
-    async api(url: string): Promise<TalkingItem[] | null> {
-        try {
-            const response = await $GET(url);
-            // 处理包装在 data 字段中的数据
-            const data = response.data || response;
-            if (!Array.isArray(data)) return null;
+// 简单的 Markdown 解析函数
+const parseMarkdown = (content: string): string => {
+    return content
+        // 处理换行符
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n')
+        // 处理图片 ![alt](url) - 轮播中显示为小图标+文件名
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+            const filename = alt || url.split('/').pop() || '图片';
+            return `<span class="image-indicator">🖼️ ${filename}</span>`;
+        })
+        // 处理链接 [text](url)
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener nofollow">$1</a>')
+        // 处理粗体 **text**
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        // 处理斜体 *text*
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+        // 处理代码 `code`
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        // 处理换行
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>')
+};
+
+// 获取说说数据
+const getTalkingData = async (): Promise<TalkingItem[] | null> => {
+    try {
+        const config = SITE_INFO.Talking_conf;
+        
+        // 优先使用API
+        if (config.api) {
+            const response = await $GET(config.api);
+            const data = Array.isArray(response) ? response : (response?.data || []);
+            
+            if (!Array.isArray(data) || data.length === 0) {
+                return null;
+            }
             
             // 转换数据格式并解析 Markdown
             return data.map(item => ({
                 date: new Date(item.date).toISOString(),
                 tags: item.tags || [],
-                content: this.parseMarkdown(item.content || '')
+                content: parseMarkdown(item.content || ''),
+                img: item.img || null,
+                is_top: item.is_top || item.tags?.includes('置顶') || false
             }));
-        } catch {
-            return null;
         }
-    },
-
-    // 简单的 Markdown 解析函数
-    parseMarkdown(content: string): string {
-        return content
-            // 处理换行符
-            .replace(/\r\n/g, '\n')
-            .replace(/\r/g, '\n')
-            // 处理图片 ![alt](url) - 轮播中显示为小图标+文件名
-            .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
-                const filename = alt || url.split('/').pop() || '图片';
-                return `<span class="image-indicator">🖼️ ${filename}</span>`;
-            })
-            // 处理链接 [text](url)
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener nofollow">$1</a>')
-            // 处理粗体 **text**
-            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-            // 处理斜体 *text*
-            .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-            // 处理代码 `code`
-            .replace(/`([^`]+)`/g, '<code>$1</code>')
-            // 处理换行
-            .replace(/\n\n/g, '<br><br>')
-            .replace(/\n/g, '<br>')
-    },
-
-    // RSS 数据处理
-    async rss(url: string): Promise<TalkingItem[] | null> {
-        try {
-            const response = await fetch(url);
-            const xml = await response.text();
-            const doc = new DOMParser().parseFromString(xml, 'text/xml');
-
-            return Array.from(doc.querySelectorAll('item')).map(item => {
-                const pubDate = item.querySelector('pubDate')?.textContent || '';
-                const description = item.querySelector('description')?.textContent || '';
-
-                // 提取标签
-                const div = document.createElement('div');
-                div.innerHTML = description;
-                const tags = Array.from(div.querySelectorAll('span'))
-                    .filter(span => span.textContent?.startsWith('#'))
-                    .map(span => {
-                        const tag = span.textContent?.slice(1).trim();
-                        span.remove();
-                        return tag;
-                    })
-                    .filter(Boolean) as string[];
-
-                // 移除图片和其他元素，只保留文本内容
-                div.querySelectorAll('img, .vh-img-flex').forEach(el => el.remove());
-
-                return {
-                    date: new Date(pubDate).toISOString(),
-                    tags,
-                    content: div.innerHTML.replace(/<\/?span[^>]*>/g, '').trim()
-                };
-            }).filter(item => item.content); // 过滤空内容
-        } catch {
-            return null;
-        }
-    },
-
-    // 静态数据
-    static(data: TalkingItem[]): TalkingItem[] {
-        return data;
+        
+        // 回退到静态数据
+        return config.data.map(item => ({
+            date: new Date(item.date).toISOString(),
+            tags: item.tags || [],
+            content: parseMarkdown(item.content || ''),
+            img: item.img || null,
+            is_top: item.is_top || item.tags?.includes('置顶') || false
+        }));
+    } catch {
+        return null;
     }
 };
 
@@ -107,20 +82,42 @@ class TalkingCarousel {
     private data: TalkingItem[] = [];
     private currentIndex = 0;
     private autoPlayInterval: number | null = null;
-    private readonly autoPlayDelay = 5000; // 5秒自动切换
+    private readonly autoPlayDelay = 3000;
 
     constructor() {
-        this.init();
+        this.initialize();
     }
 
-    private async init() {
-        this.container = document.querySelector('.talking-carousel-container');
-        if (!this.container) return;
-
+    private initialize = async () => {
+        // 先获取容器元素
+        this.container = document.querySelector('.talking-carousel');
+        
+        if (!this.container) {
+            console.error('找不到说说轮播容器元素');
+            return;
+        }
+        
+        // 获取DOM元素
         this.contentElement = this.container.querySelector('.talking-carousel-content');
         this.prevBtn = this.container.querySelector('.carousel-prev');
         this.nextBtn = this.container.querySelector('.carousel-next');
         this.indicators = this.container.querySelector('.carousel-indicators');
+
+        // 添加置顶标签样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .talking-carousel .talking-tags .tag.tag-top {
+                color: #fff;
+                background-color: #ff4d4f;
+            }
+            .talking-carousel .image-indicator {
+                display: inline-block;
+                margin-top: 5px;
+                color: #666;
+                font-size: 0.9em;
+            }
+        `;
+        document.head.appendChild(style);
 
         // 绑定事件
         this.bindEvents();
@@ -142,22 +139,8 @@ class TalkingCarousel {
         if (!this.contentElement) return;
 
         try {
-            const config = SITE_INFO.Talking_conf;
-            let finalData: TalkingItem[] | null = null;
-
-            switch (config.api_source) {
-                case 'api':
-                    finalData = await DATA_SOURCE.api(config.api);
-                    break;
-                case 'memos_rss':
-                    finalData = await DATA_SOURCE.rss(config.cors_url + "?remoteUrl=" + config.memos_rss_url);
-                    break;
-                case 'static':
-                    finalData = DATA_SOURCE.static(config.data);
-                    break;
-                default:
-                    throw new Error('未知数据源类型');
-            }
+            // 使用新的数据获取函数
+            const finalData = await getTalkingData();
 
             if (!finalData || !finalData.length) {
                 throw new Error('数据加载失败');
@@ -167,14 +150,26 @@ class TalkingCarousel {
             this.data = finalData
                 .filter(item => !item.tags?.includes('Link') && !item.tags?.includes('link'))
                 .sort((a, b) => {
-                    const aPinned = a.tags?.includes('置顶') ? 1 : 0;
-                    const bPinned = b.tags?.includes('置顶') ? 1 : 0;
-                    return bPinned - aPinned;
+                    // 优先使用is_top字段，其次检查置顶标签
+                    const aPinned = a.is_top || a.tags?.includes('置顶') ? 1 : 0;
+                    const bPinned = b.is_top || b.tags?.includes('置顶') ? 1 : 0;
+                    
+                    if (bPinned !== aPinned) {
+                        return bPinned - aPinned; // 置顶内容排前
+                    }
+                    
+                    // 次优先按日期排序
+                    return new Date(b.date).getTime() - new Date(a.date).getTime();
                 })
-                .slice(0, 5); // 只取前5条
+                .slice(0, 10);
 
             this.render();
-            this.startAutoPlay();
+            
+            // 启动自动播放
+            if (this.data.length > 1) {
+                // console.log('启动轮播自动播放，间隔:', this.autoPlayDelay, 'ms');
+                this.startAutoPlay();
+            }
         } catch (error) {
             console.error('说说轮播数据加载失败:', error);
             this.renderError();
@@ -185,20 +180,33 @@ class TalkingCarousel {
         if (!this.contentElement || !this.indicators) return;
 
         // 渲染说说内容
-        this.contentElement.innerHTML = this.data.map((item, index) => `
+        this.contentElement.innerHTML = this.data.map((item, index) => {
+            // 添加图片指示器，如果有图片但不显示
+            const hasImage = item.img ? '<span class="image-indicator">🖼️ 图片</span>' : '';
+            
+            // 构建标签HTML - 置顶标签特殊样式
+            const tagsHtml = item.tags.slice(0, 2).map(tag => 
+                `<span class="tag ${tag === '置顶' ? 'tag-top' : ''}">${tag}</span>`
+            ).join('');
+            
+            return `
       <div class="talking-item ${index === 0 ? 'active' : ''}" data-index="${index}">
-        <div class="talking-content">${this.cleanContent(item.content)}</div>
+        <div class="talking-content">
+            ${this.cleanContent(item.content)}
+            ${hasImage}
+        </div>
         <div class="talking-meta">
-          <span class="talking-date">${fmtDate(item.date)}前</span>
+          <span class="talking-date">${formatDateTime(item.date)}</span>
           <div class="talking-tags">
-            ${item.tags.slice(0, 2).map(tag => `<span class="tag">${tag}</span>`).join('')}
+            ${tagsHtml}
           </div>
         </div>
         <div class="talking-action">
           <a href="/talking" class="view-more">查看更多 →</a>
         </div>
       </div>
-    `).join('');
+    `;
+        }).join('');
 
         // 渲染指示器
         this.indicators.innerHTML = this.data.map((_, index) =>
@@ -351,7 +359,9 @@ export const initTalkingCarousel = () => {
     // 检查是否存在说说轮播容器
     const carouselContainer = document.querySelector('.talking-carousel-container');
     if (carouselContainer) {
-        new TalkingCarousel();
+        const carousel = new TalkingCarousel();
+        // 保存实例到全局，方便后续管理
+        (window as any).talkingCarouselInstance = carousel;
     }
 };
 

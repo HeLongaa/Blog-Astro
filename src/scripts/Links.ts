@@ -275,33 +275,25 @@ export function initFriendLinksButton(): void {
 }
 
 export default async () => {
-  const { api_source, api, data } = SITE_INFO.Link_conf
+  const { api, data } = SITE_INFO.Link_conf
 
   try {
-    let result: any[] = []
-
-    switch (api_source) {
-      case 'static':
-        result = data || []
-        break
-
-      case 'api':
-        if (!api) throw new Error('API地址未配置')
-        result = await $GET(api)
-        break
-
-      default:
-        throw new Error('未知数据源类型')
+    // 使用和 Friends.ts 相同的逻辑
+    let res = api || data;
+    
+    if (typeof res === 'string') {
+      res = await $GET(res)
     }
+    
+    // 确保结果是数组
+    let result = Array.isArray(res) ? res : []
 
     // 每次获取数据后重新随机排序
-    result = shuffleArray([...result])    // 优化空数据提示逻辑
+    result = shuffleArray([...result])
+    
+    // 优化空数据提示逻辑
     if (result.length === 0) {
-      const emptyMsg = {
-        static: '静态数据为空',
-        memos_rss: '未发现有效友链数据',
-        api: 'API未返回有效数据'
-      }[api_source]
+      const emptyMsg = api ? 'API未返回有效数据' : '静态数据为空'
 
       // 在页面显示提示信息
       const linksDOM = document.querySelector('.main-inner-content>.vh-tools-main>main.links-main') as HTMLElement

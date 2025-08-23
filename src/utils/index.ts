@@ -10,8 +10,24 @@ dayjs.locale('zh-cn');
 const getDescription = (post: any, num: number = 150) => (post.rendered ? post.rendered.html.replace(/<[^>]+>/g, "").replace(/\s+/g, "") : post.body.replace(/\n/g, "").replace(/#/g, "")).slice(0, num) || '暂无简介'
 //处理时间
 const fmtTime = (time: any, fmt: string = 'MMMM D, YYYY') => dayjs(time).utc().format(fmt)
-// 处理日期
-const fmtDate = (time: string | Date, hours_status = true) => {
+
+// 显示具体日期时间
+const formatDateTime = (time: string | Date) => {
+  return dayjs(time).format('YYYY-MM-DD HH:mm:ss');
+}
+
+// 仅显示年月日
+const formatDate = (time: string | Date) => {
+  return dayjs(time).format('YYYY-MM-DD');
+}
+
+// 处理日期 (相对时间)
+const fmtDate = (time: string | Date, hours_status = true, useAbsoluteTime = false) => {
+  // 如果要使用具体时间，直接调用另一个函数
+  if (useAbsoluteTime) {
+    return formatDateTime(time);
+  }
+  
   const now = dayjs();
   const past = dayjs(time);
   // 计算各时间单位，逐步扣除已计算的部分
@@ -99,4 +115,4 @@ const $POST = async (url: string, data: Record<string, any>, headers: Record<str
 
 
 
-export { $GET, $POST, getDescription, fmtTime, fmtDate, fmtPage, LoadScript, LoadStyle }
+export { $GET, $POST, getDescription, fmtTime, fmtDate, formatDateTime, formatDate, fmtPage, LoadScript, LoadStyle }

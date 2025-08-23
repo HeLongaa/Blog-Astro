@@ -115,13 +115,11 @@ export default {
   },
   // 友链配置
   Link_conf: {
-    // 数据源类型：api | static
-    api_source: "api",
-    // 获取友链列表的 API
-    api: 'https://friend-link.helong.online/links-list',
+    // API 接口请求优先，数据格式保持和 data 一致 (临时测试：使用和 Friends 相同的配置方式)
+    api: 'https://blog-api.helong.online/n8n-file-data/link_data',
     // 友链申请页面 URL
     submit_url: 'https://n8n-trcqhocy.ap-northeast-1.clawcloudrun.com/form/9bb44bfc-db7f-43db-9ed7-4b0072bc2710',
-    // api_source: "static",
+    // api 为空则使用 data 静态数据
     data: [
       {
         "name": "HeLong's Blog",
@@ -133,30 +131,23 @@ export default {
   },
   // 说说配置
   Talking_conf: {
-    // 数据源类型：api | memos_rss | static
-    api_source: "api",
-
-    // 当api_source=api时生效
-    api: "https://talks.helong.online/api/posts",
-
-    // 当api_source=rss时生效，使用Memos的RSS订阅
-    memos_rss_url: "https://s.helong.online/u/HeLong/rss.xml",
-    cors_url: "https://cors.helong.online",
-    // 当api_source=static时生效
+    // API 接口地址
+    api: "https://blog-api.helong.online/n8n-file-data/talk_data",
+    // api 为空则使用 data 静态数据
     data: [
       {
         "date": "2025-05-08 19:36:16",
-        "tags": [
-          "Todo"
-        ],
-        "content": "."
+        "tags": ["Todo"],
+        "content": "这是一条测试说说",
+        "img": null,
+        "is_top": false
       }
     ]
   },
   // Friends 页面配置
   Friends_conf: {
     // API 接口请求优先，数据格式保持和 data 一致
-    api: 'https://rss-api.040720.xyz/api/rss/public',
+    api: 'https://blog-api.helong.online/n8n-file-data/rss_data',
     get_auth_avatar: 'https://cn.cravatar.com/favicon/api/index.php',
     // api 为空则使用 data 静态数据
     data: [

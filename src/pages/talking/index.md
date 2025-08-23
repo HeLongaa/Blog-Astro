@@ -7,5 +7,5 @@ type: "talking"
 ---
 
 :::note{type="import"}
-本服务由HeLong部署于Cloudflare Workers
+这里记录了站点的变迁和我的小想法
 :::
