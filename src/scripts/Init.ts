@@ -67,7 +67,6 @@ const MusicList: any[] = [];
 const UmamiInit = () => {
   // Umami 统计 
   Umami();
-  // 注意：悟空统计已在 Head.astro 中通过同步脚本实现
 };
 
 const indexInit = async (only: boolean = true) => {
