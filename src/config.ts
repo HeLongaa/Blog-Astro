@@ -112,11 +112,6 @@ export default {
       server: 'https://umami.helong.online',
       siteId: '50e99b76-4bfd-4f44-9378-4ca270e1ca9c'
     },
-    WuKong: {
-      enable: true,
-      id: '817964544101220352'
-      // id: 817965509785190400
-    },
   },
   // 友链配置
   Link_conf: {
