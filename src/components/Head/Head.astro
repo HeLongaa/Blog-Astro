@@ -111,5 +111,11 @@ import "@/styles/Base.less";
 	<!-- LINK 标签 -->
 	<link rel="canonical" href={canonicalURL} />
 	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<!-- 悟空统计 - 同步加载 -->
+	{
+		SITE_CONFIG.statistics?.WuKong?.enable && (
+			<script type="text/javascript" src={`//api.wukongtongji.com/c?_=${SITE_CONFIG.statistics.WuKong.id}`}></script>
+		)
+	}
 	<slot />
 </head>
