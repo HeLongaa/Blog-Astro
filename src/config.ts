@@ -104,6 +104,7 @@ export default {
       server: 'https://artalk.helong.online',
       // server:'https://pydwlhxr.eu-central-1.clawcloudrun.com',
       site: '硅基漫游指南'
+      // site: 'Local'
     }
   },
   statistics: {
