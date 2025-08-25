@@ -2,7 +2,7 @@ import SITE_INFO from '@/config';
 export default () => {
   const writeDom = document.querySelector('.header-main>.desc');
   if (!writeDom) return;
-  const TypeWriteList = SITE_INFO.TypeWriteList;
+  const TypeWriteList: string[] = SITE_INFO.TypeWriteList;
   let TypeWriteListIndex = 0;
   let index = 0;
   let isDeleting = false;
