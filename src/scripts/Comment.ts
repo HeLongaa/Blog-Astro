@@ -1,8 +1,7 @@
 import SITE_INFO from "@/config";
 import { LoadScript } from "@/utils/index";
 declare const twikoo: any;
-import 'artalk/Artalk.css'
-import Artalk from 'artalk'
+declare const Artalk: any;
 
 // Twikoo 评论
 const TwikooFn = async (commentDOM: string) => {
@@ -48,6 +47,16 @@ const ArtalkFn = async (commentDOM: string, _walineInit?: any) => {
     return theme === 'dark';
   };
 
+  // 加载Artalk CSS
+  const linkElement = document.createElement('link');
+  linkElement.rel = 'stylesheet';
+  linkElement.href = `${SITE_INFO.Comment.Artalk.server}/dist/Artalk.css`;
+  document.head.appendChild(linkElement);
+
+  // 加载Artalk JS
+  await LoadScript(`${SITE_INFO.Comment.Artalk.server}/dist/Artalk.js`);
+
+  // 初始化Artalk
   const artalk = Artalk.init({
     el: commentDOM,
     pageKey: window.location.pathname,
@@ -55,34 +64,34 @@ const ArtalkFn = async (commentDOM: string, _walineInit?: any) => {
     server: SITE_INFO.Comment.Artalk.server,
     site: SITE_INFO.Comment.Artalk.site,
     darkMode: getCurrentTheme(),
-    locale: 'zh-CN',
-    placeholder: '来都来了，不妨评论一下',
-    noComment: '暂无评论',
-    sendBtn: '发送评论',
-    editorTravel: true,
-    flatMode: 'auto',
-    nestMax: 2,
-    nestSort: 'DATE_ASC',
-    gravatar: {
-      mirror: 'https://cravatar.cn/avatar/',
-      params: 'd=mp'
+    emoticons: '/Owo-Artalk.json',
+    flatMode: false,
+    nestingLimit: 3,
+    heightLimit: 300,
+    templates: {
+      // 评论项模板
+      comment: 
+`<div class="atk-comment-wrap" id="atk-comment-{comment.id}">
+  <div class="atk-comment">
+    <div class="atk-avatar"><a target="_blank" rel="noreferrer noopener nofollow" href="{comment.link}"><img src="{comment.avatar}"></a></div>
+    <div class="atk-main">
+      <div class="atk-header">
+        <span class="atk-item atk-nick"><a target="_blank" rel="noreferrer noopener nofollow" href="{comment.link}">{comment.nick}</a></span>
+        <span class="atk-badge-wrap">{comment.badges}</span>{if comment.is_reply}<span class="atk-item atk-reply-at"><span class="atk-arrow"></span><span class="atk-nick">{comment.parent_nick}</span></span>{/if}
+        <span class="atk-item atk-date" data-atk-comment-date="{comment.date_ms}">{comment.date}</span>
+        <span class="atk-ua-wrap">{comment.ua_info}</span>
+      </div>
+      <div class="atk-body">
+        <div class="atk-content" style="{if comment.is_collapsed}display:none;{/if}">{comment.content}</div>
+      </div>
+      <div class="atk-footer">
+        <div class="atk-actions">{comment.actions}</div>
+      </div>
+      <div class="atk-comment-children">{comment.children}</div>
+    </div>
+  </div>
+</div>`
     },
-    pagination: {
-      pageSize: 20,
-      readMore: false,
-      autoLoad: true
-    },
-    heightLimit: {
-      content: 300,
-      children: 400,
-      scrollable: false
-    },
-    imgUpload: true,
-    imgLazyLoad: 'native',
-    listSort: true,
-    pvAdd: true,
-    countEl: '#ArtalkCount',
-    statPageKeyAttr: 'data-path'
   });
 
   // 监听主题变化并更新Artalk主题
