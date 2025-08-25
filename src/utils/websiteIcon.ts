@@ -49,13 +49,14 @@ export const getActualIconUrl = (url: string, size: number = 64): string => {
     // 使用多种服务提供图标，优先级递减，懒加载机制会处理加载和错误
     const services = [
       // 方案1：自定义 favicon 服务
-      `https://favicons.fuzqing.workers.dev/api/getFavicon?url=${domain}`,
+      `https://api.jiangcheng.site/api/favicon?url=${domain}`,
+
+      `https://favicons.fuzqing.workers.dev/api/getFavicon?url=${domain}&size=${size}`,
       // 方案2：Google favicon服务
       `https://www.google.com/s2/favicons?sz=${size}&domain_url=${encodeURIComponent(`https://${domain}`)}`,
       // 方案3：直接访问网站根目录的favicon.ico
       `https://${domain}/favicon.ico`,
       // 方案4：使用备用服务
-      `https://icons.duckduckgo.com/ip3/${domain}.ico`
     ];
     
     // 返回首选服务
