@@ -1,7 +1,7 @@
 ---
 title: "朋友的新动态"
 h1: "🎴 朋友的新动态"
-desc: "收集的文章~"
+desc: "每日更新"
 layout: "@/layouts/ToolLayout/ToolLayout.astro"
 type: "friends"
 comment: false

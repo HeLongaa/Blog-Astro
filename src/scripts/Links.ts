@@ -115,8 +115,8 @@ class FriendLinksButtonManager {
   constructor(apiUrl?: string) {
     this.config = {
       linksUrl: apiUrl || 'https://your-worker.your-subdomain.workers.dev',
-      buttonText: '🔗 申请友链',
-      buttonClass: 'operate-button',
+      buttonText: '申请友链',
+      buttonClass: 'vh-node vh-btn btn-success',
       containerId: 'link-button-container'
     };
   }
@@ -128,8 +128,7 @@ class FriendLinksButtonManager {
     button.setAttribute('data-initialized', 'true');
 
     button.innerHTML = `
-      <span class="icon">🔗</span>
-      <span class="text">${this.config.buttonText.replace('🔗 ', '')}</span>
+      <span class="text">${this.config.buttonText.replace('', '')}</span>
     `;
 
     button.addEventListener('click', this.handleButtonClick.bind(this));
@@ -153,10 +152,10 @@ class FriendLinksButtonManager {
       // 如果表单已存在，则隐藏/显示切换
       if (existingForm.style.display === 'none') {
         existingForm.style.display = 'block';
-        this.updateButtonText(button, '🔗 收起申请表单');
+        this.updateButtonText(button, '收起表单');
       } else {
         existingForm.style.display = 'none';
-        this.updateButtonText(button, '🔗 申请友链');
+        this.updateButtonText(button, '申请友链');
       }
       return;
     }
@@ -170,7 +169,7 @@ class FriendLinksButtonManager {
     window.setTimeout(() => {
       try {
         this.createEmbeddedForm(button, url);
-        this.showButtonMessage(button, '表单已加载', 'success');
+        this.showButtonMessage(button, '加载成功', 'success');
       } catch (error) {
         console.error('加载友链申请表单失败:', error);
         this.showButtonMessage(button, '加载失败', 'error');
@@ -201,7 +200,7 @@ class FriendLinksButtonManager {
     }
     
     // 更新按钮文本
-    this.updateButtonText(button, '🔗 收起申请表单');
+    this.updateButtonText(button, '收起表单');
     
     // 移除加载状态
     button.classList.remove('loading');
@@ -212,7 +211,7 @@ class FriendLinksButtonManager {
   private updateButtonText(button: HTMLButtonElement, text: string): void {
     const textElement = button.querySelector('.text');
     if (textElement) {
-      textElement.textContent = text.replace('🔗 ', '');
+      textElement.textContent = text.replace('', '');
     }
   }
 

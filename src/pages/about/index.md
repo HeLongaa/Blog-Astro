@@ -4,7 +4,7 @@ h1: "ℹ️ 关于这个博客"
 desc: "这是对于我和这个博客站点的说明，不定时更新~~~"
 layout: "@/layouts/PageLayout/PageLayout.astro"
 type: "about"
-comment: false # 关闭页面评论（默认开启）
+comment: false
 ---
 
 ## 关于博客
