@@ -1,4 +1,3 @@
-import vh from 'vh-plugin'
 import { $GET } from '@/utils'
 import vhLzImgInit from "@/scripts/vhLazyImg"
 import { createErrorMessage, createWarningMessage, showMessage } from '@/utils/message'
@@ -34,15 +33,6 @@ const shuffleArray = <T>(array: T[]): T[] => {
   sessionStorage.setItem('links-shuffle-order', JSON.stringify(indices));
   return indices.map(i => array[i]);
 }
-
-// 优化的 HTML 解码
-const decodeHTML = (() => {
-  const decoder = document.createElement('textarea');
-  return (html: string) => {
-    decoder.innerHTML = html;
-    return decoder.value;
-  };
-})();
 
 const renderLinks = (data: any[]) => {
   const linksDOM = document.querySelector('.main-inner-content > .vh-tools-main > main.links-main');
@@ -87,7 +77,7 @@ const renderLinks = (data: any[]) => {
 
       // 使用模板字符串构建 HTML
       templateContainer.innerHTML = `
-                <a href="${item.link}" target="_blank" class="link-card" loading="lazy">
+                <a href="${item.link}" target="_blank" class="link-card">
                     <img class="avatar" src="/assets/images/lazy-loading.webp" data-vh-lz-src="${item.avatar}" alt="${item.name}" loading="lazy" />
                     <section class="link-info">
                         <span>${item.name}</span>
