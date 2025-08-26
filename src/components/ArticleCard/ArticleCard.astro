@@ -12,7 +12,7 @@ import "./ArticleCard.less";
 ---
 
 {/*
-  我们为整个 <article> 元素设置 data-href 属性，用于文章页跳转。
+  为整个 <article> 元素设置 data-href 属性，用于文章页跳转。
   同时，分类和标签恢复为 <a> 链接，指向各自的页面。
 */}
 <article
@@ -42,7 +42,6 @@ import "./ArticleCard.less";
 	</header>
 	<h2 class="vh-article-excerpt vh-ellipsis line-2">{description}</h2>
 	<h4 class="vh-article-taglist vh-ellipsis">
-		{/* 标签也恢复为链接 */}
 		{post.data.tags.map((tag: string) => <a href={`/tag/${tag}`}>{tag}</a>)}
 	</h4>
 </article>

@@ -80,10 +80,10 @@ import "@/styles/ArticleBase.less";
 					<time>{fmtTime(post.data.date, "YYYY-MM-DD A")}</time>
 					<span class="count"
 						><strong>{article_word_count || "A little"}</strong
-						>Words</span
+						>字 </span
 					>
 					<span class="time"
-						><strong
+						>(阅读需要<strong
 							>{
 								parseFloat(
 									(Number(reading_time) || 0)
@@ -91,7 +91,7 @@ import "@/styles/ArticleBase.less";
 										.replace(/\.0+$/, ""),
 								)
 							}</strong
-						>min</span
+						> 分钟)</span
 					>
 				</span>
 				<a
@@ -114,6 +114,10 @@ import "@/styles/ArticleBase.less";
 					>
 					<span>{post.data.categories}</span>
 				</a>
+				<span class="statis">
+					浏览量：<span class="artalk-pv-count"></span>
+					评论数：<span class="artalk-comment-count"></span>
+				</span>
 			</div>
 		</header>
 		<main>
