@@ -38,7 +38,7 @@ export default {
     // 主题颜色
     "--vh-main-color": "#49B1F5",
     // 字体颜色
-    "--vh-font-color": "rgba(52,73,94,0.81)",
+    "--vh-font-color": "rgba(18, 24, 30, 0.81)",
     // 侧边栏宽度
     "--vh-aside-width": "318px",
     // 全局圆角
